@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-dark: #070709;
+    --card-dark: #101015;
+    --border-dark: rgba(255, 255, 255, 0.08);
+    --accent-emerald: #2EE6A0;
+    --accent-cyan: #00F0FF;
+  }
+
+  body {
+    background-color: var(--bg-dark);
+    color: #E2E8F0;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Custom smooth scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #08080a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f1f28;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #2EE6A0;
+  }
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(16, 16, 21, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-glow {
+  background: rgba(16, 16, 21, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(46, 230, 160, 0.2);
+  box-shadow: 0 0 35px -10px rgba(46, 230, 160, 0.15);
+}
+
+.glass-panel-cyan {
+  background: rgba(16, 16, 21, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  box-shadow: 0 0 35px -10px rgba(0, 240, 255, 0.15);
+}
+
+/* Milan Compain style glow text */
+.glow-text-emerald {
+  text-shadow: 0 0 20px rgba(46, 230, 160, 0.45);
+}
+
+.glow-text-cyan {
+  text-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
+}
+
+/* Subtle noise background overlay */
+.bg-noise {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
