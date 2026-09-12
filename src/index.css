@@ -72,3 +72,90 @@
   background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
   background-size: 24px 24px;
 }
+
+/* Flawless Clean Print Styles for CV / Resume Export */
+@media print {
+  @page {
+    margin: 1.2cm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 10pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide non-printable screen elements */
+  header,
+  main,
+  footer,
+  canvas,
+  .print-hidden,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Unconstrain CV Modal overlay and container for natural multi-page flow */
+  #cv-modal-overlay {
+    position: static !important;
+    display: block !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    z-index: auto !important;
+  }
+
+  #cv-modal-container {
+    position: static !important;
+    display: block !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  #cv-printable-content {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    padding: 0 !important;
+  }
+
+  /* Ensure high contrast readable text in print */
+  #cv-printable-content * {
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  #cv-printable-content h1 {
+    color: #0284c7 !important;
+  }
+
+  #cv-printable-content h2,
+  #cv-printable-content .cv-section-title {
+    color: #0f766e !important;
+    border-bottom: 1.5px solid #0f766e !important;
+    padding-bottom: 3px !important;
+  }
+
+  #cv-printable-content a {
+    color: #0284c7 !important;
+    text-decoration: underline !important;
+  }
+}

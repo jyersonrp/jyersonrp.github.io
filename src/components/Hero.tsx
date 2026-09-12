@@ -98,7 +98,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
             className="px-6 py-3.5 rounded-full bg-[#25D366]/15 hover:bg-[#25D366]/25 border border-[#25D366]/40 text-[#25D366] font-medium text-sm transition-all flex items-center gap-2"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>WhatsApp Directo</span>
+            <span>{language === 'es' ? 'WhatsApp Directo' : 'Direct WhatsApp'}</span>
           </a>
 
           {/* Social Quick Links */}
@@ -131,8 +131,12 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
               <Code2 className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-mono text-neutral-400">POO & CLEAN CODE</div>
-              <div className="text-sm font-semibold text-white">Nota 10/10 en UDO</div>
+              <div className="text-xs font-mono text-neutral-400">
+                {language === 'es' ? 'POO & CÓDIGO LIMPIO' : 'OOP & CLEAN CODE'}
+              </div>
+              <div className="text-sm font-semibold text-white">
+                {language === 'es' ? 'Nota 10/10 en UDO' : 'Grade 10/10 in OOP'}
+              </div>
             </div>
           </div>
 
@@ -141,7 +145,9 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
               <Cpu className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-mono text-neutral-400">IA & COMPUTER VISION</div>
+              <div className="text-xs font-mono text-neutral-400">
+                {language === 'es' ? 'IA & VISIÓN' : 'AI & COMPUTER VISION'}
+              </div>
               <div className="text-sm font-semibold text-white">YOLOv8 + OpenCV MOG2</div>
             </div>
           </div>
@@ -151,7 +157,9 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-mono text-neutral-400">ENTERPRISE ERP</div>
+              <div className="text-xs font-mono text-neutral-400">
+                {language === 'es' ? 'ERP EMPRESARIAL' : 'ENTERPRISE ERP'}
+              </div>
               <div className="text-sm font-semibold text-white">Odoo + Meta Cloud API</div>
             </div>
           </div>
@@ -161,8 +169,12 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <div className="text-xs font-mono text-neutral-400">BILINGUAL TECH</div>
-              <div className="text-sm font-semibold text-white">Inglés C1 Avanzado</div>
+              <div className="text-xs font-mono text-neutral-400">
+                {language === 'es' ? 'INGLÉS TÉCNICO' : 'BILINGUAL TECH'}
+              </div>
+              <div className="text-sm font-semibold text-white">
+                {language === 'es' ? 'Inglés C1 Avanzado' : 'Advanced C1 English'}
+              </div>
             </div>
           </div>
         </div>

@@ -1,32 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export const CustomCursor: React.FC = () => {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [trailingPos, setTrailingPos] = useState({ x: -100, y: -100 });
+  const dotRef = useRef<HTMLDivElement | null>(null);
+  const ringRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     // Only run on non-touch devices
-    if (window.matchMedia('(pointer: coarse)').matches) {
+    if (typeof window === 'undefined' || window.matchMedia('(pointer: coarse)').matches) {
       return;
     }
 
     let mouseX = -100;
     let mouseY = -100;
-    let currentTrailX = -100;
-    let currentTrailY = -100;
+    let trailX = -100;
+    let trailY = -100;
     let animId: number;
+    let hasMoved = false;
 
     const handleMouseMove = (e: MouseEvent) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
-      setPos({ x: mouseX, y: mouseY });
-      if (!isVisible) setIsVisible(true);
+
+      if (!hasMoved) {
+        hasMoved = true;
+        trailX = mouseX;
+        trailY = mouseY;
+        setIsVisible(true);
+      }
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      }
 
       const target = e.target as HTMLElement | null;
       if (target) {
-        const interactive = target.closest('a, button, input, textarea, [role="button"], .interactive-hover');
+        const interactive = target.closest('a, button, input, textarea, select, [role="button"], .interactive-hover');
         setIsHovered(!!interactive);
       }
     };
@@ -35,53 +45,65 @@ export const CustomCursor: React.FC = () => {
       setIsVisible(false);
     };
 
+    const handleMouseEnter = () => {
+      if (hasMoved) setIsVisible(true);
+    };
+
     const animateTrail = () => {
-      currentTrailX += (mouseX - currentTrailX) * 0.18;
-      currentTrailY += (mouseY - currentTrailY) * 0.18;
-      setTrailingPos({ x: currentTrailX, y: currentTrailY });
+      trailX += (mouseX - trailX) * 0.18;
+      trailY += (mouseY - trailY) * 0.18;
+
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate3d(${trailX}px, ${trailY}px, 0) translate(-50%, -50%)`;
+      }
+
       animId = requestAnimationFrame(animateTrail);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseenter', handleMouseEnter);
     animId = requestAnimationFrame(animateTrail);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseenter', handleMouseEnter);
       cancelAnimationFrame(animId);
     };
-  }, [isVisible]);
+  }, []);
 
   if (!isVisible) return null;
 
   return (
-    <>
+    <div className="print:hidden">
       {/* Precision center dot */}
       <div
-        className="fixed top-0 left-0 pointer-events-none z-50 transition-opacity duration-300 -translate-x-1/2 -translate-y-1/2"
+        ref={dotRef}
+        className="fixed top-0 left-0 pointer-events-none z-50 transition-opacity duration-300"
         style={{
-          transform: `translate3d(${pos.x}px, ${pos.y}px, 0)`,
           width: isHovered ? '6px' : '4px',
           height: isHovered ? '6px' : '4px',
           backgroundColor: '#00F0FF',
           borderRadius: '50%',
           boxShadow: '0 0 10px #00F0FF',
+          willChange: 'transform',
         }}
       />
       {/* Outer aura trailing ring */}
       <div
-        className="fixed top-0 left-0 pointer-events-none z-50 -translate-x-1/2 -translate-y-1/2 transition-[width,height,border-color,background-color] duration-200 ease-out"
+        ref={ringRef}
+        className="fixed top-0 left-0 pointer-events-none z-50 transition-[width,height,border-color,background-color] duration-200 ease-out"
         style={{
-          transform: `translate3d(${trailingPos.x - (isHovered ? 24 : 16)}px, ${trailingPos.y - (isHovered ? 24 : 16)}px, 0)`,
           width: isHovered ? '48px' : '32px',
           height: isHovered ? '48px' : '32px',
           borderRadius: '50%',
           border: isHovered ? '1.5px solid #2EE6A0' : '1px solid rgba(46, 230, 160, 0.4)',
           backgroundColor: isHovered ? 'rgba(46, 230, 160, 0.08)' : 'transparent',
           boxShadow: isHovered ? '0 0 20px rgba(46, 230, 160, 0.3)' : 'none',
+          willChange: 'transform',
         }}
       />
-    </>
+    </div>
   );
 };

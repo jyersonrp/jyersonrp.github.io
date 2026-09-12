@@ -53,11 +53,47 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormSubmitted(true);
-    // Reset after 5s
+
+    // Trigger subtle celebratory confetti
+    try {
+      confetti({
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ['#2EE6A0', '#00F0FF', '#ffffff']
+      });
+    } catch (err) {
+      // ignore
+    }
+
+    const subjectMap: Record<string, string> = {
+      opportunity: language === 'es' ? 'Oferta de Empleo' : 'Job Opportunity',
+      freelance: language === 'es' ? 'Proyecto Freelance' : 'Freelance Project',
+      odoo: language === 'es' ? 'Implementación Odoo ERP' : 'Odoo ERP Implementation',
+      other: language === 'es' ? 'Consulta General' : 'General Inquiry'
+    };
+
+    const subjectText = `[Portfolio] ${subjectMap[formData.subject] || formData.subject}: ${formData.name}`;
+    const bodyText = `Hola Yerson,\n\nNombre / Empresa: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`;
+    const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+
+    try {
+      window.location.href = mailtoUrl;
+    } catch (err) {
+      console.warn('Mailto link error:', err);
+    }
+
+    // Reset after 8s
     setTimeout(() => {
       setFormData({ name: '', email: '', subject: 'opportunity', message: '' });
       setFormSubmitted(false);
-    }, 5000);
+    }, 8000);
+  };
+
+  const getMailtoLink = () => {
+    const subjectText = `[Portfolio] Consulta: ${formData.name || 'Contacto Web'}`;
+    const bodyText = `Nombre: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`;
+    return `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
   };
 
   return (
@@ -158,7 +194,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                 </div>
                 <div>
                   <div className="text-sm font-bold text-white">LinkedIn</div>
-                  <div className="text-[11px] text-neutral-400 font-mono">Conectar red</div>
+                  <div className="text-[11px] text-neutral-400 font-mono">
+                    {language === 'es' ? 'Conectar red' : 'Connect Profile'}
+                  </div>
                 </div>
               </a>
 
@@ -205,18 +243,25 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               </p>
 
               {formSubmitted ? (
-                <div className="py-12 text-center space-y-3 bg-[#2EE6A0]/10 border border-[#2EE6A0]/30 rounded-2xl">
+                <div className="py-10 px-6 text-center space-y-4 bg-[#2EE6A0]/10 border border-[#2EE6A0]/30 rounded-2xl">
                   <div className="w-12 h-12 rounded-full bg-[#2EE6A0]/20 text-[#2EE6A0] flex items-center justify-center mx-auto">
                     <Check className="w-6 h-6" />
                   </div>
                   <h4 className="text-lg font-bold text-white">
-                    {language === 'es' ? '¡Mensaje Enviado con Éxito!' : 'Message Sent Successfully!'}
+                    {language === 'es' ? '¡Mensaje Preparado con Éxito!' : 'Message Prepared Successfully!'}
                   </h4>
-                  <p className="text-xs text-neutral-300 max-w-sm mx-auto">
+                  <p className="text-xs text-neutral-300 max-w-sm mx-auto leading-relaxed">
                     {language === 'es'
-                      ? 'Gracias por contactarme. He recibido tu solicitud y te escribiré a tu correo pronto.'
-                      : 'Thank you for reaching out. I will respond to your provided email address shortly.'}
+                      ? 'Se ha intentado abrir tu cliente de correo. Si no se abrió automáticamente, haz clic abajo para enviarlo directamente:'
+                      : 'We attempted to launch your email client. If it did not open automatically, click below to send directly:'}
                   </p>
+                  <a
+                    href={getMailtoLink()}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2EE6A0] text-black font-semibold text-xs hover:bg-[#26c589] transition-all shadow-[0_0_20px_rgba(46,230,160,0.3)]"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>{language === 'es' ? 'Abrir en Mi Correo Ahora' : 'Open in My Email Client Now'}</span>
+                  </a>
                 </div>
               ) : (
                 <form onSubmit={handleFormSubmit} className="space-y-4 text-xs sm:text-sm">

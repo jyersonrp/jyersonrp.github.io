@@ -25,6 +25,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLanguage, setSelectedLanguage] = useState<string>('all');
   const [isLiveApi, setIsLiveApi] = useState(false);
+  const [sortBy, setSortBy] = useState<'updated' | 'stars'>('updated');
 
   const fetchRepos = async () => {
     setLoading(true);
@@ -55,18 +56,25 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
     fetchRepos();
   }, []);
 
-  // Filter repos
-  const filteredRepos = repos.filter((repo) => {
-    const matchesSearch =
-      repo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (repo.description && repo.description.toLowerCase().includes(searchTerm.toLowerCase()));
+  // Filter & sort repos
+  const filteredRepos = repos
+    .filter((repo) => {
+      const matchesSearch =
+        repo.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (repo.description && repo.description.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    const matchesLang =
-      selectedLanguage === 'all' ||
-      (repo.language && repo.language.toLowerCase() === selectedLanguage.toLowerCase());
+      const matchesLang =
+        selectedLanguage === 'all' ||
+        (repo.language && repo.language.toLowerCase() === selectedLanguage.toLowerCase());
 
-    return matchesSearch && matchesLang;
-  });
+      return matchesSearch && matchesLang;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'stars') {
+        return (b.stargazers_count || 0) - (a.stargazers_count || 0);
+      }
+      return new Date(b.updated_at || '').getTime() - new Date(a.updated_at || '').getTime();
+    });
 
   const availableLanguages = Array.from(
     new Set(repos.map((r) => r.language).filter(Boolean))
@@ -173,35 +181,65 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
             />
           </div>
 
-          {/* Language filter pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
-            <button
-              onClick={() => setSelectedLanguage('all')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-colors ${
-                selectedLanguage === 'all'
-                  ? 'bg-[#2EE6A0] text-black font-semibold'
-                  : 'bg-white/5 text-neutral-400 hover:text-white'
-              }`}
-            >
-              {language === 'es' ? 'Todos' : 'All'}
-            </button>
-            {availableLanguages.map((lang) => (
+          {/* Language and Sort filter pills */}
+          <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
+            {/* Sort Toggle */}
+            <div className="flex items-center gap-1 bg-white/5 p-1 rounded-xl border border-white/10 text-xs font-mono">
               <button
-                key={lang}
-                onClick={() => setSelectedLanguage(lang)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-colors flex items-center gap-1.5 ${
-                  selectedLanguage === lang
-                    ? 'bg-white text-black font-semibold'
+                onClick={() => setSortBy('updated')}
+                className={`px-2.5 py-1 rounded-lg transition-colors ${
+                  sortBy === 'updated'
+                    ? 'bg-white/15 text-white font-semibold'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+                title={language === 'es' ? 'Más recientes' : 'Recently updated'}
+              >
+                {language === 'es' ? 'Recientes' : 'Recent'}
+              </button>
+              <button
+                onClick={() => setSortBy('stars')}
+                className={`px-2.5 py-1 rounded-lg transition-colors flex items-center gap-1 ${
+                  sortBy === 'stars'
+                    ? 'bg-amber-400/20 text-amber-300 font-semibold border border-amber-400/30'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+                title={language === 'es' ? 'Más estrellas' : 'Most stars'}
+              >
+                <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                <span>Stars</span>
+              </button>
+            </div>
+
+            {/* Language filter pills */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+              <button
+                onClick={() => setSelectedLanguage('all')}
+                className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-colors ${
+                  selectedLanguage === 'all'
+                    ? 'bg-[#2EE6A0] text-black font-semibold'
                     : 'bg-white/5 text-neutral-400 hover:text-white'
                 }`}
               >
-                <span
-                  className="w-2 h-2 rounded-full"
-                  style={{ backgroundColor: getLanguageColor(lang) }}
-                />
-                <span>{lang}</span>
+                {language === 'es' ? 'Todos' : 'All'}
               </button>
-            ))}
+              {availableLanguages.map((lang) => (
+                <button
+                  key={lang}
+                  onClick={() => setSelectedLanguage(lang)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                    selectedLanguage === lang
+                      ? 'bg-white text-black font-semibold'
+                      : 'bg-white/5 text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  <span
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: getLanguageColor(lang) }}
+                  />
+                  <span>{lang}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -268,7 +306,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                   rel="noopener noreferrer"
                   className="text-[#2EE6A0] hover:underline flex items-center gap-1 font-semibold"
                 >
-                  <span>Code</span>
+                  <span>{language === 'es' ? 'Código' : 'Code'}</span>
                   <span>→</span>
                 </a>
               </div>
