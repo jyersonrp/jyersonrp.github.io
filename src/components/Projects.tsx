@@ -17,6 +17,7 @@ import {
 import { GithubIcon } from './icons/BrandIcons';
 import { ProjectTiltCard } from './ProjectTiltCard';
 import { NvrMockupView, OdooMockupView, WhatsBotMockupView } from './ProjectMockups';
+import { playSound } from '../utils/audioSystem';
 
 interface ProjectsProps {
   language: Language;
@@ -95,6 +96,20 @@ export const Projects: React.FC<ProjectsProps> = ({ language }) => {
   });
 
   const setProjectTab = (projectId: string, tab: TabType) => {
+    switch (tab) {
+      case 'mockup':
+        playSound('simulation');
+        break;
+      case 'overview':
+        playSound('scan');
+        break;
+      case 'flow':
+        playSound('switch');
+        break;
+      case 'code':
+        playSound('click');
+        break;
+    }
     setActiveTabs((prev) => ({ ...prev, [projectId]: tab }));
   };
 
@@ -518,6 +533,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => playSound('click')}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-xs font-mono text-neutral-300 hover:text-white transition-all group"
           >
             <GithubIcon className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white" />

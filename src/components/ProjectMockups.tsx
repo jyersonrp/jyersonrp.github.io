@@ -25,6 +25,7 @@ import {
   Terminal
 } from 'lucide-react';
 import { Language } from '../types';
+import { playSound } from '../utils/audioSystem';
 
 interface MockupProps {
   language: Language;
@@ -205,7 +206,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           {(['CAM_01', 'CAM_02', 'CAM_03'] as const).map((cam) => (
             <button
               key={cam}
-              onClick={() => setActiveCamera(cam)}
+              onClick={() => {
+                playSound('scan');
+                setActiveCamera(cam);
+              }}
               className={`px-2.5 py-1 rounded-md text-[10px] font-mono transition-all ${
                 activeCamera === cam
                   ? 'bg-white/[0.14] text-white border border-white/[0.25] font-bold shadow-sm'
@@ -219,7 +223,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
 
         {/* Interactive Mode Toggle */}
         <button
-          onClick={() => setIsAlarmMode(!isAlarmMode)}
+          onClick={() => {
+            playSound('simulation');
+            setIsAlarmMode(!isAlarmMode);
+          }}
           className={`px-3 py-1.5 rounded-lg text-[10.5px] font-semibold transition-all flex items-center gap-2 shadow-sm ${
             isAlarmMode
               ? 'bg-[#2EE6A0] text-black hover:bg-[#26c589]'
@@ -317,7 +324,10 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
             </div>
 
             <button
-              onClick={() => setShowPdfModal(true)}
+              onClick={() => {
+                playSound('open');
+                setShowPdfModal(true);
+              }}
               className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#2EE6A0]/20 to-[#00F0FF]/20 hover:from-[#2EE6A0]/30 hover:to-[#00F0FF]/30 border border-[#2EE6A0]/40 text-xs font-mono text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
             >
               <Eye className="w-3.5 h-3.5 text-[#2EE6A0]" />
@@ -362,7 +372,10 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
               </span>
             </div>
             <button
-              onClick={() => setShowPdfModal(false)}
+              onClick={() => {
+                playSound('close');
+                setShowPdfModal(false);
+              }}
               className="p-1 rounded-md text-neutral-400 hover:text-white hover:bg-white/10 transition-colors"
             >
               <X className="w-4 h-4" />
@@ -551,6 +564,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
 
         <button
           onClick={() => {
+            playSound('simulation');
             setConcurrencySimulated(true);
             setTimeout(() => setConcurrencySimulated(false), 4500);
           }}

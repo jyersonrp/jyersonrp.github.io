@@ -27,7 +27,7 @@ export function App() {
   const [isCvOpen, setIsCvOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('es');
-  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState<boolean>(() => initSoundPreference());
   const lenisRef = useRef<Lenis | null>(null);
 
   // Initialize sound preferences

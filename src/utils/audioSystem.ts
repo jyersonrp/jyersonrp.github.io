@@ -3,12 +3,12 @@
 let audioCtx: AudioContext | null = null;
 let isSoundEnabled = false;
 
-// Initialize sound state from localStorage safely
+// Initialize sound state from localStorage safely (defaults to enabled for immediate interactive feedback)
 export const initSoundPreference = (): boolean => {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === 'undefined') return true;
   const saved = localStorage.getItem('portfolio_sound_enabled');
-  // Default to false so it is never intrusive, but user can toggle anytime
-  isSoundEnabled = saved === 'true';
+  // If not explicitly turned off by user, enable it so simulations and preview sounds are immediately audible
+  isSoundEnabled = saved !== 'false';
   return isSoundEnabled;
 };
 
@@ -47,7 +47,7 @@ const getAudioContext = (): AudioContext | null => {
   return audioCtx;
 };
 
-export type SoundType = 'click' | 'open' | 'close' | 'switch' | 'success';
+export type SoundType = 'click' | 'open' | 'close' | 'switch' | 'success' | 'simulation' | 'scan' | 'action';
 
 export const playSound = (type: SoundType = 'click'): void => {
   if (!isSoundEnabled) return;
@@ -77,7 +77,7 @@ export const playSound = (type: SoundType = 'click'): void => {
         break;
       }
       case 'open': {
-        // Soft airy swoosh up (for opening palettes / modals)
+        // Soft airy swoosh up (for opening palettes / modals / preview drawers)
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         const filter = ctx.createBiquadFilter();
@@ -120,7 +120,7 @@ export const playSound = (type: SoundType = 'click'): void => {
         break;
       }
       case 'switch': {
-        // Crisp dual-click
+        // Crisp dual-click for tabs
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'triangle';
@@ -155,6 +155,76 @@ export const playSound = (type: SoundType = 'click'): void => {
           osc.start(now + i * 0.035);
           osc.stop(now + i * 0.035 + 0.12);
         });
+        break;
+      }
+      case 'simulation': {
+        // Futuristic cyber synth chime for triggering live simulations (AI inference / FSM concurrency)
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(440, now);
+        osc1.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(660, now);
+        osc2.frequency.exponentialRampToValueAtTime(1320, now + 0.08);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1800, now);
+
+        gain.gain.setValueAtTime(0.038, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+        osc1.connect(filter);
+        osc2.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc1.start(now);
+        osc2.start(now);
+        osc1.stop(now + 0.12);
+        osc2.stop(now + 0.12);
+        break;
+      }
+      case 'scan': {
+        // High-tech digital camera / radar pulse blip for switching CCTV feeds
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1350, now);
+        osc.frequency.exponentialRampToValueAtTime(650, now + 0.038);
+
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.038);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.038);
+        break;
+      }
+      case 'action': {
+        // Quick energetic tactile pulse
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(980, now + 0.05);
+
+        gain.gain.setValueAtTime(0.04, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + 0.05);
         break;
       }
     }
