@@ -113,17 +113,17 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-fade-in"
+      className="fixed inset-0 z-[60] overflow-y-auto bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 lg:p-10 pt-4 sm:pt-8 pb-12 animate-fade-in"
     >
       <div
         id="cv-modal-container"
-        className="relative w-full max-w-4xl bg-[#09090d] border border-white/[0.08] rounded-3xl shadow-2xl overflow-hidden text-[#E2E8F0] my-8"
+        className="relative w-full max-w-4xl bg-[#09090d] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-[#E2E8F0] my-auto sm:my-4"
       >
         {/* Top Control Bar */}
-        <div className="flex flex-wrap items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/[0.06] bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
+        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-white/[0.06] bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#2EE6A0]" />
-            <span className="text-xs font-mono font-bold tracking-wider uppercase text-white truncate max-w-[200px] sm:max-w-none">
+            <span className="text-xs font-mono font-bold tracking-wider uppercase text-white truncate max-w-[170px] xs:max-w-[200px] sm:max-w-none">
               CV // YERSON RODRÍGUEZ
             </span>
           </div>

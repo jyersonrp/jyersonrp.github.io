@@ -166,17 +166,17 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('open');
               onOpenCommandPalette();
             }}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 text-neutral-200"
+            className="p-2 rounded-lg bg-white/5 border border-white/10 text-neutral-200 hover:text-white hover:border-[#2EE6A0]/40 transition-colors"
             title="Comandos (Ctrl+K)"
             aria-label="Abrir paleta de comandos"
           >
             <Search className="w-4 h-4 text-[#2EE6A0]" />
           </button>
 
-          {/* Quick Sound Toggle on Mobile */}
+          {/* Quick Sound Toggle on Mobile (visible on sm: screens, drawer handles mobile) */}
           <button
             onClick={onToggleSound}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 text-neutral-300"
+            className="hidden sm:flex p-2 rounded-lg bg-white/5 border border-white/10 text-neutral-300 hover:text-white transition-colors"
             title="Sonido"
             aria-label="Sonido"
           >
@@ -193,7 +193,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('switch');
               onToggleLanguage();
             }}
-            className="p-2 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-neutral-200"
+            className="px-2.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-mono text-neutral-200 hover:text-white transition-colors"
           >
             {language.toUpperCase()}
           </button>
@@ -203,7 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             href="./CV_Yerson_Rodriguez.pdf"
             download="CV_Yerson_Rodriguez.pdf"
             onClick={() => playSound('click')}
-            className="p-2 rounded-lg bg-[#2EE6A0] text-black text-xs font-semibold flex items-center justify-center"
+            className="p-2 rounded-lg bg-[#2EE6A0] text-black text-xs font-semibold flex items-center justify-center hover:bg-[#26c589] transition-colors"
             title="Descargar CV (PDF)"
             aria-label="Descargar CV"
           >
@@ -216,7 +216,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('click');
               setMobileMenuOpen(!mobileMenuOpen);
             }}
-            className="p-2 rounded-lg bg-white/5 text-neutral-300 hover:text-white border border-white/10"
+            className="p-2 rounded-lg bg-white/5 text-neutral-300 hover:text-white border border-white/10 transition-colors"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -248,6 +248,23 @@ export const Navbar: React.FC<NavbarProps> = ({
               </a>
             ))}
           </div>
+
+          {/* Language Toggle inside mobile menu */}
+          <button
+            onClick={() => {
+              playSound('switch');
+              onToggleLanguage();
+            }}
+            className="px-4 py-2.5 rounded-xl text-sm font-medium text-neutral-200 hover:text-white hover:bg-white/5 transition-colors flex items-center justify-between border border-white/5"
+          >
+            <div className="flex items-center gap-2.5">
+              <Globe className="w-4 h-4 text-[#00F0FF]" />
+              <span>{language === 'es' ? 'Idioma' : 'Language'}</span>
+            </div>
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-[#00F0FF] font-semibold">
+              {language === 'es' ? 'ESPAÑOL (ES)' : 'ENGLISH (EN)'}
+            </span>
+          </button>
 
           {/* Sound Toggle inside mobile menu */}
           <button

@@ -16,10 +16,20 @@ export const setSoundEnabled = (enabled: boolean): void => {
   isSoundEnabled = enabled;
   if (typeof window !== 'undefined') {
     localStorage.setItem('portfolio_sound_enabled', enabled ? 'true' : 'false');
+    if (enabled) {
+      unlockAudio();
+    }
   }
 };
 
 export const getSoundEnabled = (): boolean => isSoundEnabled;
+
+export const unlockAudio = (): void => {
+  const ctx = getAudioContext();
+  if (ctx && ctx.state === 'suspended') {
+    ctx.resume().catch(() => {});
+  }
+};
 
 const getAudioContext = (): AudioContext | null => {
   if (typeof window === 'undefined') return null;

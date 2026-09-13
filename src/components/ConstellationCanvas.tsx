@@ -69,6 +69,25 @@ export const ConstellationCanvas: React.FC = () => {
       mouse.y = -1000;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        if (!mouse.isActive || mouse.x < 0) {
+          mouse.x = touch.clientX;
+          mouse.y = touch.clientY;
+        }
+        mouse.targetX = touch.clientX;
+        mouse.targetY = touch.clientY;
+        mouse.isActive = true;
+      }
+    };
+
+    const handleTouchEnd = () => {
+      mouse.isActive = false;
+      mouse.targetX = -1000;
+      mouse.targetY = -1000;
+    };
+
     const handleResize = () => {
       if (!canvas) return;
       setupCanvasSize();
@@ -77,6 +96,9 @@ export const ConstellationCanvas: React.FC = () => {
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseleave', handleMouseLeave);
+    window.addEventListener('touchstart', handleTouchMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('resize', handleResize);
 
     // Create refined particles based on screen area
@@ -230,6 +252,9 @@ export const ConstellationCanvas: React.FC = () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
+      window.removeEventListener('touchstart', handleTouchMove);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('resize', handleResize);
     };
   }, []);

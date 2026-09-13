@@ -565,8 +565,9 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
         {/* Projects List with 3D Tilt Physical Cards */}
         <div className="space-y-20 sm:space-y-24">
           {FEATURED_PROJECTS.map((project, idx) => (
-            <ProjectTiltCard key={project.id} maxTilt={5}>
-              <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#2EE6A0]/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
+            <div key={project.id} id={project.id} className="scroll-mt-28 sm:scroll-mt-32">
+              <ProjectTiltCard maxTilt={5}>
+                <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#2EE6A0]/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
                 {/* Subtle top card accent glow on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
@@ -653,7 +654,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 </div>
               </div>
             </ProjectTiltCard>
-          ))}
+          </div>
+        ))}
         </div>
       </div>
     </section>
