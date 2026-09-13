@@ -11,16 +11,23 @@ interface CvModalProps {
 }
 
 export const CvModal: React.FC<CvModalProps> = ({ isOpen, onClose, language }) => {
-  // Handle escape key
+  // Handle escape key and body scroll lock
   useEffect(() => {
     if (!isOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -106,14 +113,14 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-fade-in"
+      className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-fade-in"
     >
       <div
         id="cv-modal-container"
-        className="relative w-full max-w-4xl bg-[#0c0c10] border border-white/15 rounded-3xl shadow-2xl overflow-hidden text-[#E2E8F0] my-8"
+        className="relative w-full max-w-4xl bg-[#09090d] border border-white/[0.08] rounded-3xl shadow-2xl overflow-hidden text-[#E2E8F0] my-8"
       >
         {/* Top Control Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-[#121218] sticky top-0 z-20 print:hidden">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] bg-[#0e0e14] sticky top-0 z-20 print:hidden">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-[#2EE6A0]" />
             <span className="text-xs font-mono font-bold tracking-wider uppercase text-white">

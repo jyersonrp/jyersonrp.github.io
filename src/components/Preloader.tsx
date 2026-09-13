@@ -11,26 +11,33 @@ interface PreloaderProps {
 export const Preloader: React.FC<PreloaderProps> = ({ onComplete, language }) => {
   const [progress, setProgress] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
+  const onCompleteRef = React.useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            setIsFinished(true);
-            setTimeout(onComplete, 700);
-          }, 200);
+          setIsFinished(true);
+          onCompleteRef.current();
           return 100;
         }
-        // Realistic variable speed increment
-        const increment = Math.floor(Math.random() * 8) + 3;
-        return Math.min(prev + increment, 100);
+        const increment = Math.floor(Math.random() * 14) + 8;
+        const nextVal = Math.min(prev + increment, 100);
+        if (nextVal >= 100) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setIsFinished(true);
+            onCompleteRef.current();
+          }, 150);
+        }
+        return nextVal;
       });
-    }, 40);
+    }, 25);
 
     return () => clearInterval(interval);
-  }, [onComplete]);
+  }, []);
 
   return (
     <AnimatePresence>
@@ -66,9 +73,9 @@ export const Preloader: React.FC<PreloaderProps> = ({ onComplete, language }) =>
           {/* Central Large Counter - Milan Compain Style */}
           <div className="flex flex-col items-center justify-center my-auto">
             <div className="relative">
-              <div className="font-serif italic text-6xl sm:text-8xl md:text-9xl tracking-tight text-white/95 select-none glow-text-emerald">
+              <div className="font-serif italic text-6xl sm:text-8xl md:text-9xl tracking-tight text-white/95 select-none glow-text-emerald py-2 overflow-visible">
                 {progress.toString().padStart(3, '0')}
-                <span className="text-2xl sm:text-4xl font-sans not-italic text-[#2EE6A0] ml-2">%</span>
+                <span className="text-2xl sm:text-4xl font-sans not-italic text-[#2EE6A0] ml-3 inline-block align-baseline">%</span>
               </div>
               <div className="text-center mt-3 text-xs sm:text-sm font-mono tracking-widest text-neutral-400 flex items-center justify-center gap-2">
                 <Sparkles className="w-3.5 h-3.5 text-[#2EE6A0] animate-spin" style={{ animationDuration: '3s' }} />

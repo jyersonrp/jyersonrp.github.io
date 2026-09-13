@@ -34,43 +34,102 @@
   }
 }
 
-/* Glassmorphism utility */
+/* Editorial Glassmorphism Utilities */
 .glass-panel {
-  background: rgba(16, 16, 21, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(12, 12, 17, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-panel-card {
+  background: rgba(9, 9, 15, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel-card:hover {
+  border-color: rgba(46, 230, 160, 0.4);
+  background: rgba(13, 13, 20, 0.85);
+  box-shadow: 0 12px 35px -12px rgba(46, 230, 160, 0.15);
 }
 
 .glass-panel-glow {
-  background: rgba(16, 16, 21, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(46, 230, 160, 0.2);
-  box-shadow: 0 0 35px -10px rgba(46, 230, 160, 0.15);
+  background: rgba(12, 12, 18, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(46, 230, 160, 0.22);
+  box-shadow: 0 0 45px -12px rgba(46, 230, 160, 0.18);
 }
 
 .glass-panel-cyan {
-  background: rgba(16, 16, 21, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 240, 255, 0.2);
-  box-shadow: 0 0 35px -10px rgba(0, 240, 255, 0.15);
+  background: rgba(12, 12, 18, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 240, 255, 0.22);
+  box-shadow: 0 0 45px -12px rgba(0, 240, 255, 0.18);
 }
 
-/* Milan Compain style glow text */
+/* Milan Compain style glow text & accents */
 .glow-text-emerald {
-  text-shadow: 0 0 20px rgba(46, 230, 160, 0.45);
+  text-shadow: 0 0 25px rgba(46, 230, 160, 0.4);
 }
 
 .glow-text-cyan {
-  text-shadow: 0 0 20px rgba(0, 240, 255, 0.45);
+  text-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
 }
 
-/* Subtle noise background overlay */
-.bg-noise {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
+/* Editorial Serif Accent Utilities - Anti-clipping & Optical Kerning */
+.editorial-accent-emerald {
+  display: inline-block;
+  vertical-align: baseline;
+  font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  background-image: linear-gradient(to right, #2EE6A0, #5ef2ba, #00F0FF);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-top: 0.18em;
+  padding-bottom: 0.18em;
+  padding-left: 0.08em;
+  padding-right: 0.24em;
+  margin-top: -0.18em;
+  margin-bottom: -0.18em;
+  margin-left: 0.04em;
+  margin-right: 0.04em;
+  filter: drop-shadow(0 0 18px rgba(46, 230, 160, 0.3));
+  overflow: visible;
+}
+
+.editorial-accent-cyan {
+  display: inline-block;
+  vertical-align: baseline;
+  font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  background-image: linear-gradient(to right, #00F0FF, #65f6ff, #2EE6A0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-top: 0.18em;
+  padding-bottom: 0.18em;
+  padding-left: 0.08em;
+  padding-right: 0.24em;
+  margin-top: -0.18em;
+  margin-bottom: -0.18em;
+  margin-left: 0.04em;
+  margin-right: 0.04em;
+  filter: drop-shadow(0 0 18px rgba(0, 240, 255, 0.3));
+  overflow: visible;
+}
+
+/* Subtle ambient dots background overlay */
+.bg-ambient-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
 }
 
 /* Flawless Clean Print Styles for CV / Resume Export */

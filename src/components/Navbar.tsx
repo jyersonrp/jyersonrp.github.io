@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, FileText, Globe, ArrowUpRight, Sparkles } from 'lucide-react';
 import { Language } from '../types';
+import { smoothScrollTo } from '../utils/smoothScroll';
 
 interface NavbarProps {
   language: Language;
@@ -35,19 +36,16 @@ export const Navbar: React.FC<NavbarProps> = ({
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     setMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    smoothScrollTo(href);
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-4 sm:py-6 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-8 py-4 sm:py-5 transition-all duration-300">
       <div
-        className={`max-w-7xl mx-auto rounded-2xl sm:rounded-full px-5 py-3 transition-all duration-300 flex items-center justify-between ${
+        className={`max-w-6xl mx-auto rounded-2xl sm:rounded-full px-5 py-3 transition-all duration-300 flex items-center justify-between ${
           isScrolled
-            ? 'glass-panel shadow-[0_10px_30px_rgba(0,0,0,0.7)] border-white/10 backdrop-blur-md'
-            : 'bg-black/30 border border-white/5 backdrop-blur-sm'
+            ? 'bg-[#09090d]/80 backdrop-blur-xl shadow-[0_12px_40px_rgba(0,0,0,0.8)] border border-white/[0.09]'
+            : 'bg-[#0b0b10]/50 backdrop-blur-md border border-white/[0.06]'
         }`}
       >
         {/* Logo / Monogram */}
@@ -55,32 +53,32 @@ export const Navbar: React.FC<NavbarProps> = ({
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            smoothScrollTo(0);
           }}
           className="flex items-center gap-3 group"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1c1c24] to-[#0e0e12] border border-white/15 flex items-center justify-center font-mono font-bold text-sm tracking-wider group-hover:border-[#2EE6A0] transition-colors relative">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#1c1c24] to-[#0c0c10] border border-white/15 flex items-center justify-center font-mono font-bold text-xs tracking-wider group-hover:border-[#2EE6A0]/60 transition-colors relative">
             <span className="text-white">YR</span>
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-[#2EE6A0] shadow-[0_0_8px_#2EE6A0]" />
+            <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#2EE6A0] shadow-[0_0_8px_#2EE6A0]" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold tracking-tight text-white group-hover:text-[#2EE6A0] transition-colors">
+            <span className="text-xs sm:text-sm font-semibold tracking-tight text-white group-hover:text-[#2EE6A0] transition-colors">
               Yerson Rodríguez
             </span>
-            <span className="text-[10px] font-mono text-neutral-400 hidden sm:block">
+            <span className="text-[10px] font-mono text-neutral-400 hidden sm:block tracking-wider">
               Python • Odoo • AI
             </span>
           </div>
         </a>
 
         {/* Desktop Links */}
-        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+        <nav className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className="px-3.5 py-1.5 rounded-full text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/5 transition-all"
+              className="px-3.5 py-1.5 rounded-full text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/[0.06] transition-all tracking-wide"
             >
               {link.label}
             </a>
@@ -90,19 +88,19 @@ export const Navbar: React.FC<NavbarProps> = ({
         {/* Right Actions: Open to Work, Language, CV */}
         <div className="hidden lg:flex items-center gap-3">
           {/* Availability badge */}
-          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#2EE6A0]/10 border border-[#2EE6A0]/25 text-[11px] font-mono text-[#2EE6A0]">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-[#2EE6A0]/[0.08] border border-[#2EE6A0]/20 text-[11px] font-mono text-[#2EE6A0]">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2EE6A0] opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2EE6A0]"></span>
             </span>
-            <span>{language === 'es' ? 'Disponible' : 'Open to Work'}</span>
+            <span className="font-medium">{language === 'es' ? 'Disponible' : 'Open to Work'}</span>
           </div>
 
           {/* Language Toggle */}
           <button
             onClick={onToggleLanguage}
             title={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-neutral-300 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-xs font-mono text-neutral-300 hover:text-white transition-colors"
           >
             <Globe className="w-3.5 h-3.5 text-[#00F0FF]" />
             <span className="font-semibold text-white">{language.toUpperCase()}</span>
@@ -111,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* View CV Button */}
           <button
             onClick={onOpenCv}
-            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#2EE6A0] to-[#00F0FF] text-black font-semibold text-xs hover:shadow-[0_0_20px_rgba(46,230,160,0.5)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2EE6A0] text-black font-semibold text-xs hover:bg-[#26c589] shadow-[0_0_20px_rgba(46,230,160,0.35)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >
             <FileText className="w-3.5 h-3.5" />
             <span>{language === 'es' ? 'Ver CV' : 'Resume'}</span>

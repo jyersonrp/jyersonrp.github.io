@@ -80,7 +80,7 @@ export const CustomCursor: React.FC = () => {
       {/* Precision center dot */}
       <div
         ref={dotRef}
-        className="fixed top-0 left-0 pointer-events-none z-50 transition-opacity duration-300"
+        className="fixed top-0 left-0 pointer-events-none z-[70] transition-opacity duration-300"
         style={{
           width: isHovered ? '6px' : '4px',
           height: isHovered ? '6px' : '4px',
@@ -93,7 +93,7 @@ export const CustomCursor: React.FC = () => {
       {/* Outer aura trailing ring */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 pointer-events-none z-50 transition-[width,height,border-color,background-color] duration-200 ease-out"
+        className="fixed top-0 left-0 pointer-events-none z-[70] transition-[width,height,border-color,background-color] duration-200 ease-out"
         style={{
           width: isHovered ? '48px' : '32px',
           height: isHovered ? '48px' : '32px',

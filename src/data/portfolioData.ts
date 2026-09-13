@@ -88,7 +88,7 @@ export const FEATURED_PROJECTS: Project[] = [
       { label: { es: "Latencia de Streaming", en: "Streaming Latency" }, value: "< 75ms" },
       { label: { es: "Precisión de Detección", en: "Detection Accuracy" }, value: "99.2%" }
     ],
-    githubUrl: "https://github.com/jyersonrp/smart-nvr-vision-ai",
+    githubUrl: "https://github.com/jyersonrp/proyecto-videovigilancia-inteligente",
     tags: ["Python", "FastAPI", "OpenCV", "YOLOv8", "ONNX", "Computer Vision", "Clean Architecture"]
   },
   {
@@ -160,7 +160,7 @@ export const FEATURED_PROJECTS: Project[] = [
       { label: { es: "Reducción de No-Shows", en: "Drop in No-Shows" }, value: "45%" },
       { label: { es: "Disponibilidad del Bot", en: "Service Uptime" }, value: "99.9%" }
     ],
-    githubUrl: "https://github.com/jyersonrp/whatsbot-glam-nails",
+    githubUrl: "https://github.com/jyersonrp/WhatsBot-GlamNails",
     tags: ["TypeScript", "Node.js", "FSM", "PostgreSQL", "Automation", "CRM"]
   }
 ];
@@ -319,14 +319,14 @@ export const CERTIFICATIONS: CertificationItem[] = [
 export const FALLBACK_REPOS = [
   {
     id: 101,
-    name: "smart-nvr-vision-ai",
-    full_name: "jyersonrp/smart-nvr-vision-ai",
-    html_url: "https://github.com/jyersonrp/smart-nvr-vision-ai",
-    description: "NVR Inteligente con detección híbrida OpenCV MOG2 + YOLOv8 ONNX, modo ECO adaptativo y streaming MJPEG ultrarrápido con FastAPI.",
+    name: "proyecto-videovigilancia-inteligente",
+    full_name: "jyersonrp/proyecto-videovigilancia-inteligente",
+    html_url: "https://github.com/jyersonrp/proyecto-videovigilancia-inteligente",
+    description: "Sistema NVR inteligente modular con IA, streaming MJPEG de ultrabaja latencia, detección híbrida (OpenCV MOG2 + YOLOv8 ONNX), modo ECO con FPS adaptativo y dashboard FastAPI.",
     language: "Python",
-    stargazers_count: 14,
-    forks_count: 3,
-    updated_at: "2025-08-20T12:00:00Z",
+    stargazers_count: 1,
+    forks_count: 0,
+    updated_at: "2026-09-07T21:01:18Z",
     topics: ["fastapi", "opencv", "yolov8", "onnx", "nvr", "computer-vision"]
   },
   {
@@ -336,45 +336,21 @@ export const FALLBACK_REPOS = [
     html_url: "https://github.com/jyersonrp/odoo-whatsapp-chatter-meta",
     description: "Módulo nativo para Odoo ERP conectado a WhatsApp Cloud API oficial de Meta. Despacho de facturas en RAM y webhook seguro con HMAC-SHA256.",
     language: "Python",
-    stargazers_count: 19,
-    forks_count: 5,
-    updated_at: "2025-08-15T18:30:00Z",
+    stargazers_count: 1,
+    forks_count: 1,
+    updated_at: "2026-09-07T20:58:56Z",
     topics: ["odoo", "whatsapp-cloud-api", "meta", "hmac", "erp", "python"]
   },
   {
     id: 103,
-    name: "whatsbot-glam-nails",
-    full_name: "jyersonrp/whatsbot-glam-nails",
-    html_url: "https://github.com/jyersonrp/whatsbot-glam-nails",
-    description: "Bot automatizado de citas y CRM para salones de belleza con Máquina de Estados Finitos (FSM), TypeScript y PostgreSQL.",
+    name: "WhatsBot-GlamNails",
+    full_name: "jyersonrp/WhatsBot-GlamNails",
+    html_url: "https://github.com/jyersonrp/WhatsBot-GlamNails",
+    description: "Bot automatizado de citas y atención al cliente para salón Glam Nails Maturín vía WhatsApp con TypeScript, FSM y persistencia en base de datos.",
     language: "TypeScript",
-    stargazers_count: 9,
-    forks_count: 2,
-    updated_at: "2025-07-28T09:15:00Z",
+    stargazers_count: 0,
+    forks_count: 0,
+    updated_at: "2026-08-10T14:59:10Z",
     topics: ["typescript", "fsm", "whatsapp", "postgresql", "crm"]
-  },
-  {
-    id: 104,
-    name: "python-data-structures-oop",
-    full_name: "jyersonrp/python-data-structures-oop",
-    html_url: "https://github.com/jyersonrp/python-data-structures-oop",
-    description: "Implementaciones rigurosas de algoritmos y estructuras de datos (árboles, grafos, heaps) con POO limpia y suites de prueba Pytest.",
-    language: "Python",
-    stargazers_count: 11,
-    forks_count: 4,
-    updated_at: "2025-06-10T14:40:00Z",
-    topics: ["algorithms", "data-structures", "oop", "pytest", "python"]
-  },
-  {
-    id: 105,
-    name: "fastapi-microservices-template",
-    full_name: "jyersonrp/fastapi-microservices-template",
-    html_url: "https://github.com/jyersonrp/fastapi-microservices-template",
-    description: "Plantilla de arquitectura limpia para microservicios asíncronos con FastAPI, Docker, PostgreSQL y autenticación JWT.",
-    language: "Python",
-    stargazers_count: 16,
-    forks_count: 3,
-    updated_at: "2025-05-22T20:10:00Z",
-    topics: ["fastapi", "docker", "microservices", "clean-architecture", "jwt"]
   }
 ];
