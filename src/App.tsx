@@ -15,15 +15,35 @@ import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
 import { CvModal } from './components/CvModal';
 import { ScrollProgress } from './components/ScrollProgress';
+import { EngineeringPhilosophy } from './components/EngineeringPhilosophy';
+import { CommandPalette } from './components/CommandPalette';
 import { Language } from './types';
 
 import { setLenisInstance } from './utils/smoothScroll';
+import { initSoundPreference, setSoundEnabled as persistSoundEnabled, playSound } from './utils/audioSystem';
 
 export function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isCvOpen, setIsCvOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('es');
+  const [soundEnabled, setSoundEnabled] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize sound preferences
+  useEffect(() => {
+    const initialSound = initSoundPreference();
+    setSoundEnabled(initialSound);
+  }, []);
+
+  const toggleSound = () => {
+    const next = !soundEnabled;
+    setSoundEnabled(next);
+    persistSoundEnabled(next);
+    if (next) {
+      playSound('switch');
+    }
+  };
 
   // Safety fallback: guaranteed reveal after 1.2s max
   useEffect(() => {
@@ -68,14 +88,26 @@ export function App() {
     };
   }, []);
 
-  // Lock smooth scroll when CV modal is active
+  // Lock smooth scroll when CV modal or Command Palette is active
   useEffect(() => {
-    if (isCvOpen) {
+    if (isCvOpen || isCommandPaletteOpen) {
       lenisRef.current?.stop();
     } else {
       lenisRef.current?.start();
     }
-  }, [isCvOpen]);
+  }, [isCvOpen, isCommandPaletteOpen]);
+
+  // Global keyboard shortcut for Command Palette (Ctrl+K / Cmd+K)
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, []);
 
   // Load language preference if stored
   useEffect(() => {
@@ -116,6 +148,9 @@ export function App() {
           language={language}
           onToggleLanguage={toggleLanguage}
           onOpenCv={() => setIsCvOpen(true)}
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+          soundEnabled={soundEnabled}
+          onToggleSound={toggleSound}
         />
 
         <main>
@@ -127,6 +162,8 @@ export function App() {
           <Metrics language={language} />
 
           <Projects language={language} />
+
+          <EngineeringPhilosophy language={language} />
 
           <GithubExplorer language={language} />
 
@@ -145,6 +182,17 @@ export function App() {
         isOpen={isCvOpen}
         onClose={() => setIsCvOpen(false)}
         language={language}
+      />
+
+      {/* Raycast / Spotlight Style Command Palette */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        language={language}
+        onToggleLanguage={toggleLanguage}
+        onOpenCv={() => setIsCvOpen(true)}
+        soundEnabled={soundEnabled}
+        onToggleSound={toggleSound}
       />
     </div>
   );

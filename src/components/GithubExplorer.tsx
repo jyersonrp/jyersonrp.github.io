@@ -211,7 +211,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[11px] font-mono tracking-[0.25em] text-[#00F0FF] uppercase font-semibold">
-                02 / {language === 'es' ? 'REPOSITORIOS GITHUB' : 'GITHUB REPOSITORIES'}
+                03 / {language === 'es' ? 'REPOSITORIOS GITHUB' : 'GITHUB REPOSITORIES'}
               </span>
               <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#00F0FF]/40 to-transparent" />
             </div>

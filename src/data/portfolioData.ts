@@ -1,4 +1,4 @@
-import { Project, ExperienceItem, EducationItem, CertificationItem, SkillCategory } from '../types';
+import { Project, ExperienceItem, EducationItem, CertificationItem, SkillCategory, ArchitecturePillar, EngineeringTenet } from '../types';
 
 export const PERSONAL_INFO = {
   name: "Yerson Rodríguez",
@@ -352,5 +352,293 @@ export const FALLBACK_REPOS = [
     forks_count: 0,
     updated_at: "2026-08-10T14:59:10Z",
     topics: ["typescript", "fsm", "whatsapp", "postgresql", "crm"]
+  }
+];
+
+export const ENGINEERING_PHILOSOPHY: ArchitecturePillar[] = [
+  {
+    id: "clean-architecture-oop",
+    number: "01",
+    title: {
+      es: "Clean Architecture & POO de Alta Precisión",
+      en: "Clean Architecture & High-Precision OOP"
+    },
+    category: {
+      es: "Modularidad & Dominio Aislado",
+      en: "Modularity & Isolated Domain"
+    },
+    thesis: {
+      es: "El software duradero se fundamenta en desacoplar las reglas de negocio de cualquier framework o librería externa. La lógica de dominio es el núcleo inviolable; FastAPI, Odoo o PostgreSQL son adaptadores intercambiables.",
+      en: "Enduring software is founded on decoupling business rules from any framework or external library. Domain logic is the inviolable core; FastAPI, Odoo, or PostgreSQL are interchangeable adapters."
+    },
+    academicOrRealCase: {
+      es: "Fundamentado en mi calificación perfecta 10/10 en Programación Orientada a Objetos en la Universidad de Oriente (UDO) y aplicado en el diseño modular de extensiones ERP para Odoo y pipelines de visión.",
+      en: "Grounded in my perfect 10/10 grade in Object-Oriented Programming at Universidad de Oriente (UDO) and applied to modular Odoo ERP extensions and vision pipelines."
+    },
+    principles: [
+      {
+        title: {
+          es: "Inversión de Dependencias (DIP) & SOLID",
+          en: "Dependency Inversion (DIP) & SOLID"
+        },
+        detail: {
+          es: "Los módulos de alto nivel nunca dependen de implementaciones concretas. Definimos interfaces de dominio abstractas para captura de video, inferencia de IA o persistencia.",
+          en: "High-level modules never depend on low-level details. Abstract domain interfaces govern video ingestion, AI inference, and persistence engines."
+        }
+      },
+      {
+        title: {
+          es: "Patrones de Diseño Formales (Strategy & Factory)",
+          en: "Formal Design Patterns (Strategy & Factory)"
+        },
+        detail: {
+          es: "Strategy para alternar dinámicamente backends de inferencia (ONNX Runtime, OpenVINO, CPU/GPU) sin tocar la lógica de procesamiento; Factory para inicialización controlada.",
+          en: "Strategy pattern to seamlessly swap AI execution backends (ONNX Runtime, OpenVINO, CPU/GPU) without mutating pipeline logic; Factory pattern for guarded instantiations."
+        }
+      },
+      {
+        title: {
+          es: "Modelado de Dominio Hermético e Invariantes",
+          en: "Encapsulated Domain & Invariant Protection"
+        },
+        detail: {
+          es: "Entidades que validan su propio estado antes de persistir, eliminando estados anémicos y efectos secundarios colaterales en producción.",
+          en: "Rich domain entities that guard their own invariants prior to persistence, eradicating anemic states and accidental production side-effects."
+        }
+      }
+    ],
+    codeSnippet: {
+      filename: "domain_contracts.py",
+      language: "python",
+      code: `from abc import ABC, abstractmethod
+from typing import Protocol, List
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class BoundingBox:
+    x1: float; y1: float; x2: float; y2: float
+    confidence: float
+    label: str
+
+class VisionDetector(Protocol):
+    """Contrato abstracto inviolable de dominio."""
+    def detect(self, frame_bytes: bytes) -> List[BoundingBox]:
+        ...
+
+# Adaptador de infraestructura desacoplado
+class OnnxYoloAdapter(VisionDetector):
+    def __init__(self, model_path: str):
+        self._session = ort.InferenceSession(model_path)
+    
+    def detect(self, frame_bytes: bytes) -> List[BoundingBox]:
+        tensor = self._preprocess(frame_bytes)
+        return self._run_inference(tensor)`
+    },
+    metrics: [
+      { label: { es: "Calificación POO (UDO)", en: "OOP Grade (UDO)" }, value: "10/10" },
+      { label: { es: "Acoplamiento de Dominio", en: "Domain Coupling" }, value: "0%" },
+      { label: { es: "Reutilización de Lógica", en: "Code Reusability" }, value: "98%" }
+    ],
+    tags: ["POO", "Clean Architecture", "SOLID", "Python", "Type Hints"]
+  },
+  {
+    id: "concurrency-resilience",
+    number: "02",
+    title: {
+      es: "Alta Concurrencia, Streaming y Sistemas Reactivos",
+      en: "High Concurrency, Streaming & Reactive Systems"
+    },
+    category: {
+      es: "Rendimiento & Visión Artificial",
+      en: "Performance & Computer Vision"
+    },
+    thesis: {
+      es: "Diseñar para alta concurrencia exige pensar en el flujo físico de datos: evitar cuellos de botella mediante buffers circulares en memoria, generadores asíncronos y desacoplo de tareas pesadas de los hilos de I/O.",
+      en: "Architecting for high concurrency demands respect for data mechanics: avoiding bottlenecks via circular in-memory buffers, async generators, and decoupling heavy compute from I/O threads."
+    },
+    academicOrRealCase: {
+      es: "Casos de producción reales: Sistema NVR inteligente con modo ECO adaptativo (ahorro de cómputo del 70%) y WhatsBot CRM con Máquina de Estados Finitos (FSM) y control de concurrencia atómico.",
+      en: "Production case studies: Smart NVR with adaptive ECO mode (70% compute savings) and WhatsBot CRM with Finite State Machine (FSM) and atomic concurrency control."
+    },
+    principles: [
+      {
+        title: {
+          es: "Pipeline Híbrido en Dos Etapas (MOG2 + YOLOv8)",
+          en: "Two-Stage Hybrid Pipeline (MOG2 + YOLOv8)"
+        },
+        detail: {
+          es: "OpenCV MOG2 vigila movimiento con costo casi nulo (~1 FPS en reposo). Solo ante movimiento genuino escala a 30 FPS y activa inferencia neuronal ONNX, ahorrando 70% de CPU.",
+          en: "OpenCV MOG2 scans for background motion at negligible CPU cost (~1 FPS idle). Only confirmed motion spins up 30 FPS and ONNX neural inference, saving 70% CPU."
+        }
+      },
+      {
+        title: {
+          es: "Ring Buffer Circular & Streaming MJPEG < 75ms",
+          en: "Circular Ring Buffer & Sub-75ms MJPEG Streaming"
+        },
+        detail: {
+          es: "Captura en hilo dedicado que alimenta un búfer circular de tamaño fijo. Si un cliente HTTP es lento, la política drop-tail descarta frames obsoletos sin provocar fuga de memoria ni acumulación de latencia.",
+          en: "Dedicated capture thread feeds a fixed-size circular buffer. For sluggish HTTP clients, drop-tail shedding discards obsolete frames without memory leaks or latency lag."
+        }
+      },
+      {
+        title: {
+          es: "Máquinas de Estados y Locks Atómicos Transaccionales",
+          en: "Finite State Machines & Atomic Transactional Locks"
+        },
+        detail: {
+          es: "FSM determinista con aislamiento serializable en PostgreSQL para gestionar turnos concurrentes sin condiciones de carrera (cero reservas dobles).",
+          en: "Deterministic FSM with serializable database transaction isolation, orchestrating concurrent bookings with zero race conditions or double allocations."
+        }
+      }
+    ],
+    codeSnippet: {
+      filename: "streaming_pipeline.py",
+      language: "python",
+      code: `async def stream_mjpeg_generator(camera_id: str):
+    """Generador asíncrono no bloqueante con drop-tail policy."""
+    ring_buffer = camera_hub.get_buffer(camera_id)
+    fps_limiter = AsyncRateLimiter(target_fps=30)
+    
+    while camera_hub.is_active(camera_id):
+        frame = await ring_buffer.get_latest_fresh_frame()
+        await fps_limiter.tick()
+        
+        yield (
+            b"--frame\\r\\n"
+            b"Content-Type: image/jpeg\\r\\n"
+            b"X-Latency-Ms: " + str(frame.latency_ms).encode() + b"\\r\\n\\r\\n"
+            + frame.jpeg_bytes + b"\\r\\n"
+        )`
+    },
+    metrics: [
+      { label: { es: "Ahorro CPU en reposo", en: "Idle CPU Savings" }, value: "70%" },
+      { label: { es: "Latencia de Streaming", en: "Streaming Latency" }, value: "< 75ms" },
+      { label: { es: "Colisiones de Concurrencia", en: "Race Collisions" }, value: "0" }
+    ],
+    tags: ["FastAPI", "AsyncIO", "OpenCV", "YOLOv8", "FSM", "PostgreSQL"]
+  },
+  {
+    id: "software-quality-testing",
+    number: "03",
+    title: {
+      es: "Calidad de Software, Tipado Estricto & Docker",
+      en: "Software Quality, Strict Typing & Docker"
+    },
+    category: {
+      es: "Resiliencia & DevOps",
+      en: "Resilience & DevOps"
+    },
+    thesis: {
+      es: "La confiabilidad en producción no es un accidente, es el resultado de contratos tipados rigurosos, tests unitarios automatizados que verifican casos borde y entornos de ejecución inmutables.",
+      en: "Production reliability is never an accident; it is the direct outcome of strict typing contracts, automated edge-case test suites, and immutable containerized execution environments."
+    },
+    academicOrRealCase: {
+      es: "Implementación en módulo Odoo ERP para WhatsApp Cloud API con despacho de facturas y cotizaciones directamente desde RAM (0 bytes en disco) con verificación criptográfica HMAC-SHA256 y suites de Pytest.",
+      en: "Implemented in native Odoo ERP WhatsApp Cloud API module, streaming quotes and invoice PDFs directly from RAM (0 disk footprint) with HMAC-SHA256 verification and full Pytest suites."
+    },
+    principles: [
+      {
+        title: {
+          es: "Tipado Estricto de Extremo a Extremo",
+          en: "End-to-End Strict Typing Contracts"
+        },
+        detail: {
+          es: "TypeScript en modo estricto en frontend y bots; Python 3.11 con Type Hints exhaustivos y modelos Pydantic validados antes de procesar cualquier payload.",
+          en: "Strict-mode TypeScript in frontend and bots; Python 3.11 with exhaustive Type Hints and Pydantic validation before touching any payload."
+        }
+      },
+      {
+        title: {
+          es: "Testing Riguroso con Pytest & Mocks Aislados",
+          en: "Rigorous Testing with Pytest & Isolated Mocks"
+        },
+        detail: {
+          es: "Tests automatizados que emulan caídas de red, payloads maliciosos de webhooks y desconexiones RTSP, garantizando auto-recuperación sin crash.",
+          en: "Automated test suites simulating network partitions, malformed webhook payloads, and RTSP stream drops, ensuring graceful recovery without crash."
+        }
+      },
+      {
+        title: {
+          es: "Cero I/O Innecesario & Contenedores Frugales",
+          en: "Zero Disk Footprint & Minimalist Containers"
+        },
+        detail: {
+          es: "Flujos de memoria con io.BytesIO para generar PDFs sin tocar disco físico; imágenes Docker multi-stage optimizadas para arranque instantáneo.",
+          en: "In-memory io.BytesIO pipelines rendering PDFs without wearing physical storage; multi-stage Docker builds tuned for instant cold starts."
+        }
+      }
+    ],
+    codeSnippet: {
+      filename: "test_webhook_security.py",
+      language: "python",
+      code: `import hmac, hashlib, pytest
+
+def test_webhook_hmac_signature_verification():
+    payload = b'{"event":"message_received","id":"wam_1029"}'
+    secret = b'super_secret_meta_app_key'
+    expected_sig = "sha256=" + hmac.new(secret, payload, hashlib.sha256).hexdigest()
+    
+    verifier = WebhookSecurityVerifier(app_secret=secret)
+    assert verifier.validate(payload=payload, header_signature=expected_sig) is True
+    
+    # Ataque de manipulación de payload
+    tampered_payload = payload + b' '
+    with pytest.raises(SecuritySignatureMismatchError):
+        verifier.validate(payload=tampered_payload, header_signature=expected_sig)`
+    },
+    metrics: [
+      { label: { es: "I/O de Disco Temporal", en: "Temp Disk I/O" }, value: "0 Bytes" },
+      { label: { es: "Validación Criptográfica", en: "Cryptographic Auth" }, value: "HMAC-256" },
+      { label: { es: "Ambientes Reproducibles", en: "Reproducible Builds" }, value: "Docker" }
+    ],
+    tags: ["Pytest", "Docker", "HMAC-SHA256", "TypeScript", "Pydantic", "CI/CD"]
+  }
+];
+
+export const ENGINEERING_TENETS: EngineeringTenet[] = [
+  {
+    number: "01",
+    title: {
+      es: "Cero Acoplamiento Innecesario",
+      en: "Zero Unnecessary Coupling"
+    },
+    desc: {
+      es: "La lógica de negocio reside pura en el dominio. Frameworks, bases de datos y librerías externas son dependencias externas sustituibles.",
+      en: "Business logic stays pure in the domain. Frameworks, databases, and third-party libraries are swappable external dependencies."
+    }
+  },
+  {
+    number: "02",
+    title: {
+      es: "Optimización por Métricas, No por Intuición",
+      en: "Measure Before Optimizing"
+    },
+    desc: {
+      es: "Cada milisegundo o kilobyte ahorrado se fundamenta en profiling, telemetría y benchmarks reproducibles.",
+      en: "Every millisecond or kilobyte saved is verified through profiling, telemetry, and reproducible benchmarks."
+    }
+  },
+  {
+    number: "03",
+    title: {
+      es: "Tipado Estricto como Contrato Inmutable",
+      en: "Strict Typing as an Immutable Contract"
+    },
+    desc: {
+      es: "Los errores que el compilador y los linters detectan en tiempo de desarrollo nunca llegan a comprometer un servidor de producción.",
+      en: "Errors caught by static types and linters during development never get the chance to jeopardize a production server."
+    }
+  },
+  {
+    number: "04",
+    title: {
+      es: "Respeto Radical a los Recursos del Host",
+      en: "Radical Host Resource Frugality"
+    },
+    desc: {
+      es: "Procesamiento en memoria RAM, ahorro de CPU en reposo y contención estricta de consumo eléctrico en despliegues reales.",
+      en: "In-RAM stream pipelines, idle CPU preservation, and strict power consumption limits in real-world deployments."
+    }
   }
 ];

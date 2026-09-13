@@ -19,7 +19,7 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
         <div className="mb-16 sm:mb-20">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-[11px] font-mono tracking-[0.25em] text-[#00F0FF] uppercase font-semibold">
-              04 / {language === 'es' ? 'EXPERIENCIA & TRAYECTORIA' : 'EXPERIENCE & EDUCATION'}
+              05 / {language === 'es' ? 'EXPERIENCIA & TRAYECTORIA' : 'EXPERIENCE & EDUCATION'}
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#00F0FF]/40 to-transparent" />
           </div>

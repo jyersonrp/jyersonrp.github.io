@@ -120,31 +120,42 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
         className="relative w-full max-w-4xl bg-[#09090d] border border-white/[0.08] rounded-3xl shadow-2xl overflow-hidden text-[#E2E8F0] my-8"
       >
         {/* Top Control Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06] bg-[#0e0e14] sticky top-0 z-20 print:hidden">
+        <div className="flex flex-wrap items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b border-white/[0.06] bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-[#2EE6A0]" />
-            <span className="text-xs font-mono font-bold tracking-wider uppercase text-white">
-              CURRICULUM VITAE // YERSON RODRÍGUEZ
+            <span className="w-2.5 h-2.5 rounded-full bg-[#2EE6A0]" />
+            <span className="text-xs font-mono font-bold tracking-wider uppercase text-white truncate max-w-[200px] sm:max-w-none">
+              CV // YERSON RODRÍGUEZ
             </span>
           </div>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Direct PDF Download Button */}
+            <a
+              href="./CV_Yerson_Rodriguez.pdf"
+              download="CV_Yerson_Rodriguez.pdf"
+              title={language === 'es' ? 'Descargar archivo PDF oficial de Yerson' : 'Download official PDF resume file'}
+              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg bg-[#2EE6A0] hover:bg-[#26c589] text-black font-bold text-xs font-mono shadow-[0_0_15px_rgba(46,230,160,0.3)] transition-all"
+            >
+              <Download className="w-3.5 h-3.5" />
+              <span>{language === 'es' ? 'Descargar PDF' : 'Download PDF'}</span>
+            </a>
+
             <button
               onClick={handleDownloadMarkdown}
               title={language === 'es' ? 'Descargar archivo de CV en Markdown' : 'Download Markdown CV file'}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-mono text-neutral-200 hover:text-white transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-mono text-neutral-200 hover:text-white transition-colors"
             >
               <Download className="w-3.5 h-3.5 text-[#00F0FF]" />
-              <span className="hidden sm:inline">{language === 'es' ? 'Descargar .MD' : 'Download .MD'}</span>
+              <span>.MD</span>
             </button>
 
             <button
               onClick={handlePrint}
               title={language === 'es' ? 'Imprimir o guardar como PDF' : 'Print or save as PDF'}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-[#2EE6A0]/15 hover:bg-[#2EE6A0]/25 border border-[#2EE6A0]/40 text-xs font-mono text-[#2EE6A0] transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-mono text-neutral-300 hover:text-white transition-colors"
             >
-              <Printer className="w-3.5 h-3.5" />
-              <span>{language === 'es' ? 'Imprimir / Guardar PDF' : 'Print / Save PDF'}</span>
+              <Printer className="w-3.5 h-3.5 text-neutral-400" />
+              <span className="hidden sm:inline">{language === 'es' ? 'Imprimir' : 'Print'}</span>
             </button>
 
             <button
@@ -152,13 +163,13 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
               className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-neutral-400 hover:text-white transition-colors"
               aria-label={language === 'es' ? 'Cerrar modal' : 'Close modal'}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>
 
         {/* Printable CV Content */}
-        <div id="cv-printable-content" className="p-8 sm:p-12 space-y-8 print:p-0">
+        <div id="cv-printable-content" className="p-4 sm:p-8 lg:p-12 space-y-8 print:p-0">
           {/* Header */}
           <div className="border-b border-white/10 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>

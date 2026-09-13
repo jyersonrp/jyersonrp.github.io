@@ -1,11 +1,12 @@
 import React from 'react';
-import { ArrowDown, MessageCircle, FileText, Sparkles, Cpu, Eye } from 'lucide-react';
+import { ArrowDown, MessageCircle, FileText, Sparkles, Cpu, Eye, Download } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { Language } from '../types';
 import { Hero3DCore } from './Hero3DCore';
 import { MagneticButton } from './MagneticButton';
 import { smoothScrollTo } from '../utils/smoothScroll';
+import { playSound } from '../utils/audioSystem';
 
 interface HeroProps {
   language: Language;
@@ -15,36 +16,37 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
   const handleScrollToProjects = (e: React.MouseEvent) => {
     e.preventDefault();
+    playSound('click');
     smoothScrollTo('#projects');
   };
 
   return (
-    <section className="relative min-h-[95vh] flex flex-col justify-center pt-32 sm:pt-40 md:pt-44 pb-16 sm:pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section className="relative min-h-[92vh] flex flex-col justify-center pt-28 sm:pt-36 md:pt-40 pb-12 sm:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Background ambient radial gradients - deep blur & soft volume */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[450px] bg-[#2EE6A0]/[0.06] rounded-full blur-[150px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 right-4 sm:right-12 w-[500px] h-[400px] bg-[#00F0FF]/[0.06] rounded-full blur-[150px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto w-full">
         {/* Minimalist Status Pill */}
-        <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-md mb-8">
+        <div className="inline-flex items-center gap-2 sm:gap-3 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-md mb-6 sm:mb-8 text-xs">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2EE6A0] opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#2EE6A0]" />
           </span>
-          <span className="text-xs font-mono uppercase tracking-widest text-neutral-200 font-medium">
-            {language === 'es' ? 'Disponible para Oportunidades' : 'Open to Work'}
+          <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-neutral-200 font-medium">
+            {language === 'es' ? 'Disponible para Contratación' : 'Open to Work'}
           </span>
-          <span className="text-neutral-600">•</span>
-          <span className="text-xs font-mono text-[#00F0FF] tracking-wider">
-            {language === 'es' ? 'UDO • 9no Sem. Ing. de Sistemas' : 'UDO • 9th Sem. Systems Engineering'}
+          <span className="text-neutral-600 hidden xs:inline">•</span>
+          <span className="text-[11px] sm:text-xs font-mono text-[#00F0FF] tracking-wider hidden xs:inline">
+            {language === 'es' ? 'UDO • 9no Semestre' : 'UDO • 9th Semester'}
           </span>
         </div>
 
         {/* Hero Two-Column Grid: Editorial Typography + 3D Interactive Neural Vision Core */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Authorial Headlines & Value Proposition */}
-          <div className="lg:col-span-7 space-y-6">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-sans font-extrabold tracking-[-0.03em] text-white leading-[1.16] sm:leading-[1.14] lg:leading-[1.12]">
+          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-sans font-extrabold tracking-[-0.03em] text-white leading-[1.18] sm:leading-[1.14] lg:leading-[1.12]">
               {language === 'es' ? (
                 <>
                   Arquitecturas <span className="editorial-accent-emerald">resilientes</span> y sistemas con <span className="editorial-accent-cyan">visión inteligente</span>.
@@ -57,7 +59,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
             </h1>
 
             {/* Subtitle / Clear Value Proposition */}
-            <p className="text-base sm:text-lg md:text-xl text-neutral-300/90 font-light leading-relaxed max-w-2xl pt-1">
+            <p className="text-sm sm:text-base md:text-lg text-neutral-300/90 font-light leading-relaxed max-w-2xl pt-1">
               {language === 'es' ? (
                 <>
                   Soy <span className="text-white font-medium">{PERSONAL_INFO.fullName}</span>, desarrollador Full-Stack enfocado en{' '}
@@ -74,25 +76,43 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
             </p>
 
             {/* Refined Magnetic Action Buttons */}
-            <div className="pt-4 sm:pt-6 flex flex-wrap items-center gap-4 sm:gap-4">
+            <div className="pt-3 sm:pt-6 flex flex-wrap items-center gap-3 sm:gap-4">
               <MagneticButton strength={0.25}>
                 <a
                   href="#projects"
                   onClick={handleScrollToProjects}
-                  className="px-6 py-3.5 rounded-full bg-[#2EE6A0] hover:bg-[#26c589] text-black font-semibold text-sm shadow-[0_0_30px_rgba(46,230,160,0.35)] hover:shadow-[0_0_40px_rgba(46,230,160,0.5)] transition-all flex items-center gap-2"
+                  className="px-5 sm:px-6 py-3 sm:py-3.5 rounded-full bg-[#2EE6A0] hover:bg-[#26c589] text-black font-semibold text-xs sm:text-sm shadow-[0_0_30px_rgba(46,230,160,0.35)] hover:shadow-[0_0_40px_rgba(46,230,160,0.5)] transition-all flex items-center gap-2"
                 >
                   <span>{language === 'es' ? 'Explorar Casos de Estudio' : 'Explore Case Studies'}</span>
                   <ArrowDown className="w-4 h-4" />
                 </a>
               </MagneticButton>
 
+              {/* Direct CV Download Button */}
+              <MagneticButton strength={0.25}>
+                <a
+                  href="./CV_Yerson_Rodriguez.pdf"
+                  download="CV_Yerson_Rodriguez.pdf"
+                  onClick={() => playSound('click')}
+                  title={language === 'es' ? 'Descargar CV directo en PDF' : 'Direct download of CV PDF'}
+                  className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white font-medium text-xs sm:text-sm border border-white/[0.1] hover:border-[#2EE6A0]/50 transition-all flex items-center gap-2 group"
+                >
+                  <Download className="w-4 h-4 text-[#2EE6A0] group-hover:translate-y-0.5 transition-transform" />
+                  <span>{language === 'es' ? 'Descargar CV' : 'Download CV'}</span>
+                </a>
+              </MagneticButton>
+
+              {/* View Online CV Modal */}
               <MagneticButton strength={0.25}>
                 <button
-                  onClick={onOpenCv}
-                  className="px-5 py-3.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-white font-medium text-sm border border-white/[0.1] hover:border-[#00F0FF]/50 transition-all flex items-center gap-2"
+                  onClick={() => {
+                    playSound('open');
+                    onOpenCv();
+                  }}
+                  className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] text-neutral-300 hover:text-white font-medium text-xs sm:text-sm border border-white/[0.1] hover:border-[#00F0FF]/50 transition-all flex items-center gap-2"
                 >
                   <FileText className="w-4 h-4 text-[#00F0FF]" />
-                  <span>{language === 'es' ? 'Ver Currículum' : 'View Resume'}</span>
+                  <span>{language === 'es' ? 'Ver Online' : 'View Online'}</span>
                 </button>
               </MagneticButton>
 
@@ -105,10 +125,11 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-3.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-[#2EE6A0]/50 text-neutral-200 hover:text-white font-medium text-sm transition-all flex items-center gap-2"
+                  onClick={() => playSound('click')}
+                  className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-[#2EE6A0]/50 text-neutral-200 hover:text-white font-medium text-xs sm:text-sm transition-all flex items-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 text-[#2EE6A0]" />
-                  <span>{language === 'es' ? 'WhatsApp' : 'WhatsApp'}</span>
+                  <span>WhatsApp</span>
                 </a>
               </MagneticButton>
 

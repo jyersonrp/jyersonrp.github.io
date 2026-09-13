@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { Language } from '../types';
-import { ArrowUp, MessageCircle, Mail, Terminal, Heart } from 'lucide-react';
+import { ArrowUp, MessageCircle, Mail, Terminal, Heart, Download } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 
 interface FooterProps {
@@ -97,6 +97,16 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               aria-label="Email"
             >
               <Mail className="w-4 h-4" />
+            </a>
+
+            <a
+              href="./CV_Yerson_Rodriguez.pdf"
+              download="CV_Yerson_Rodriguez.pdf"
+              className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-[#2EE6A0]/50 text-neutral-400 hover:text-[#2EE6A0] transition-colors"
+              title={language === 'es' ? 'Descargar CV (PDF)' : 'Download CV (PDF)'}
+              aria-label="Download CV"
+            >
+              <Download className="w-4 h-4" />
             </a>
 
             <button

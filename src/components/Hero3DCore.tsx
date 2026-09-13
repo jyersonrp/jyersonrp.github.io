@@ -64,7 +64,8 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
     // -------------------------------------------------------------
     // 1. Generate 3D Geodesic Neural Nodes (Fibonacci Sphere)
     // -------------------------------------------------------------
-    const nodeCount = 56;
+    const isMobile = width < 640;
+    const nodeCount = isMobile ? 32 : 56;
     const sphereRadius = Math.min(width, height) * 0.28;
     const nodes: Node3D[] = [];
 
@@ -99,7 +100,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
     // -------------------------------------------------------------
     // 3. Floating 3D Particulate Cloud
     // -------------------------------------------------------------
-    const cloudCount = 75;
+    const cloudCount = isMobile ? 26 : 75;
     const particles: (Point3D & { speed: number; phase: number; color: string; size: number })[] = [];
     for (let i = 0; i < cloudCount; i++) {
       const r = sphereRadius * (0.9 + Math.random() * 1.4);
@@ -308,7 +309,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
       // -------------------------------------------------------------
       // Draw 3D Orbital Rings with Perspective Projection
       // -------------------------------------------------------------
-      const ringSteps = 72;
+      const ringSteps = isMobile ? 36 : 72;
       satellites.forEach((sat, sIdx) => {
         ctx.beginPath();
         let firstX = 0;
@@ -441,7 +442,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[360px] sm:h-[420px] lg:h-[460px] flex items-center justify-center select-none"
+      className="relative w-full h-[300px] sm:h-[400px] lg:h-[460px] flex items-center justify-center select-none"
     >
       {/* Background Volumetric Aura */}
       <div className="absolute inset-0 bg-radial from-[#2EE6A0]/[0.08] via-[#00F0FF]/[0.04] to-transparent rounded-3xl pointer-events-none blur-2xl" />

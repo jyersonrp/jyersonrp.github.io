@@ -67,3 +67,29 @@ export interface SkillCategory {
     highlight?: boolean;
   }[];
 }
+
+export interface ArchitecturePillar {
+  id: string;
+  number: string;
+  title: { es: string; en: string };
+  category: { es: string; en: string };
+  thesis: { es: string; en: string };
+  academicOrRealCase: { es: string; en: string };
+  principles: {
+    title: { es: string; en: string };
+    detail: { es: string; en: string };
+  }[];
+  codeSnippet?: {
+    filename: string;
+    language: string;
+    code: string;
+  };
+  metrics: { label: { es: string; en: string }; value: string }[];
+  tags: string[];
+}
+
+export interface EngineeringTenet {
+  number: string;
+  title: { es: string; en: string };
+  desc: { es: string; en: string };
+}

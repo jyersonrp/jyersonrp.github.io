@@ -85,8 +85,11 @@ export const ConstellationCanvas: React.FC = () => {
 
     const initParticles = () => {
       particles = [];
-      // Clean, ethereal count: around 40-65 particles on desktop, 20-30 on mobile
-      const count = Math.min(Math.max(Math.floor((width * height) / 22000), 24), 65);
+      const isMobile = width < 768;
+      // High-performance count: around 16-22 particles on mobile, 40-60 on desktop
+      const count = isMobile
+        ? Math.min(Math.max(Math.floor((width * height) / 36000), 14), 22)
+        : Math.min(Math.max(Math.floor((width * height) / 22000), 30), 60);
 
       for (let i = 0; i < count; i++) {
         // Fine radius: 0.6px to 1.5px
@@ -95,8 +98,8 @@ export const ConstellationCanvas: React.FC = () => {
           x: Math.random() * width,
           y: Math.random() * height,
           // Gentle, celestial drifting speed
-          vx: (Math.random() - 0.5) * 0.22,
-          vy: (Math.random() - 0.5) * 0.22,
+          vx: (Math.random() - 0.5) * (isMobile ? 0.16 : 0.22),
+          vy: (Math.random() - 0.5) * (isMobile ? 0.16 : 0.22),
           radius: baseRadius,
           baseRadius,
           color: colors[Math.floor(Math.random() * colors.length)],
@@ -186,10 +189,11 @@ export const ConstellationCanvas: React.FC = () => {
           const cdx = p.x - p2.x;
           const cdy = p.y - p2.y;
           const cdist = Math.sqrt(cdx * cdx + cdy * cdy);
-          const maxDist = 115;
+          const isMobile = width < 768;
+          const maxDist = isMobile ? 75 : 115;
 
           if (cdist < maxDist) {
-            const lineAlpha = (1 - cdist / maxDist) * 0.07;
+            const lineAlpha = (1 - cdist / maxDist) * (isMobile ? 0.05 : 0.07);
             ctx.save();
             ctx.strokeStyle = '#2EE6A0';
             ctx.globalAlpha = lineAlpha;

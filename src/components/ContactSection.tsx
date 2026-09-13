@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { Language } from '../types';
+import { playSound } from '../utils/audioSystem';
 import {
   Mail,
   Copy,
@@ -32,6 +33,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   });
 
   const handleCopyEmail = () => {
+    playSound('success');
     navigator.clipboard.writeText(PERSONAL_INFO.email);
     setCopied(true);
 
@@ -54,6 +56,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    playSound('success');
     setFormSubmitted(true);
 
     // Trigger subtle celebratory confetti
@@ -87,6 +90,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   };
 
   const handleCopyFormattedMessage = () => {
+    playSound('success');
     const formatted = `Nombre / Empresa: ${formData.name}\nEmail: ${formData.email}\nAsunto: ${formData.subject}\nMensaje:\n${formData.message}`;
     navigator.clipboard.writeText(formatted);
     setCopiedMessage(true);
@@ -124,7 +128,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="h-px w-10 sm:w-14 bg-gradient-to-l from-[#2EE6A0]/50 to-transparent" />
             <span className="text-[11px] font-mono tracking-[0.25em] text-[#2EE6A0] uppercase font-semibold">
-              05 / {language === 'es' ? 'CONTACTO' : 'GET IN TOUCH'}
+              06 / {language === 'es' ? 'CONTACTO & CONTRATACIÓN' : 'GET IN TOUCH & HIRE'}
             </span>
             <div className="h-px w-10 sm:w-14 bg-gradient-to-r from-[#2EE6A0]/50 to-transparent" />
           </div>

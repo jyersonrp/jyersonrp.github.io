@@ -3,6 +3,7 @@ import { SKILL_CATEGORIES } from '../data/portfolioData';
 import { Language } from '../types';
 import { Cpu, Database, Layout, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { getTechSkillMeta } from './icons/TechIcons';
+import { playSound } from '../utils/audioSystem';
 
 interface SkillsMatrixProps {
   language: Language;
@@ -131,7 +132,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-[11px] font-mono tracking-[0.25em] text-[#2EE6A0] uppercase font-semibold">
-              03 / {language === 'es' ? 'STACK TÉCNICO' : 'TECH STACK'}
+              04 / {language === 'es' ? 'STACK TÉCNICO & IA' : 'TECH STACK & AI'}
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#2EE6A0]/40 to-transparent" />
           </div>
@@ -159,7 +160,10 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
           {SKILL_CATEGORIES.map((cat, idx) => (
             <button
               key={idx}
-              onClick={() => setActiveCategory(idx)}
+              onClick={() => {
+                playSound('switch');
+                setActiveCategory(idx);
+              }}
               className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                 activeCategory === idx
                   ? 'bg-white text-black font-semibold shadow-[0_0_25px_rgba(255,255,255,0.2)]'
