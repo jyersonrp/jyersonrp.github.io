@@ -448,7 +448,7 @@ html.light [class*="text-neutral-200/"]:not([data-preloader] *):not([class*="bg-
 html:not(.dark) [class*="text-neutral-200/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
 html.light [class*="text-neutral-300/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
 html:not(.dark) [class*="text-neutral-300/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
-  color: #334155 !important;
+  color: #1E293B !important;
 }
 
 html.light .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
@@ -459,7 +459,22 @@ html.light .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"]
 html:not(.dark) .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
 html.light [class*="text-neutral-500/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
 html:not(.dark) [class*="text-neutral-500/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+  color: #334155 !important;
+}
+
+html.light .text-slate-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #475569 !important;
+}
+
+html.light .text-slate-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+  color: #334155 !important;
+}
+
+html.light .text-slate-600:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-600:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+  color: #1E293B !important;
 }
 
 /* Preserve high contrast dark styling for terminal & code pre blocks */

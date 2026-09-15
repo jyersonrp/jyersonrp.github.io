@@ -41,7 +41,9 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     if (particlesRef.current.length > 0) {
       particlesRef.current.forEach((p) => {
         p.color = currentColors[Math.floor(Math.random() * currentColors.length)];
-        p.alpha = isDark ? Math.random() * 0.35 + 0.25 : Math.random() * 0.35 + 0.50;
+        p.alpha = isDark ? Math.random() * 0.35 + 0.25 : Math.random() * 0.25 + 0.70;
+        p.baseRadius = isDark ? Math.random() * 0.9 + 0.6 : Math.random() * 1.4 + 1.25;
+        p.radius = p.baseRadius;
       });
     }
   }, [themeMode, palette]);
@@ -134,8 +136,8 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     const initParticles = () => {
       const isMobile = width < 768;
       const count = isMobile
-        ? Math.min(Math.max(Math.floor((width * height) / 32000), 18), 28)
-        : Math.min(Math.max(Math.floor((width * height) / 20000), 38), 68);
+        ? Math.min(Math.max(Math.floor((width * height) / 30000), 22), 32)
+        : Math.min(Math.max(Math.floor((width * height) / 17000), 46), 76);
 
       const pal = PALETTES[paletteRef.current] || PALETTES.emerald;
       const isDark = themeRef.current === 'dark';
@@ -143,7 +145,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       const newParticles: Particle[] = [];
 
       for (let i = 0; i < count; i++) {
-        const baseRadius = isDark ? Math.random() * 0.9 + 0.6 : Math.random() * 1.0 + 0.85;
+        const baseRadius = isDark ? Math.random() * 0.9 + 0.6 : Math.random() * 1.4 + 1.25;
         newParticles.push({
           x: Math.random() * width,
           y: Math.random() * height,
@@ -152,7 +154,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           radius: baseRadius,
           baseRadius,
           color: cols[Math.floor(Math.random() * cols.length)],
-          alpha: isDark ? Math.random() * 0.35 + 0.25 : Math.random() * 0.35 + 0.50,
+          alpha: isDark ? Math.random() * 0.35 + 0.25 : Math.random() * 0.25 + 0.70,
           twinkleSpeed: Math.random() * 0.02 + 0.008,
           twinklePhase: Math.random() * Math.PI * 2,
         });
@@ -200,8 +202,8 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         grad1.addColorStop(0.5, curPal.id === 'emerald' ? 'rgba(0, 240, 255, 0.018)' : curPal.id === 'ultraviolet' ? 'rgba(56, 189, 248, 0.018)' : 'rgba(249, 115, 22, 0.018)');
         grad1.addColorStop(1, 'transparent');
       } else {
-        grad1.addColorStop(0, curPal.id === 'emerald' ? 'rgba(5, 150, 105, 0.055)' : curPal.id === 'ultraviolet' ? 'rgba(126, 34, 206, 0.055)' : 'rgba(217, 119, 6, 0.055)');
-        grad1.addColorStop(0.5, curPal.id === 'emerald' ? 'rgba(2, 132, 199, 0.025)' : curPal.id === 'ultraviolet' ? 'rgba(2, 132, 199, 0.025)' : 'rgba(234, 88, 12, 0.025)');
+        grad1.addColorStop(0, curPal.id === 'emerald' ? 'rgba(5, 150, 105, 0.12)' : curPal.id === 'ultraviolet' ? 'rgba(126, 34, 206, 0.12)' : 'rgba(217, 119, 6, 0.12)');
+        grad1.addColorStop(0.5, curPal.id === 'emerald' ? 'rgba(2, 132, 199, 0.05)' : curPal.id === 'ultraviolet' ? 'rgba(2, 132, 199, 0.05)' : 'rgba(234, 88, 12, 0.05)');
         grad1.addColorStop(1, 'transparent');
       }
 
@@ -223,8 +225,8 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         grad2.addColorStop(0.55, 'rgba(15, 23, 42, 0.01)');
         grad2.addColorStop(1, 'transparent');
       } else {
-        grad2.addColorStop(0, curPal.id === 'amber' ? 'rgba(234, 88, 12, 0.045)' : 'rgba(2, 132, 199, 0.045)');
-        grad2.addColorStop(0.55, curPal.id === 'emerald' ? 'rgba(5, 150, 105, 0.015)' : 'rgba(126, 34, 206, 0.015)');
+        grad2.addColorStop(0, curPal.id === 'amber' ? 'rgba(234, 88, 12, 0.10)' : 'rgba(2, 132, 199, 0.10)');
+        grad2.addColorStop(0.55, curPal.id === 'emerald' ? 'rgba(5, 150, 105, 0.035)' : 'rgba(126, 34, 206, 0.035)');
         grad2.addColorStop(1, 'transparent');
       }
 
@@ -232,6 +234,25 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       ctx.fillStyle = grad2;
       ctx.beginPath();
       ctx.arc(a2X, a2Y, a2Radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Aura 3: Subtle central ambient depth
+      const a3X = width * 0.5 + Math.cos(now * 0.5) * 50;
+      const a3Y = height * 0.55 + Math.sin(now * 0.6) * 40;
+      const a3Radius = Math.max(width, height) * 0.44;
+      const grad3 = ctx.createRadialGradient(a3X, a3Y, 0, a3X, a3Y, a3Radius);
+      if (isDark) {
+        grad3.addColorStop(0, 'rgba(14, 165, 233, 0.025)');
+        grad3.addColorStop(1, 'transparent');
+      } else {
+        grad3.addColorStop(0, 'rgba(30, 41, 59, 0.045)');
+        grad3.addColorStop(1, 'transparent');
+      }
+      ctx.save();
+      ctx.fillStyle = grad3;
+      ctx.beginPath();
+      ctx.arc(a3X, a3Y, a3Radius, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
 
@@ -251,7 +272,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         );
         radialGradient.addColorStop(
           0,
-          isDark ? curPal.glow : 'rgba(15, 23, 42, 0.06)'
+          isDark ? curPal.glow : 'rgba(30, 41, 59, 0.08)'
         );
         const secondaryStop = isDark
           ? curPal.id === 'emerald'
@@ -260,10 +281,10 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
             ? 'rgba(56, 189, 248, 0.02)'
             : 'rgba(249, 115, 22, 0.02)'
           : curPal.id === 'emerald'
-          ? 'rgba(2, 132, 199, 0.035)'
+          ? 'rgba(5, 150, 105, 0.05)'
           : curPal.id === 'ultraviolet'
-          ? 'rgba(2, 132, 199, 0.035)'
-          : 'rgba(234, 88, 12, 0.035)';
+          ? 'rgba(126, 34, 206, 0.05)'
+          : 'rgba(217, 119, 6, 0.05)';
         radialGradient.addColorStop(0.6, secondaryStop);
         radialGradient.addColorStop(1, 'transparent');
         ctx.fillStyle = radialGradient;
@@ -315,21 +336,29 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           // Fluid organic tangential swirl
           p.vx += (-dy / dist) * pull * 0.3;
           p.vy += (dx / dist) * pull * 0.3;
-          // Inertial damping
+          // Inertial damping during contact
           p.vx *= 0.96;
           p.vy *= 0.96;
           activeRadius = p.baseRadius * (1 + force * 0.75);
+        }
+
+        // Smooth physical velocity relaxation back to natural cruising speed (prevents runaway acceleration)
+        const speed = Math.hypot(p.vx, p.vy);
+        const maxCruisingSpeed = isMobile ? 0.22 : 0.30;
+        if (speed > maxCruisingSpeed) {
+          p.vx *= 0.975;
+          p.vy *= 0.975;
         }
 
         // Draw particle
         ctx.save();
         ctx.globalAlpha = isDark
           ? Math.min(Math.max(currentAlpha, 0.15), 0.75)
-          : Math.min(Math.max(currentAlpha, 0.40), 0.88);
+          : Math.min(Math.max(currentAlpha, 0.55), 0.95);
         ctx.fillStyle = p.color;
-        if (activeRadius > 1.3 && isDark) {
-          ctx.shadowColor = p.color;
-          ctx.shadowBlur = 5;
+        if (activeRadius > 1.2) {
+          ctx.shadowColor = isDark ? p.color : (p.color.startsWith('#') ? `${p.color}40` : 'rgba(51, 65, 85, 0.35)');
+          ctx.shadowBlur = isDark ? 5 : 4;
         }
         ctx.beginPath();
         ctx.arc(p.x, p.y, activeRadius, 0, Math.PI * 2);
@@ -337,7 +366,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         ctx.restore();
 
         // ---------------------------------------------------------
-        // 4. CONSTELLATION CONNECTION LINES (Calibrated for AAA Contrast)
+        // 4. CONSTELLATION CONNECTION LINES (Smooth fade, 0 flickering)
         // ---------------------------------------------------------
         const maxDist = isMobile ? 85 : 125;
         for (let j = i + 1; j < particles.length; j++) {
@@ -352,18 +381,18 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
 
             if (isDark) {
               ctx.strokeStyle = primaryColor;
-              ctx.globalAlpha = factor * 0.14 + 0.03;
+              ctx.globalAlpha = factor * 0.18;
               ctx.lineWidth = 0.6;
             } else {
-              // In Light Mode: Smooth graphite/sapphire lines or accent highlights (0.14 to 0.28)
+              // In Light Mode: Smooth graphite/sapphire lines or accent highlights with natural falloff to 0
               const isAccent =
                 p.color === primaryColor ||
                 p2.color === primaryColor ||
                 p.color === secondaryColor ||
                 p2.color === secondaryColor;
               ctx.strokeStyle = isAccent ? primaryColor : '#334155';
-              ctx.globalAlpha = factor * 0.16 + 0.12; // Range: 0.12 to 0.28
-              ctx.lineWidth = 0.72;
+              ctx.globalAlpha = factor * 0.35; // Distinct, elegant constellation lines with natural falloff
+              ctx.lineWidth = 0.95;
             }
 
             ctx.beginPath();
@@ -382,9 +411,9 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           ctx.save();
           ctx.strokeStyle = secondaryColor;
           ctx.globalAlpha = isDark
-            ? mouseLineFactor * 0.22 + 0.04
-            : mouseLineFactor * 0.24 + 0.08;
-          ctx.lineWidth = isDark ? 0.75 : 0.85;
+            ? mouseLineFactor * 0.24
+            : mouseLineFactor * 0.40;
+          ctx.lineWidth = isDark ? 0.75 : 1.1;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);

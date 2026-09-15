@@ -210,10 +210,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
                 playSound('scan');
                 setActiveCamera(cam);
               }}
-              className={`px-2.5 py-1 rounded-md text-[10px] font-mono transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-[10px] font-mono transition-all ${
                 activeCamera === cam
-                  ? 'bg-slate-200 dark:bg-white/[0.14] text-slate-800 dark:text-white border border-slate-300 dark:border-white/[0.25] font-bold shadow-sm'
-                  : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.05] bg-transparent'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-950 border border-slate-900 dark:border-white font-bold shadow-md'
+                  : 'bg-white dark:bg-white/[0.05] text-slate-800 dark:text-neutral-300 border border-slate-300 dark:border-white/10 hover:bg-slate-100 dark:hover:bg-white/[0.08] hover:text-black dark:hover:text-white font-semibold'
               }`}
             >
               {cam}
@@ -227,10 +227,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
             playSound('simulation');
             setIsAlarmMode(!isAlarmMode);
           }}
-          className={`px-3 py-1.5 rounded-lg text-[10.5px] font-semibold transition-all flex items-center gap-2 shadow-sm ${
+          className={`px-3 py-1.5 rounded-lg text-[10.5px] font-bold transition-all flex items-center gap-2 shadow-sm ${
             isAlarmMode
               ? 'bg-[var(--accent-primary)] text-black hover:brightness-110'
-              : 'bg-slate-200 dark:bg-white/[0.08] text-slate-800 dark:text-white hover:bg-slate-300 dark:hover:bg-white/[0.15] border border-slate-300 dark:border-white/[0.1]'
+              : 'bg-slate-900 dark:bg-white/[0.08] text-white dark:text-white hover:bg-slate-800 dark:hover:bg-white/[0.15] border border-slate-800 dark:border-white/[0.1]'
           }`}
         >
           <Zap className="w-3.5 h-3.5" />

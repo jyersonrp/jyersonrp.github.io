@@ -135,7 +135,7 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
         {/* Section Header */}
         <div className="space-y-4 max-w-3xl">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-[11px] font-mono tracking-[0.25em] text-emeraldNeon uppercase font-semibold">
+            <span className="text-[11px] font-mono tracking-[0.25em] text-emerald-700 dark:text-emeraldNeon uppercase font-bold">
               02 / {language === 'es' ? 'FILOSOFÍA & ARQUITECTURA' : 'ENGINEERING ETHOS & DESIGN'}
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emeraldNeon/40 to-transparent" />
@@ -153,7 +153,7 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
             )}
           </h2>
 
-          <p className="text-slate-600 dark:text-neutral-400 text-sm sm:text-base leading-relaxed font-light">
+          <p className="text-slate-700 dark:text-neutral-300 text-sm sm:text-base leading-relaxed font-normal">
             {language === 'es' ? (
               <>
                 Mi enfoque técnico no se limita a que el código compile: diseño pensando en la <strong>escalabilidad de recursos</strong> (CPU, RAM, red), el aislamiento de dominio y la tolerancia a fallos. Desde mi calificación perfecta (<strong>10/10 en POO</strong> en la Universidad de Oriente) hasta sistemas de videovigilancia con IA y ERPs empresariales, cada decisión responde a principios formales de arquitectura.
@@ -177,7 +177,7 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
                 className={`p-5 rounded-2xl text-left transition-all duration-300 relative border flex flex-col justify-between gap-4 group ${
                   isSelected
                     ? 'glass-panel border-emeraldNeon/50 shadow-[0_10px_30px_-10px_var(--accent-glow)]'
-                    : 'glass-panel border-slate-200 dark:border-white/[0.07] hover:border-slate-300 dark:hover:border-white/15 text-slate-600 dark:text-neutral-400'
+                    : 'glass-panel border-slate-200 dark:border-white/[0.07] hover:border-slate-300 dark:hover:border-white/15 text-slate-700 dark:text-neutral-400'
                 }`}
               >
                 <div className="flex items-center justify-between w-full">
@@ -185,7 +185,7 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
                     <div className={`p-2 rounded-xl transition-colors ${isSelected ? 'bg-slate-200/80 dark:bg-white/10' : 'bg-slate-100 dark:bg-white/5 group-hover:bg-slate-200/80 dark:group-hover:bg-white/10'}`}>
                       {getPillarIcon(idx)}
                     </div>
-                    <span className="text-xs font-mono font-bold tracking-wider text-slate-500 dark:text-neutral-400">
+                    <span className="text-xs font-mono font-bold tracking-wider text-slate-600 dark:text-neutral-400">
                       PILLAR // {pillar.number}
                     </span>
                   </div>
@@ -198,7 +198,7 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
                   <h3 className={`text-base font-bold transition-colors ${isSelected ? 'text-slate-900 dark:text-white' : 'text-slate-800 dark:text-neutral-200 group-hover:text-slate-900 dark:group-hover:text-white'}`}>
                     {pillar.title[language]}
                   </h3>
-                  <p className="text-xs font-mono text-cyanNeon mt-1">
+                  <p className="text-xs font-mono text-cyan-700 dark:text-cyanNeon mt-1 font-semibold dark:font-normal">
                     {pillar.category[language]}
                   </p>
                 </div>
@@ -212,14 +212,14 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
           {/* Top Banner: Thesis & Academic/Real Case Badge */}
           <div className="border-b border-slate-200 dark:border-white/[0.08] pb-8 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-emeraldNeon">
+              <div className="flex items-center gap-2 text-xs font-mono text-emerald-700 dark:text-emeraldNeon">
                 <Award className="w-4 h-4" />
-                <span className="font-semibold uppercase tracking-wider">
+                <span className="font-bold uppercase tracking-wider">
                   {language === 'es' ? 'Caso de Estudio & Evidencia Formal' : 'Case Study & Verified Foundation'}
                 </span>
               </div>
-              <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-white/[0.04] px-3 py-1 rounded-full border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-neutral-300">
-                <Server className="w-3.5 h-3.5 text-cyanNeon" />
+              <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-white/[0.04] px-3 py-1 rounded-full border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-800 dark:text-neutral-300 font-medium">
+                <Server className="w-3.5 h-3.5 text-cyan-700 dark:text-cyanNeon" />
                 <span>{selectedPillar.tags.slice(0, 3).join(' • ')}</span>
               </div>
             </div>
@@ -228,8 +228,8 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
               "{selectedPillar.thesis[language]}"
             </p>
 
-            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-xs font-mono text-slate-700 dark:text-neutral-300 flex items-start gap-2.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emeraldNeon mt-1.5 shrink-0" />
+            <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-xs font-mono text-slate-800 dark:text-neutral-300 flex items-start gap-2.5 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emeraldNeon mt-1.5 shrink-0" />
               <span>{selectedPillar.academicOrRealCase[language]}</span>
             </div>
           </div>
@@ -239,10 +239,10 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
             <div className="flex items-center gap-2 bg-slate-100 dark:bg-[#12121c] p-1 rounded-xl border border-slate-200 dark:border-white/[0.08]">
               <button
                 onClick={() => handleTabChange('principles')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono transition-all ${
                   activeTab === 'principles'
-                    ? 'bg-emeraldNeon text-black shadow-md font-bold'
-                    : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-emerald-600 dark:bg-emeraldNeon text-white dark:text-black shadow-md font-bold'
+                    : 'text-slate-700 dark:text-neutral-400 font-semibold hover:text-black dark:hover:text-white'
                 }`}
               >
                 <Boxes className="w-3.5 h-3.5" />
@@ -252,10 +252,10 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
               {selectedPillar.codeSnippet && (
                 <button
                   onClick={() => handleTabChange('code')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono transition-all ${
                     activeTab === 'code'
-                      ? 'bg-cyanNeon text-black shadow-md font-bold'
-                      : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white'
+                      ? 'bg-sky-600 dark:bg-cyanNeon text-white dark:text-black shadow-md font-bold'
+                      : 'text-slate-700 dark:text-neutral-400 font-semibold hover:text-black dark:hover:text-white'
                   }`}
                 >
                   <Code2 className="w-3.5 h-3.5" />
@@ -292,11 +292,11 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
                         {principle.title[language]}
                       </h4>
                     </div>
-                    <p className="text-xs text-slate-700 dark:text-neutral-300 leading-relaxed font-normal dark:font-light">
+                    <p className="text-xs text-slate-800 dark:text-neutral-200 leading-relaxed font-normal">
                       {principle.detail[language]}
                     </p>
                   </div>
-                  <div className="pt-2 flex items-center gap-1.5 text-[10px] font-mono text-emeraldNeon">
+                  <div className="pt-2 flex items-center gap-1.5 text-[10px] font-mono text-emerald-700 dark:text-emeraldNeon font-semibold">
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>{language === 'es' ? 'Validado en Producción' : 'Production Verified'}</span>
                   </div>
@@ -319,14 +319,14 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
         <div className="glass-panel-card rounded-3xl border border-slate-200 dark:border-white/[0.09] p-6 sm:p-10 shadow-2xl space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-white/[0.08] pb-5">
             <div>
-              <span className="text-xs font-mono text-emeraldNeon uppercase tracking-wider font-bold">
+              <span className="text-xs font-mono text-emerald-700 dark:text-emeraldNeon uppercase tracking-wider font-bold">
                 {language === 'es' ? '// LOS 4 MANDAMIENTOS // ESTÁNDAR DE CÓDIGO' : '// THE 4 TENETS // CODE STANDARD'}
               </span>
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight mt-1">
                 {language === 'es' ? 'Principios no negociables al programar' : 'Non-negotiable principles when building'}
               </h3>
             </div>
-            <span className="text-xs font-mono text-slate-500 dark:text-neutral-400">
+            <span className="text-xs font-mono text-slate-600 dark:text-neutral-400 font-medium">
               Yerson Rodríguez • Systems Engineer
             </span>
           </div>
@@ -337,13 +337,13 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
                 key={tenet.number}
                 className="p-4 rounded-2xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.05] space-y-2 hover:border-emeraldNeon/40 transition-colors"
               >
-                <div className="text-xs font-mono font-bold text-cyanNeon">
+                <div className="text-xs font-mono font-bold text-cyan-700 dark:text-cyanNeon">
                   {tenet.number} //
                 </div>
                 <h4 className="text-sm font-bold text-slate-900 dark:text-white">
                   {tenet.title[language]}
                 </h4>
-                <p className="text-xs text-slate-600 dark:text-neutral-400 leading-relaxed font-normal dark:font-light">
+                <p className="text-xs text-slate-700 dark:text-neutral-300 leading-relaxed font-normal">
                   {tenet.desc[language]}
                 </p>
               </div>
