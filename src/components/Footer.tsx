@@ -35,7 +35,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
   };
 
   return (
-    <footer className="border-t border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-[#050508] py-10 sm:py-12 px-4 sm:px-6 lg:px-8 relative z-10 transition-colors duration-300">
+    <footer className="border-t border-slate-200 dark:border-white/[0.08] bg-slate-100 dark:bg-[#08080c] py-10 sm:py-12 px-4 sm:px-6 lg:px-8 relative z-10 transition-colors duration-300">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
         {/* Brand & Local Time */}
         <div className="space-y-3.5 text-center md:text-left">
@@ -69,45 +69,45 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               href={PERSONAL_INFO.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/30 text-slate-700 dark:text-neutral-400 hover:text-slate-950 dark:hover:text-white shadow-sm transition-colors"
+              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/30 text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white shadow-sm transition-colors group"
               aria-label="GitHub"
             >
-              <GithubIcon className="w-4 h-4" />
+              <GithubIcon className="w-4 h-4 text-slate-800 dark:text-neutral-300 group-hover:text-black dark:group-hover:text-white transition-colors" />
             </a>
             <a
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-secondary)]/40 text-slate-700 dark:text-neutral-400 hover:text-[var(--accent-secondary)] shadow-sm transition-colors"
+              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-secondary)]/40 text-slate-800 dark:text-neutral-300 hover:text-[var(--accent-secondary)] shadow-sm transition-colors group"
               aria-label="LinkedIn"
             >
-              <LinkedinIcon className="w-4 h-4" />
+              <LinkedinIcon className="w-4 h-4 text-[#0077B5] dark:text-[#38bdf8] transition-colors" />
             </a>
             <a
               href={`https://wa.me/${PERSONAL_INFO.phoneClean}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[#25D366]/40 text-slate-700 dark:text-neutral-400 hover:text-[#25D366] shadow-sm transition-colors"
+              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[#25D366]/40 text-slate-800 dark:text-neutral-300 hover:text-[#25D366] shadow-sm transition-colors group"
               aria-label="WhatsApp"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4 text-[#15803d] dark:text-[#25D366] transition-colors" />
             </a>
             <a
               href={`mailto:${getPublicEmail()}`}
-              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/40 text-slate-700 dark:text-neutral-400 hover:text-[var(--accent-primary)] shadow-sm transition-colors"
+              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/40 text-slate-800 dark:text-neutral-300 hover:text-[var(--accent-primary)] shadow-sm transition-colors group"
               aria-label="Email"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="w-4 h-4 text-[var(--accent-primary)] transition-colors" />
             </a>
 
             <a
               href="./CV_Yerson_Rodriguez.pdf"
               download="CV_Yerson_Rodriguez.pdf"
-              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/50 text-slate-700 dark:text-neutral-400 hover:text-[var(--accent-primary)] shadow-sm transition-colors"
+              className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/50 text-slate-800 dark:text-neutral-300 hover:text-[var(--accent-primary)] shadow-sm transition-colors group"
               title={language === 'es' ? 'Descargar CV (PDF)' : 'Download CV (PDF)'}
               aria-label="Download CV"
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4 text-slate-800 dark:text-neutral-300 group-hover:text-[var(--accent-primary)] transition-colors" />
             </a>
 
             <button

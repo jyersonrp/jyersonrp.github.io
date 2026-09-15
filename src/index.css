@@ -382,24 +382,14 @@ html:not(.dark) .text-white {
 /* Preserve bright/white text inside solid accent buttons, dark overlays, preloader, and dark terminals */
 html.light [data-preloader] .text-white,
 html:not(.dark) [data-preloader] .text-white,
-html.light [data-preloader] [class*="text-white"],
-html:not(.dark) [data-preloader] [class*="text-white"],
-html.light [class*="bg-[#050508]"] .text-white,
-html:not(.dark) [class*="bg-[#050508]"] .text-white,
-html.light [class*="bg-[#050508]"] [class*="text-white"],
-html:not(.dark) [class*="bg-[#050508]"] [class*="text-white"],
 html.light button[class*="bg-[#2EE6A0]"] .text-white,
 html:not(.dark) button[class*="bg-[#2EE6A0]"] .text-white,
 html.light a[class*="bg-[#2EE6A0]"] .text-white,
 html:not(.dark) a[class*="bg-[#2EE6A0]"] .text-white,
 html.light [class*="emeraldNeon"].text-white,
 html:not(.dark) [class*="emeraldNeon"].text-white,
-html.light [class*="emeraldNeon"] .text-white,
-html:not(.dark) [class*="emeraldNeon"] .text-white,
 html.light [class*="cyanNeon"].text-white,
 html:not(.dark) [class*="cyanNeon"].text-white,
-html.light [class*="cyanNeon"] .text-white,
-html:not(.dark) [class*="cyanNeon"] .text-white,
 html.light .bg-black .text-white,
 html.light .bg-black.text-white,
 html:not(.dark) .bg-black .text-white,
@@ -410,18 +400,14 @@ html:not(.dark) .bg-slate-900 .text-white,
 html:not(.dark) .bg-slate-900.text-white,
 html.light [class*="bg-accent"] .text-white,
 html:not(.dark) [class*="bg-accent"] .text-white,
-html.light [class*="var(--accent"].text-white,
-html:not(.dark) [class*="var(--accent"].text-white,
-html.light [class*="var(--accent"] .text-white,
-html:not(.dark) [class*="var(--accent"] .text-white,
-html.light [class*="from-[var(--accent"].text-white,
-html:not(.dark) [class*="from-[var(--accent"].text-white,
-html.light [class*="from-[var(--accent"] .text-white,
-html:not(.dark) [class*="from-[var(--accent"] .text-white,
-html.light [style*="--accent"].text-white,
-html:not(.dark) [style*="--accent"].text-white,
-html.light [style*="--accent"] .text-white,
-html:not(.dark) [style*="--accent"] .text-white,
+html.light button[class*="from-[var(--accent"] .text-white,
+html:not(.dark) button[class*="from-[var(--accent"] .text-white,
+html.light button[class*="from-[var(--accent"] span,
+html:not(.dark) button[class*="from-[var(--accent"] span,
+html.light a[class*="from-[var(--accent"] .text-white,
+html:not(.dark) a[class*="from-[var(--accent"] .text-white,
+html.light a[class*="from-[var(--accent"] span,
+html:not(.dark) a[class*="from-[var(--accent"] span,
 html.light [class*="bg-[#005c4b]"].text-white,
 html:not(.dark) [class*="bg-[#005c4b]"].text-white,
 html.light [class*="bg-[#005c4b]"] .text-white,
@@ -438,42 +424,42 @@ html:not(.dark) [class*="bg-[#202c33]"] .text-white {
 }
 
 /* Body & neutral texts with AAA Contrast */
-html.light .text-neutral-100:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-100:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light .text-neutral-200:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-200:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light .text-neutral-300:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-300:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-200/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-200/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-300/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-300/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-neutral-100:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-100:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-200:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-200:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-300:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-300:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-200/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-200/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-300/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-300/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #1E293B !important;
 }
 
-html.light .text-neutral-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-400/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-400/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light .text-neutral-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-500/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-500/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-neutral-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-400/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-400/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-500/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-500/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #334155 !important;
 }
 
-html.light .text-slate-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-slate-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-slate-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #475569 !important;
 }
 
-html.light .text-slate-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-slate-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-slate-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #334155 !important;
 }
 
-html.light .text-slate-600:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-slate-600:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-slate-600:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-600:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #1E293B !important;
 }
 

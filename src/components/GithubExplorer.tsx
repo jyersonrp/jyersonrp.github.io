@@ -327,8 +327,8 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 onClick={() => setSelectedLanguage('all')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-colors ${
                   selectedLanguage === 'all'
-                    ? 'bg-cyanNeon text-black font-semibold'
-                    : 'bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/[0.06]'
+                    ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold shadow-md'
+                    : 'bg-slate-100 dark:bg-white/[0.03] text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white border border-slate-300 dark:border-white/[0.08]'
                 }`}
               >
                 {language === 'es' ? 'Todos' : 'All'}
@@ -339,8 +339,8 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                   onClick={() => setSelectedLanguage(lang)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                     selectedLanguage === lang
-                      ? 'bg-cyanNeon text-black font-semibold shadow-[0_0_15px_var(--accent-glow-secondary)]'
-                      : 'bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/[0.06]'
+                      ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold shadow-md'
+                      : 'bg-slate-100 dark:bg-white/[0.03] text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white border border-slate-300 dark:border-white/[0.08]'
                   }`}
                 >
                   <span

@@ -14,6 +14,9 @@ interface Particle {
   twinkleSpeed: number;
   twinklePhase: number;
   isHero?: boolean;
+  orbitAngle?: number;
+  orbitRadius?: number;
+  orbitSpeed?: number;
 }
 
 interface MicroStar {
@@ -27,6 +30,37 @@ interface MicroStar {
   twinklePhase: number;
 }
 
+interface StardustSpark {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  alpha: number;
+  maxLife: number;
+  life: number;
+  color: string;
+}
+
+interface Shockwave {
+  active: boolean;
+  x: number;
+  y: number;
+  radius: number;
+  maxRadius: number;
+  alpha: number;
+}
+
+interface MeteorEmber {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  alpha: number;
+  size: number;
+  color: string;
+}
+
 interface Meteor {
   active: boolean;
   x: number;
@@ -36,6 +70,7 @@ interface Meteor {
   length: number;
   alpha: number;
   color: string;
+  embers: MeteorEmber[];
 }
 
 interface ConstellationCanvasProps {
@@ -52,6 +87,15 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
   const paletteRef = useRef(palette);
   const particlesRef = useRef<Particle[]>([]);
   const microStarsRef = useRef<MicroStar[]>([]);
+  const stardustRef = useRef<StardustSpark[]>([]);
+  const shockwaveRef = useRef<Shockwave>({
+    active: false,
+    x: 0,
+    y: 0,
+    radius: 0,
+    maxRadius: 240,
+    alpha: 0,
+  });
   const meteorRef = useRef<Meteor>({
     active: false,
     x: 0,
@@ -61,6 +105,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     length: 0,
     alpha: 0,
     color: '#00F0FF',
+    embers: [],
   });
 
   // Keep refs in sync and update particle colors dynamically when theme or palette changes
@@ -74,11 +119,11 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
 
     if (particlesRef.current.length > 0) {
       particlesRef.current.forEach((p, idx) => {
-        p.color = currentColors[idx % currentColors.length];
+        p.color = p.isHero ? pal.primary : currentColors[idx % currentColors.length];
         p.alpha = isDark ? Math.random() * 0.35 + 0.30 : Math.random() * 0.25 + 0.70;
         p.baseRadius = p.isHero
-          ? isDark ? 2.6 : 3.0
-          : isDark ? Math.random() * 1.0 + 0.7 : Math.random() * 1.3 + 1.2;
+          ? (isDark ? 2.8 : 3.2)
+          : (isDark ? Math.random() * 1.0 + 0.7 : Math.random() * 1.3 + 1.2);
         p.radius = p.baseRadius;
       });
     }
@@ -117,6 +162,45 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       targetY: -1000,
       radius: 175,
       isActive: false,
+      lastEmitted: 0,
+    };
+
+    const addStardust = (posX: number, posY: number) => {
+      if (stardustRef.current.length > 55) return;
+      const pal = PALETTES[paletteRef.current] || PALETTES.emerald;
+      const isDark = themeRef.current === 'dark';
+      const sparkCol = Math.random() > 0.5 ? pal.primary : pal.secondary;
+
+      for (let i = 0; i < 2; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const spd = Math.random() * 1.4 + 0.4;
+        stardustRef.current.push({
+          x: posX + (Math.random() - 0.5) * 12,
+          y: posY + (Math.random() - 0.5) * 12,
+          vx: Math.cos(angle) * spd,
+          vy: Math.sin(angle) * spd,
+          radius: Math.random() * 1.5 + 0.8,
+          alpha: isDark ? 0.85 : 0.70,
+          maxLife: Math.floor(Math.random() * 25 + 30),
+          life: 0,
+          color: isDark ? sparkCol : (sparkCol === '#2EE6A0' ? '#059669' : sparkCol === '#A855F7' ? '#7E22CE' : sparkCol === '#F59E0B' ? '#D97706' : '#0284C7'),
+        });
+      }
+    };
+
+    const triggerShockwave = (clientX: number, clientY: number) => {
+      const sw = shockwaveRef.current;
+      sw.active = true;
+      sw.x = clientX;
+      sw.y = clientY;
+      sw.radius = 8;
+      sw.maxRadius = Math.min(width, height) * 0.35;
+      sw.alpha = 0.85;
+
+      // Also create a burst of stardust sparks
+      for (let i = 0; i < 14; i++) {
+        addStardust(clientX, clientY);
+      }
     };
 
     const handleMouseMove = (e: MouseEvent) => {
@@ -127,6 +211,13 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       mouse.targetX = e.clientX;
       mouse.targetY = e.clientY;
       mouse.isActive = true;
+
+      // Emit stardust trail on move
+      const now = performance.now();
+      if (now - mouse.lastEmitted > 35) {
+        mouse.lastEmitted = now;
+        addStardust(e.clientX, e.clientY);
+      }
     };
 
     const handleMouseLeave = () => {
@@ -135,6 +226,17 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       mouse.targetY = -1000;
       mouse.x = -1000;
       mouse.y = -1000;
+    };
+
+    const handleClick = (e: MouseEvent) => {
+      triggerShockwave(e.clientX, e.clientY);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        triggerShockwave(touch.clientX, touch.clientY);
+      }
     };
 
     const handleTouchMove = (e: TouchEvent) => {
@@ -147,6 +249,12 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         mouse.targetX = touch.clientX;
         mouse.targetY = touch.clientY;
         mouse.isActive = true;
+
+        const now = performance.now();
+        if (now - mouse.lastEmitted > 45) {
+          mouse.lastEmitted = now;
+          addStardust(touch.clientX, touch.clientY);
+        }
       }
     };
 
@@ -163,8 +271,9 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('click', handleClick);
     document.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('touchstart', handleTouchMove, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true });
     window.addEventListener('resize', handleResize);
@@ -176,37 +285,36 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       const isDark = themeRef.current === 'dark';
       const cols = isDark ? pal.dotColorDark : pal.dotColorLight;
 
-      // Layer 0: Cosmic Micro-Dust (Deep 3D field)
-      const microCount = isMobile ? 32 : 64;
+      // Layer 0: Cosmic Deep-Field Micro-Dust
+      const microCount = isMobile ? 38 : 78;
       const newMicroStars: MicroStar[] = [];
       for (let i = 0; i < microCount; i++) {
         newMicroStars.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.08,
-          vy: (Math.random() - 0.5) * 0.08,
-          radius: Math.random() * 0.55 + 0.45,
-          alpha: isDark ? Math.random() * 0.4 + 0.15 : Math.random() * 0.35 + 0.35,
-          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          vx: (Math.random() - 0.5) * 0.09,
+          vy: (Math.random() - 0.5) * 0.09,
+          radius: Math.random() * 0.65 + 0.40,
+          alpha: isDark ? Math.random() * 0.45 + 0.15 : Math.random() * 0.35 + 0.35,
+          twinkleSpeed: Math.random() * 0.022 + 0.006,
           twinklePhase: Math.random() * Math.PI * 2,
         });
       }
       microStarsRef.current = newMicroStars;
 
-      // Layer 1: Constellation Grid Nodes
+      // Layer 1: Constellation Grid Nodes + Hero Beacons with Satellites
       const count = isMobile
         ? Math.min(Math.max(Math.floor((width * height) / 32000), 24), 34)
-        : Math.min(Math.max(Math.floor((width * height) / 16500), 50), 80);
+        : Math.min(Math.max(Math.floor((width * height) / 16500), 52), 82);
 
       const newParticles: Particle[] = [];
-      // Assign 5 hero beacon stars evenly distributed
-      const heroIndices = new Set([2, 9, 17, 26, 38]);
+      const heroIndices = new Set([3, 11, 21, 33, 47]);
 
       for (let i = 0; i < count; i++) {
         const isHero = heroIndices.has(i);
         const baseRadius = isHero
-          ? (isDark ? 2.6 : 3.0)
-          : (isDark ? Math.random() * 1.0 + 0.7 : Math.random() * 1.3 + 1.2);
+          ? (isDark ? 2.8 : 3.2)
+          : (isDark ? Math.random() * 1.0 + 0.75 : Math.random() * 1.3 + 1.25);
 
         newParticles.push({
           x: Math.random() * width,
@@ -217,11 +325,14 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           baseRadius,
           color: isHero ? pal.primary : cols[i % cols.length],
           alpha: isHero
-            ? (isDark ? 0.9 : 1.0)
+            ? (isDark ? 0.95 : 1.0)
             : (isDark ? Math.random() * 0.35 + 0.30 : Math.random() * 0.25 + 0.70),
           twinkleSpeed: Math.random() * 0.02 + 0.008,
           twinklePhase: Math.random() * Math.PI * 2,
           isHero,
+          orbitAngle: Math.random() * Math.PI * 2,
+          orbitRadius: isHero ? (Math.random() * 8 + 20) : undefined,
+          orbitSpeed: isHero ? ((Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.015 + 0.015)) : undefined,
         });
       }
 
@@ -230,8 +341,8 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
 
     initParticles();
 
-    // Shooting star scheduler (every 7 to 11 seconds)
-    let nextMeteorTime = Date.now() + 4000;
+    // Shooting star scheduler (every 4.5 to 7.5 seconds)
+    let nextMeteorTime = Date.now() + 2500;
 
     const maybeSpawnMeteor = () => {
       const now = Date.now();
@@ -239,21 +350,26 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       if (!meteor.active && now > nextMeteorTime) {
         const pal = PALETTES[paletteRef.current] || PALETTES.emerald;
         const isDark = themeRef.current === 'dark';
-        const startX = Math.random() * (width * 0.75);
+        const fromLeft = Math.random() > 0.35;
+
+        const startX = fromLeft ? Math.random() * (width * 0.6) : width * 0.5 + Math.random() * (width * 0.5);
         const startY = Math.random() * (height * 0.35);
-        const speed = Math.random() * 4 + 7;
-        const angle = (Math.PI / 4) + (Math.random() - 0.5) * 0.25; // ~45 deg downward-right
+        const speed = Math.random() * 4 + 7.5;
+        const angle = fromLeft
+          ? (Math.PI / 4) + (Math.random() - 0.5) * 0.22 // ~45 deg downward right
+          : (3 * Math.PI / 4) + (Math.random() - 0.5) * 0.22; // ~135 deg downward left
 
         meteor.active = true;
         meteor.x = startX;
         meteor.y = startY;
         meteor.vx = Math.cos(angle) * speed;
         meteor.vy = Math.sin(angle) * speed;
-        meteor.length = Math.random() * 60 + 80;
-        meteor.alpha = isDark ? 0.85 : 0.75;
+        meteor.length = Math.random() * 70 + 90;
+        meteor.alpha = isDark ? 0.95 : 0.85;
         meteor.color = isDark ? pal.primary : (pal.id === 'emerald' ? '#059669' : pal.id === 'ultraviolet' ? '#7E22CE' : '#D97706');
+        meteor.embers = [];
 
-        nextMeteorTime = now + (Math.random() * 5000 + 7000);
+        nextMeteorTime = now + (Math.random() * 3000 + 4500);
       }
     };
 
@@ -293,36 +409,36 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         grad1.addColorStop(
           0,
           curPal.id === 'emerald'
-            ? 'rgba(46, 230, 160, 0.065)'
+            ? 'rgba(46, 230, 160, 0.075)'
             : curPal.id === 'ultraviolet'
-            ? 'rgba(168, 85, 247, 0.065)'
-            : 'rgba(245, 158, 11, 0.065)'
+            ? 'rgba(168, 85, 247, 0.075)'
+            : 'rgba(245, 158, 11, 0.075)'
         );
         grad1.addColorStop(
           0.5,
           curPal.id === 'emerald'
-            ? 'rgba(0, 240, 255, 0.022)'
+            ? 'rgba(0, 240, 255, 0.025)'
             : curPal.id === 'ultraviolet'
-            ? 'rgba(56, 189, 248, 0.022)'
-            : 'rgba(249, 115, 22, 0.022)'
+            ? 'rgba(56, 189, 248, 0.025)'
+            : 'rgba(249, 115, 22, 0.025)'
         );
         grad1.addColorStop(1, 'transparent');
       } else {
         grad1.addColorStop(
           0,
           curPal.id === 'emerald'
-            ? 'rgba(5, 150, 105, 0.13)'
+            ? 'rgba(5, 150, 105, 0.14)'
             : curPal.id === 'ultraviolet'
-            ? 'rgba(126, 34, 206, 0.13)'
-            : 'rgba(217, 119, 6, 0.13)'
+            ? 'rgba(126, 34, 206, 0.14)'
+            : 'rgba(217, 119, 6, 0.14)'
         );
         grad1.addColorStop(
           0.5,
           curPal.id === 'emerald'
-            ? 'rgba(2, 132, 199, 0.05)'
+            ? 'rgba(2, 132, 199, 0.06)'
             : curPal.id === 'ultraviolet'
-            ? 'rgba(2, 132, 199, 0.05)'
-            : 'rgba(234, 88, 12, 0.05)'
+            ? 'rgba(2, 132, 199, 0.06)'
+            : 'rgba(234, 88, 12, 0.06)'
         );
         grad1.addColorStop(1, 'transparent');
       }
@@ -344,25 +460,25 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         grad2.addColorStop(
           0,
           curPal.id === 'emerald'
-            ? 'rgba(0, 240, 255, 0.055)'
+            ? 'rgba(0, 240, 255, 0.065)'
             : curPal.id === 'ultraviolet'
-            ? 'rgba(56, 189, 248, 0.055)'
-            : 'rgba(249, 115, 22, 0.055)'
+            ? 'rgba(56, 189, 248, 0.065)'
+            : 'rgba(249, 115, 22, 0.065)'
         );
-        grad2.addColorStop(0.55, 'rgba(15, 23, 42, 0.012)');
+        grad2.addColorStop(0.55, 'rgba(15, 23, 42, 0.015)');
         grad2.addColorStop(1, 'transparent');
       } else {
         grad2.addColorStop(
           0,
           curPal.id === 'amber'
-            ? 'rgba(234, 88, 12, 0.11)'
-            : 'rgba(2, 132, 199, 0.11)'
+            ? 'rgba(234, 88, 12, 0.12)'
+            : 'rgba(2, 132, 199, 0.12)'
         );
         grad2.addColorStop(
           0.55,
           curPal.id === 'emerald'
-            ? 'rgba(5, 150, 105, 0.04)'
-            : 'rgba(126, 34, 206, 0.04)'
+            ? 'rgba(5, 150, 105, 0.045)'
+            : 'rgba(126, 34, 206, 0.045)'
         );
         grad2.addColorStop(1, 'transparent');
       }
@@ -380,10 +496,10 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       const a3Radius = Math.max(width, height) * 0.45;
       const grad3 = ctx.createRadialGradient(a3X, a3Y, 0, a3X, a3Y, a3Radius);
       if (isDark) {
-        grad3.addColorStop(0, 'rgba(14, 165, 233, 0.028)');
+        grad3.addColorStop(0, 'rgba(14, 165, 233, 0.035)');
         grad3.addColorStop(1, 'transparent');
       } else {
-        grad3.addColorStop(0, 'rgba(30, 41, 59, 0.05)');
+        grad3.addColorStop(0, 'rgba(30, 41, 59, 0.055)');
         grad3.addColorStop(1, 'transparent');
       }
       ctx.save();
@@ -411,7 +527,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         const alpha = ms.alpha * (0.65 + 0.35 * Math.sin(ms.twinklePhase));
 
         ctx.save();
-        ctx.fillStyle = isDark ? '#E2E8F0' : '#475569';
+        ctx.fillStyle = isDark ? '#E2E8F0' : '#334155';
         ctx.globalAlpha = alpha;
         ctx.beginPath();
         ctx.arc(ms.x, ms.y, ms.radius, 0, Math.PI * 2);
@@ -437,19 +553,19 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         );
         cursorGlow.addColorStop(
           0,
-          isDark ? curPal.glow : 'rgba(30, 41, 59, 0.09)'
+          isDark ? curPal.glow : 'rgba(30, 41, 59, 0.10)'
         );
         const secStop = isDark
           ? curPal.id === 'emerald'
-            ? 'rgba(0, 240, 255, 0.025)'
+            ? 'rgba(0, 240, 255, 0.028)'
             : curPal.id === 'ultraviolet'
-            ? 'rgba(56, 189, 248, 0.025)'
-            : 'rgba(249, 115, 22, 0.025)'
+            ? 'rgba(56, 189, 248, 0.028)'
+            : 'rgba(249, 115, 22, 0.028)'
           : curPal.id === 'emerald'
-          ? 'rgba(5, 150, 105, 0.055)'
+          ? 'rgba(5, 150, 105, 0.06)'
           : curPal.id === 'ultraviolet'
-          ? 'rgba(126, 34, 206, 0.055)'
-          : 'rgba(217, 119, 6, 0.055)';
+          ? 'rgba(126, 34, 206, 0.06)'
+          : 'rgba(217, 119, 6, 0.06)';
         cursorGlow.addColorStop(0.65, secStop);
         cursorGlow.addColorStop(1, 'transparent');
 
@@ -462,7 +578,60 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       }
 
       // -------------------------------------------------------------
-      // 4. LAYER 1: CONSTELLATION NODES & HERO BEACONS
+      // 4. INTERACTIVE STARDUST SPARKS (Cursor wake trail)
+      // -------------------------------------------------------------
+      const stardust = stardustRef.current;
+      for (let i = stardust.length - 1; i >= 0; i--) {
+        const sp = stardust[i];
+        sp.x += sp.vx;
+        sp.y += sp.vy;
+        sp.vx *= 0.96;
+        sp.vy *= 0.96;
+        sp.life++;
+
+        const lifeRatio = 1 - (sp.life / sp.maxLife);
+        if (lifeRatio <= 0) {
+          stardust.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.fillStyle = sp.color;
+        ctx.shadowColor = sp.color;
+        ctx.shadowBlur = isDark ? 6 : 4;
+        ctx.globalAlpha = sp.alpha * lifeRatio;
+        ctx.beginPath();
+        ctx.arc(sp.x, sp.y, sp.radius * lifeRatio, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // -------------------------------------------------------------
+      // 5. INTERACTIVE GRAVITATIONAL SHOCKWAVE (Click/Tap Ripple)
+      // -------------------------------------------------------------
+      const sw = shockwaveRef.current;
+      if (sw.active) {
+        sw.radius += (sw.maxRadius - sw.radius) * 0.08 + 1.2;
+        sw.alpha *= 0.94;
+
+        if (sw.alpha <= 0.02 || sw.radius >= sw.maxRadius) {
+          sw.active = false;
+        } else {
+          ctx.save();
+          ctx.strokeStyle = primaryColor;
+          ctx.lineWidth = isDark ? 2.0 : 2.5;
+          ctx.globalAlpha = sw.alpha * (isDark ? 0.65 : 0.85);
+          ctx.shadowColor = primaryColor;
+          ctx.shadowBlur = 10;
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      // -------------------------------------------------------------
+      // 6. LAYER 1: CONSTELLATION NODES & HERO BEACONS WITH SATELLITES
       // -------------------------------------------------------------
       const particles = particlesRef.current;
       const isMobile = width < 768;
@@ -486,6 +655,19 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         const currentAlpha = isDark
           ? p.alpha * (0.7 + 0.3 * Math.sin(p.twinklePhase))
           : p.alpha * (0.8 + 0.2 * Math.sin(p.twinklePhase));
+
+        // Shockwave physical repulsion
+        if (sw.active) {
+          const swdx = p.x - sw.x;
+          const swdy = p.y - sw.y;
+          const swDist = Math.hypot(swdx, swdy);
+          const waveDist = Math.abs(swDist - sw.radius);
+          if (waveDist < 35 && swDist > 0) {
+            const push = ((35 - waveDist) / 35) * sw.alpha * 0.45;
+            p.vx += (swdx / swDist) * push;
+            p.vy += (swdy / swDist) * push;
+          }
+        }
 
         // Gravitational cursor reactivity
         const dx = mouse.x - p.x;
@@ -513,14 +695,14 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           p.vy *= 0.975;
         }
 
-        // Draw Hero Beacon Outer Halo Ring
+        // Draw Hero Beacon Outer Halo Ring & Orbiting Celestial Satellite
         if (p.isHero) {
           const haloPhase = Math.sin(p.twinklePhase * 1.5) * 0.25 + 0.75;
-          const haloRadius = activeRadius * (isDark ? 4.5 : 4.0);
+          const haloRadius = activeRadius * (isDark ? 4.6 : 4.0);
 
           ctx.save();
           const haloGrad = ctx.createRadialGradient(p.x, p.y, activeRadius, p.x, p.y, haloRadius);
-          haloGrad.addColorStop(0, isDark ? `${primaryColor}55` : `${primaryColor}44`);
+          haloGrad.addColorStop(0, isDark ? `${primaryColor}66` : `${primaryColor}44`);
           haloGrad.addColorStop(1, 'transparent');
           ctx.fillStyle = haloGrad;
           ctx.globalAlpha = haloPhase;
@@ -528,6 +710,30 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           ctx.arc(p.x, p.y, haloRadius, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
+
+          // Orbiting Miniature Satellite Star
+          if (p.orbitAngle !== undefined && p.orbitRadius !== undefined && p.orbitSpeed !== undefined) {
+            p.orbitAngle += p.orbitSpeed;
+            const satX = p.x + Math.cos(p.orbitAngle) * p.orbitRadius;
+            const satY = p.y + Math.sin(p.orbitAngle) * (p.orbitRadius * 0.6); // slight 3D perspective tilt
+
+            // Subtle orbital trace ring
+            ctx.save();
+            ctx.strokeStyle = isDark ? `${secondaryColor}25` : `${secondaryColor}35`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.ellipse(p.x, p.y, p.orbitRadius, p.orbitRadius * 0.6, 0, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // Satellite star body
+            ctx.fillStyle = secondaryColor;
+            ctx.shadowColor = secondaryColor;
+            ctx.shadowBlur = isDark ? 4 : 3;
+            ctx.beginPath();
+            ctx.arc(satX, satY, isDark ? 1.3 : 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
         }
 
         // Draw Core Star
@@ -541,7 +747,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           ctx.shadowColor = isDark
             ? p.color
             : (p.color.startsWith('#') ? `${p.color}50` : 'rgba(51, 65, 85, 0.45)');
-          ctx.shadowBlur = p.isHero ? (isDark ? 9 : 7) : (isDark ? 5 : 4);
+          ctx.shadowBlur = p.isHero ? (isDark ? 10 : 8) : (isDark ? 5 : 4);
         }
 
         ctx.beginPath();
@@ -564,8 +770,8 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
             if (isDark) {
               const hasHero = p.isHero || p2.isHero;
               ctx.strokeStyle = hasHero ? secondaryColor : primaryColor;
-              ctx.globalAlpha = factor * (hasHero ? 0.28 : 0.20);
-              ctx.lineWidth = hasHero ? 0.8 : 0.6;
+              ctx.globalAlpha = factor * (hasHero ? 0.30 : 0.20);
+              ctx.lineWidth = hasHero ? 0.85 : 0.6;
             } else {
               const isAccent =
                 p.color === primaryColor ||
@@ -573,7 +779,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
                 p.color === secondaryColor ||
                 p2.color === secondaryColor;
               ctx.strokeStyle = isAccent ? primaryColor : '#334155';
-              ctx.globalAlpha = factor * 0.36;
+              ctx.globalAlpha = factor * 0.38;
               ctx.lineWidth = 0.95;
             }
 
@@ -591,9 +797,9 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           ctx.save();
           ctx.strokeStyle = secondaryColor;
           ctx.globalAlpha = isDark
-            ? mouseLineFactor * 0.26
-            : mouseLineFactor * 0.42;
-          ctx.lineWidth = isDark ? 0.8 : 1.15;
+            ? mouseLineFactor * 0.28
+            : mouseLineFactor * 0.44;
+          ctx.lineWidth = isDark ? 0.85 : 1.2;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -603,16 +809,29 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       }
 
       // -------------------------------------------------------------
-      // 5. LAYER 2: CELESTIAL SHOOTING STAR / METEOR TRAIL
+      // 7. LAYER 2: CELESTIAL SHOOTING STAR / METEOR WITH SPARK EMBERS
       // -------------------------------------------------------------
       maybeSpawnMeteor();
       const meteor = meteorRef.current;
       if (meteor.active) {
         meteor.x += meteor.vx;
         meteor.y += meteor.vy;
-        meteor.alpha -= 0.016; // smooth decay
+        meteor.alpha -= 0.015; // smooth decay
 
-        if (meteor.alpha <= 0 || meteor.x > width + 100 || meteor.y > height + 100) {
+        // Spawn embers behind the meteor
+        if (Math.random() > 0.3) {
+          meteor.embers.push({
+            x: meteor.x + (Math.random() - 0.5) * 4,
+            y: meteor.y + (Math.random() - 0.5) * 4,
+            vx: -meteor.vx * 0.15 + (Math.random() - 0.5) * 0.8,
+            vy: -meteor.vy * 0.15 + (Math.random() - 0.5) * 0.8,
+            alpha: meteor.alpha * 0.8,
+            size: Math.random() * 1.5 + 0.8,
+            color: meteor.color,
+          });
+        }
+
+        if (meteor.alpha <= 0 || meteor.x > width + 120 || meteor.x < -120 || meteor.y > height + 120) {
           meteor.active = false;
         } else {
           // Calculate tail origin
@@ -622,11 +841,11 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           ctx.save();
           const meteorGrad = ctx.createLinearGradient(tailX, tailY, meteor.x, meteor.y);
           meteorGrad.addColorStop(0, 'transparent');
-          meteorGrad.addColorStop(0.7, isDark ? `${meteor.color}66` : `${meteor.color}88`);
+          meteorGrad.addColorStop(0.65, isDark ? `${meteor.color}77` : `${meteor.color}99`);
           meteorGrad.addColorStop(1, isDark ? '#FFFFFF' : meteor.color);
 
           ctx.strokeStyle = meteorGrad;
-          ctx.lineWidth = isDark ? 1.75 : 2.0;
+          ctx.lineWidth = isDark ? 2.0 : 2.2;
           ctx.lineCap = 'round';
           ctx.globalAlpha = meteor.alpha;
           ctx.beginPath();
@@ -637,9 +856,30 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           // Meteor head particle sparkle
           ctx.fillStyle = isDark ? '#FFFFFF' : meteor.color;
           ctx.shadowColor = meteor.color;
-          ctx.shadowBlur = isDark ? 8 : 6;
+          ctx.shadowBlur = isDark ? 10 : 8;
           ctx.beginPath();
-          ctx.arc(meteor.x, meteor.y, isDark ? 1.5 : 1.8, 0, Math.PI * 2);
+          ctx.arc(meteor.x, meteor.y, isDark ? 1.8 : 2.0, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Draw and update meteor embers
+        for (let k = meteor.embers.length - 1; k >= 0; k--) {
+          const emb = meteor.embers[k];
+          emb.x += emb.vx;
+          emb.y += emb.vy;
+          emb.alpha -= 0.035;
+
+          if (emb.alpha <= 0) {
+            meteor.embers.splice(k, 1);
+            continue;
+          }
+
+          ctx.save();
+          ctx.fillStyle = emb.color;
+          ctx.globalAlpha = emb.alpha;
+          ctx.beginPath();
+          ctx.arc(emb.x, emb.y, emb.size, 0, Math.PI * 2);
           ctx.fill();
           ctx.restore();
         }
@@ -653,8 +893,9 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('click', handleClick);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      window.removeEventListener('touchstart', handleTouchMove);
+      window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('resize', handleResize);
