@@ -45,13 +45,14 @@ export function App() {
     }
   };
 
-  // Safety fallback: guaranteed reveal after 6s in the rare event of browser freeze
+  // Safety fallback: guaranteed reveal after 6.5s in the rare event of browser freeze
   useEffect(() => {
+    if (isLoaded) return;
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 6000);
+    }, 6500);
     return () => clearTimeout(timer);
-  }, []);
+  }, [isLoaded]);
 
   // Initialize Lenis Cinematic Smooth Scroll safely
   useEffect(() => {

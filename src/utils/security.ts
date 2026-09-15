@@ -10,21 +10,43 @@ const rateLimitStore = new Map<string, number[]>();
 /**
  * Sanitizes user input string against XSS, injection vectors, and control characters.
  * Trims input and enforces maximum character bounds.
+ * @param input Raw user input string
+ * @param maxLength Maximum allowable length
+ * @param allowMultiline Whether newline characters are permitted (false for headers/single-line fields)
  */
-export function sanitizeInput(input: string, maxLength = 2000): string {
+export function sanitizeInput(
+  input: string,
+  maxLength = 2000,
+  allowMultiline = true
+): string {
   if (typeof input !== 'string') return '';
 
   let sanitized = input
-    // Remove null bytes and dangerous control characters (preserve newline and tab)
-    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F]/g, '')
-    // Strip HTML script/tag injections
-    .replace(/<\s*script[^>]*>[\s\S]*?<\s*\/\s*script\s*>/gi, '')
-    .replace(/<\s*style[^>]*>[\s\S]*?<\s*\/\s*style\s*>/gi, '')
-    .replace(/<\s*iframe[^>]*>[\s\S]*?<\s*\/\s*iframe\s*>/gi, '')
-    .replace(/<\s*object[^>]*>[\s\S]*?<\s*\/\s*object\s*>/gi, '')
-    .replace(/<\s*embed[^>]*>[\s\S]*?<\s*\/\s*embed\s*>/gi, '')
-    .replace(/<\/?(?:[a-z][a-z0-9]*)\b[^>]*>/gi, '')
-    // Neutralize dangerous URI schemes
+    // Remove null bytes and dangerous control characters
+    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F]/g, '');
+
+  // Strip CRLF for single-line inputs to prevent Email Header Injection
+  if (!allowMultiline) {
+    sanitized = sanitized.replace(/[\r\n]+/g, ' ');
+  }
+
+  // Multi-pass HTML and script tag stripping to prevent nested bypass vectors (e.g., <scr<script>ipt>)
+  let previous: string;
+  let iterations = 0;
+  do {
+    previous = sanitized;
+    sanitized = sanitized
+      .replace(/<\s*script[^>]*>[\s\S]*?<\s*\/\s*script\s*>/gi, '')
+      .replace(/<\s*style[^>]*>[\s\S]*?<\s*\/\s*style\s*>/gi, '')
+      .replace(/<\s*iframe[^>]*>[\s\S]*?<\s*\/\s*iframe\s*>/gi, '')
+      .replace(/<\s*object[^>]*>[\s\S]*?<\s*\/\s*object\s*>/gi, '')
+      .replace(/<\s*embed[^>]*>[\s\S]*?<\s*\/\s*embed\s*>/gi, '')
+      .replace(/<\/?(?:[a-z][a-z0-9]*)\b[^>]*>/gi, '');
+    iterations++;
+  } while (sanitized !== previous && iterations < 5);
+
+  // Neutralize dangerous pseudo-protocol URI schemes
+  sanitized = sanitized
     .replace(/javascript\s*:/gi, 'blocked-scheme:')
     .replace(/vbscript\s*:/gi, 'blocked-scheme:')
     .replace(/data\s*:\s*text\/html/gi, 'blocked-scheme:')
@@ -107,6 +129,17 @@ export function checkRateLimit(
 }
 
 /**
+ * Resets rate limit for a specific action key (useful for test suites or resets).
+ */
+export function resetRateLimit(actionKey?: string): void {
+  if (actionKey) {
+    rateLimitStore.delete(actionKey);
+  } else {
+    rateLimitStore.clear();
+  }
+}
+
+/**
  * Opens an external URL safely with noopener and noreferrer to neutralize reverse tabnabbing.
  * Validates protocol to prevent pseudo-protocol exploitation.
  */
@@ -130,11 +163,13 @@ export function safeOpenUrl(url: string): void {
 }
 
 /**
- * Assembles email dynamically at runtime to prevent static bot scraping.
+ * Assembles email dynamically from char codes at runtime to prevent static bot scraping.
+ * Obfuscates character representation completely so simple text regex scanners fail.
  */
-const EMAIL_PARTS = ['jyerson', '@', 'gmail', '.com'];
+const EMAIL_CHAR_CODES = [
+  106, 121, 101, 114, 115, 111, 110, 64, 103, 109, 97, 105, 108, 46, 99, 111, 109
+];
 
 export function getPublicEmail(): string {
-  // Obfuscated dynamic assembly
-  return EMAIL_PARTS.join('');
+  return EMAIL_CHAR_CODES.map((code) => String.fromCharCode(code)).join('');
 }

@@ -25,7 +25,7 @@ interface SubsystemModule {
   tag: string;
   name: { es: string; en: string };
   spec: string;
-  minProgress: number;
+  range: [number, number]; // [startProgress, endProgress]
 }
 
 const SUBSYSTEMS: SubsystemModule[] = [
@@ -34,28 +34,28 @@ const SUBSYSTEMS: SubsystemModule[] = [
     tag: 'SYS_01',
     name: { es: 'Kernel Asíncrono & Memoria RAM', en: 'Async Kernel & RAM Allocation' },
     spec: 'Python 3.11 / FastAPI Non-blocking Event Loop',
-    minProgress: 18
+    range: [0, 26]
   },
   {
     id: 'vision',
     tag: 'AI_02',
     name: { es: 'Pipeline Visión IA & ONNX Runtime', en: 'Vision AI Pipeline & ONNX Runtime' },
     spec: 'YOLOv8 + OpenCV MOG2 Motion Sentry (<75ms)',
-    minProgress: 48
+    range: [20, 56]
   },
   {
     id: 'odoo',
     tag: 'ERP_03',
     name: { es: 'Protocolo Odoo ERP & Meta Chatter', en: 'Odoo ERP Protocol & Meta Chatter' },
     spec: 'Native Models & HMAC-SHA256 Verified Webhooks',
-    minProgress: 76
+    range: [50, 84]
   },
   {
     id: 'arch',
     tag: 'ENG_04',
     name: { es: 'Arquitectura Limpia & Tipado Estricto', en: 'Clean Architecture & Strict Contracts' },
     spec: 'POO 10/10 UDO Systems Engineering Standards',
-    minProgress: 95
+    range: [78, 100]
   }
 ];
 
@@ -70,9 +70,22 @@ export const Preloader: React.FC<PreloaderProps> = ({
     es: 'INICIALIZANDO SUBSISTEMAS...',
     en: 'INITIALIZING SUBSYSTEMS...'
   });
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
   const soundPlayedRef = useRef(false);
+  const soundEnabledRef = useRef(soundEnabled);
+  soundEnabledRef.current = soundEnabled;
+
+  const handleSkip = () => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setIsFinished(true);
+    // Instant skip without waiting for curtain animation
+    onCompleteRef.current();
+  };
 
   // Keyboard shortcut listener: ESC or Space to skip immediately
   useEffect(() => {
@@ -86,32 +99,24 @@ export const Preloader: React.FC<PreloaderProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const handleSkip = () => {
-    setIsFinished(true);
-    onCompleteRef.current();
-  };
-
   useEffect(() => {
+    // Cinematic calibrated duration: ~3.0 seconds progression + 240ms dramatic lock
     const DURATION_MS = 2950;
     const startTime = Date.now();
 
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       const elapsed = Date.now() - startTime;
       const rawRatio = Math.min(1, elapsed / DURATION_MS);
 
-      // Cybernetic easing: snappy start, cinematic weighted middle, momentary dramatic hold at 99%, then 100%
+      // Cybernetic pacing: snappy startup, compilation middle, high tension build-up, final snap
       let curveRatio = 0;
-      if (rawRatio < 0.3) {
-        // Fast responsive boot
-        curveRatio = rawRatio * 1.15;
-      } else if (rawRatio < 0.75) {
-        // Steady compilation
-        curveRatio = 0.345 + (rawRatio - 0.3) * 1.05;
-      } else if (rawRatio < 0.95) {
-        // High tension final assembly
-        curveRatio = 0.8175 + (rawRatio - 0.75) * 0.85;
+      if (rawRatio < 0.28) {
+        curveRatio = rawRatio * 1.14;
+      } else if (rawRatio < 0.74) {
+        curveRatio = 0.3192 + (rawRatio - 0.28) * 1.05;
+      } else if (rawRatio < 0.94) {
+        curveRatio = 0.8022 + (rawRatio - 0.74) * 0.88;
       } else {
-        // Snap to 100%
         curveRatio = 1;
       }
 
@@ -119,17 +124,17 @@ export const Preloader: React.FC<PreloaderProps> = ({
       setProgress(calculatedPercent);
 
       // Dynamic telemetry stage text updates
-      if (calculatedPercent < 22) {
+      if (calculatedPercent < 24) {
         setActiveStageText({
           es: 'ALOCANDO RECURSOS DE MEMORIA & KERNEL ASÍNCRONO...',
           en: 'ALLOCATING MEMORY & ASYNC KERNEL RUNTIME...'
         });
-      } else if (calculatedPercent < 52) {
+      } else if (calculatedPercent < 54) {
         setActiveStageText({
           es: 'CARGANDO PESOS NEURONALES YOLOV8 + OPENCV MOG2...',
           en: 'LOADING YOLOV8 NEURAL WEIGHTS & OPENCV MOG2...'
         });
-      } else if (calculatedPercent < 80) {
+      } else if (calculatedPercent < 82) {
         setActiveStageText({
           es: 'VERIFICANDO INTEGRIDAD ERP ODOO & WEBHOOKS HMAC...',
           en: 'VERIFYING ODOO ERP INTEGRITY & HMAC WEBHOOKS...'
@@ -146,50 +151,74 @@ export const Preloader: React.FC<PreloaderProps> = ({
         });
       }
 
-      // When reaching 100%, play boot sound and trigger reveal
+      // Reaching 100% milestone
       if (calculatedPercent >= 100) {
-        clearInterval(interval);
+        if (intervalRef.current) clearInterval(intervalRef.current);
 
-        if (!soundPlayedRef.current) {
+        if (soundEnabledRef.current && !soundPlayedRef.current) {
           soundPlayedRef.current = true;
           try {
             playSound('boot');
           } catch {
-            // ignore
+            // Audio context silently ignored if restricted
           }
         }
 
-        setTimeout(() => {
+        // Hold at 100% for 240ms, then trigger curtain upward exit
+        timerRef.current = setTimeout(() => {
           setIsFinished(true);
-          setTimeout(() => {
-            onCompleteRef.current();
-          }, 350);
-        }, 220);
+        }, 240);
       }
     }, 28);
 
-    return () => clearInterval(interval);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, []);
 
   return (
-    <AnimatePresence>
+    <AnimatePresence
+      onExitComplete={() => {
+        // Guarantee onComplete is called strictly AFTER the curtain exit animation finishes 100%
+        onCompleteRef.current();
+      }}
+    >
       {!isFinished && (
         <motion.div
           key="preloader-curtain"
           initial={{ opacity: 1, y: 0 }}
           exit={{
             y: '-100%',
-            opacity: 0.95,
+            opacity: 0.99,
             transition: {
               duration: 0.85,
-              ease: [0.76, 0, 0.24, 1]
+              ease: [0.77, 0, 0.175, 1] // Quintic cinematic curtain lift
             }
           }}
           className="fixed inset-0 z-[100] flex flex-col justify-between p-5 sm:p-8 md:p-12 bg-[#050508] text-white select-none overflow-hidden cursor-wait"
         >
           {/* Subtle Ambient Background Cyber Grid & Vignette */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff04_1px,transparent_1px),linear-gradient(to_bottom,#ffffff04_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-br from-[#2EE6A0]/[0.07] via-[#00F0FF]/[0.05] to-transparent rounded-full blur-[140px] pointer-events-none" />
+
+          {/* Dynamic Laser Scanline Sweep Animation */}
+          <div
+            className="absolute inset-x-0 h-28 pointer-events-none opacity-20 bg-gradient-to-b from-transparent via-[#2EE6A0]/20 to-transparent blur-sm animate-float"
+            style={{ animationDuration: '3.5s' }}
+          />
+
+          {/* Pulsing Central Energy Aura */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[140px] pointer-events-none transition-all duration-500"
+            style={{
+              width: `${400 + progress * 3}px`,
+              height: `${300 + progress * 2}px`,
+              background: `radial-gradient(circle, rgba(46,230,160,${0.06 + (progress / 100) * 0.12}) 0%, rgba(0,240,255,0.05) 50%, transparent 80%)`
+            }}
+          />
+
+          {/* Luminous Leading-Edge Laser Line on Shutter Curtain */}
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0] to-transparent shadow-[0_0_20px_#2EE6A0] pointer-events-none" />
 
           {/* Top Status Bar & Navigation Telemetry */}
           <div className="relative z-10 flex items-center justify-between text-xs font-mono uppercase tracking-widest text-neutral-400 border-b border-white/[0.06] pb-4">
@@ -220,7 +249,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
 
             <button
               onClick={handleSkip}
-              className="group flex items-center gap-1.5 text-neutral-400 hover:text-white transition-all border border-white/10 hover:border-[#2EE6A0]/50 px-3.5 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#2EE6A0]/10 text-[10.5px] font-mono"
+              className="group flex items-center gap-1.5 text-neutral-400 hover:text-white transition-all border border-white/10 hover:border-[#2EE6A0]/50 px-3.5 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#2EE6A0]/10 text-[10.5px] font-mono cursor-pointer active:scale-95"
             >
               <span>{language === 'es' ? 'Saltar Intro' : 'Skip Intro'}</span>
               <kbd className="hidden sm:inline-block px-1.5 py-0.2 rounded bg-white/10 text-[9px] text-neutral-300">
@@ -231,9 +260,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
           </div>
 
           {/* Central Main Showcase: Monumental Counter & Modular Telemetry */}
-          <div className="relative z-10 flex flex-col items-center justify-center my-auto py-6 sm:py-8 max-w-4xl mx-auto w-full">
+          <div className="relative z-10 flex flex-col items-center justify-center my-auto py-4 sm:py-6 max-w-4xl mx-auto w-full">
             {/* Monumental Counter with Cyber-Luxury Aesthetic */}
-            <div className="relative text-center select-none mb-6 sm:mb-8">
+            <div className="relative text-center select-none mb-4 sm:mb-6">
               {/* Backlight Glow Aura */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-80 h-32 sm:h-44 bg-[#2EE6A0]/20 rounded-full blur-[60px] pointer-events-none -z-10" />
 
@@ -245,7 +274,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
               </div>
 
               {/* Dynamic Status Notification */}
-              <div className="mt-3 text-xs sm:text-sm font-mono tracking-widest text-neutral-300 flex items-center justify-center gap-2.5 px-4 text-center">
+              <div className="mt-2.5 text-xs sm:text-sm font-mono tracking-widest text-neutral-300 flex items-center justify-center gap-2.5 px-4 text-center">
                 <Sparkles className="w-3.5 h-3.5 text-[#00F0FF] animate-spin" style={{ animationDuration: '4s' }} />
                 <span className="font-medium tracking-[0.18em]">
                   {language === 'es' ? activeStageText.es : activeStageText.en}
@@ -272,71 +301,93 @@ export const Preloader: React.FC<PreloaderProps> = ({
               </div>
             </div>
 
-            {/* Modular Subsystem Verification Grid (Cyber HUD) */}
-            <div className="w-full max-w-2xl mx-auto mt-8 sm:mt-10 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 px-2">
+            {/* Modular Subsystem Verification Grid (Cyber HUD) with Dedicated Initialization Bars */}
+            <div className="w-full max-w-2xl mx-auto mt-6 sm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 px-2">
               {SUBSYSTEMS.map((module) => {
-                const isReady = progress >= module.minProgress;
-                const isActive = progress > 0 && !isReady;
+                const [start, end] = module.range;
+                let subPct = 0;
+                if (progress <= start) subPct = 0;
+                else if (progress >= end) subPct = 100;
+                else subPct = Math.min(100, Math.max(0, Math.floor(((progress - start) / (end - start)) * 100)));
+
+                const isReady = subPct === 100;
+                const isActive = subPct > 0 && !isReady;
 
                 return (
                   <div
                     key={module.id}
-                    className={`p-3 rounded-xl border transition-all duration-300 backdrop-blur-md flex items-center justify-between ${
+                    className={`p-3 rounded-xl border transition-all duration-300 backdrop-blur-md flex flex-col justify-between ${
                       isReady
-                        ? 'bg-[#2EE6A0]/[0.05] border-[#2EE6A0]/30 shadow-[0_0_15px_rgba(46,230,160,0.08)]'
+                        ? 'bg-[#2EE6A0]/[0.06] border-[#2EE6A0]/35 shadow-[0_0_15px_rgba(46,230,160,0.1)]'
                         : isActive
-                        ? 'bg-[#00F0FF]/[0.04] border-[#00F0FF]/30 animate-pulse'
-                        : 'bg-white/[0.02] border-white/[0.05] opacity-50'
+                        ? 'bg-[#00F0FF]/[0.05] border-[#00F0FF]/35 shadow-[0_0_12px_rgba(0,240,255,0.08)]'
+                        : 'bg-white/[0.02] border-white/[0.05] opacity-60'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                      <div
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-mono font-bold ${
-                          isReady
-                            ? 'bg-[#2EE6A0]/20 text-[#2EE6A0]'
-                            : isActive
-                            ? 'bg-[#00F0FF]/20 text-[#00F0FF]'
-                            : 'bg-white/5 text-neutral-500'
-                        }`}
-                      >
-                        {isReady ? (
-                          <CheckCircle2 className="w-4 h-4" />
-                        ) : module.id === 'vision' ? (
-                          <Cpu className="w-3.5 h-3.5" />
-                        ) : module.id === 'odoo' ? (
-                          <Layers className="w-3.5 h-3.5" />
-                        ) : (
-                          <Activity className="w-3.5 h-3.5" />
-                        )}
+                    <div className="flex items-center justify-between gap-2.5 mb-2">
+                      <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                        <div
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-mono font-bold ${
+                            isReady
+                              ? 'bg-[#2EE6A0]/20 text-[#2EE6A0]'
+                              : isActive
+                              ? 'bg-[#00F0FF]/20 text-[#00F0FF]'
+                              : 'bg-white/5 text-neutral-500'
+                          }`}
+                        >
+                          {isReady ? (
+                            <CheckCircle2 className="w-4 h-4" />
+                          ) : module.id === 'vision' ? (
+                            <Cpu className="w-3.5 h-3.5" />
+                          ) : module.id === 'odoo' ? (
+                            <Layers className="w-3.5 h-3.5" />
+                          ) : (
+                            <Activity className="w-3.5 h-3.5" />
+                          )}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-mono text-neutral-400 font-semibold">
+                              {module.tag}
+                            </span>
+                            <span className="text-xs font-sans font-medium text-white truncate">
+                              {module.name[language]}
+                            </span>
+                          </div>
+                          <p className="text-[9.5px] font-mono text-neutral-400 truncate">
+                            {module.spec}
+                          </p>
+                        </div>
                       </div>
 
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-mono text-neutral-400 font-semibold">
-                            {module.tag}
-                          </span>
-                          <span className="text-xs font-sans font-medium text-white truncate">
-                            {module.name[language]}
-                          </span>
-                        </div>
-                        <p className="text-[10px] font-mono text-neutral-400 truncate">
-                          {module.spec}
-                        </p>
+                      <div className="shrink-0 ml-2">
+                        <span
+                          className={`text-[9px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold ${
+                            isReady
+                              ? 'bg-[#2EE6A0]/20 text-[#2EE6A0] border border-[#2EE6A0]/40'
+                              : isActive
+                              ? 'bg-[#00F0FF]/20 text-[#00F0FF] border border-[#00F0FF]/40'
+                              : 'bg-white/5 text-neutral-500 border border-white/10'
+                          }`}
+                        >
+                          {isReady ? 'ONLINE' : isActive ? `${subPct}%` : 'WAIT'}
+                        </span>
                       </div>
                     </div>
 
-                    <div className="shrink-0 ml-2">
-                      <span
-                        className={`text-[9.5px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold ${
+                    {/* Dedicated Subsystem Initialization Micro-Bar */}
+                    <div className="w-full bg-white/[0.06] h-1 rounded-full overflow-hidden relative">
+                      <div
+                        className={`h-full transition-all duration-150 rounded-full ${
                           isReady
-                            ? 'bg-[#2EE6A0]/20 text-[#2EE6A0] border border-[#2EE6A0]/40'
+                            ? 'bg-[#2EE6A0] shadow-[0_0_8px_#2EE6A0]'
                             : isActive
-                            ? 'bg-[#00F0FF]/20 text-[#00F0FF] border border-[#00F0FF]/40'
-                            : 'bg-white/5 text-neutral-500 border border-white/10'
+                            ? 'bg-gradient-to-r from-[#00F0FF] to-[#2EE6A0] shadow-[0_0_6px_#00F0FF]'
+                            : 'bg-transparent'
                         }`}
-                      >
-                        {isReady ? 'ONLINE' : isActive ? 'SYNC...' : 'WAIT'}
-                      </span>
+                        style={{ width: `${subPct}%` }}
+                      />
                     </div>
                   </div>
                 );

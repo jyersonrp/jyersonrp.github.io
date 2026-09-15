@@ -77,22 +77,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
       return;
     }
 
-    // In-memory rate limiting check (3 submissions per 40s)
-    const rateLimit = checkRateLimit('contact_form_submit', 3, 40000);
-    if (!rateLimit.allowed) {
-      playSound('close');
-      setSecurityError(
-        language === 'es'
-          ? `Límite de envíos alcanzado por seguridad. Por favor espera ${rateLimit.retryAfterSeconds} segundos antes de enviar otro mensaje.`
-          : `Submission rate limit exceeded for security. Please wait ${rateLimit.retryAfterSeconds} seconds before sending another message.`
-      );
-      return;
-    }
-
-    // Strict input sanitization and boundary checks
-    const sanitizedName = sanitizeInput(formData.name, 80);
-    const sanitizedEmail = sanitizeInput(formData.email, 100);
-    const sanitizedMessage = sanitizeInput(formData.message, 2000);
+    // Strict input sanitization and boundary checks (disallow CRLF on single-line inputs)
+    const sanitizedName = sanitizeInput(formData.name, 80, false);
+    const sanitizedEmail = sanitizeInput(formData.email, 100, false);
+    const sanitizedMessage = sanitizeInput(formData.message, 2000, true);
     const allowedSubjects = ['opportunity', 'freelance', 'odoo', 'other'];
     const sanitizedSubject = allowedSubjects.includes(formData.subject) ? formData.subject : 'other';
 
@@ -123,6 +111,18 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
         language === 'es'
           ? 'Por favor ingresa un mensaje más detallado (mínimo 5 caracteres).'
           : 'Please enter a more detailed message (minimum 5 characters).'
+      );
+      return;
+    }
+
+    // In-memory rate limiting check (3 submissions per 40s) - only consumed on valid submissions
+    const rateLimit = checkRateLimit('contact_form_submit', 3, 40000);
+    if (!rateLimit.allowed) {
+      playSound('close');
+      setSecurityError(
+        language === 'es'
+          ? `Límite de envíos alcanzado por seguridad. Por favor espera ${rateLimit.retryAfterSeconds} segundos antes de enviar otro mensaje.`
+          : `Submission rate limit exceeded for security. Please wait ${rateLimit.retryAfterSeconds} seconds before sending another message.`
       );
       return;
     }
@@ -170,9 +170,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
   const handleCopyFormattedMessage = () => {
     playSound('success');
-    const sName = sanitizeInput(formData.name, 80);
-    const sEmail = sanitizeInput(formData.email, 100);
-    const sMsg = sanitizeInput(formData.message, 2000);
+    const sName = sanitizeInput(formData.name, 80, false);
+    const sEmail = sanitizeInput(formData.email, 100, false);
+    const sMsg = sanitizeInput(formData.message, 2000, true);
     const formatted = `Nombre / Empresa: ${sName}\nEmail: ${sEmail}\nAsunto: ${formData.subject}\nMensaje:\n${sMsg}`;
     navigator.clipboard.writeText(formatted);
     setCopiedMessage(true);
@@ -180,9 +180,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   };
 
   const getWhatsAppLink = () => {
-    const sName = sanitizeInput(formData.name, 80);
-    const sEmail = sanitizeInput(formData.email, 100);
-    const sMsg = sanitizeInput(formData.message, 2000);
+    const sName = sanitizeInput(formData.name, 80, false);
+    const sEmail = sanitizeInput(formData.email, 100, false);
+    const sMsg = sanitizeInput(formData.message, 2000, true);
     const text = encodeURIComponent(
       language === 'es'
         ? `Hola Yerson, te contacto desde tu portafolio:\n\n*Nombre:* ${sName}\n*Email:* ${sEmail}\n\n*Mensaje:* ${sMsg}`
@@ -192,9 +192,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   };
 
   const getMailtoLink = () => {
-    const sName = sanitizeInput(formData.name, 80) || 'Contacto Web';
-    const sEmail = sanitizeInput(formData.email, 100);
-    const sMsg = sanitizeInput(formData.message, 2000);
+    const sName = sanitizeInput(formData.name, 80, false) || 'Contacto Web';
+    const sEmail = sanitizeInput(formData.email, 100, false);
+    const sMsg = sanitizeInput(formData.message, 2000, true);
     const subjectText = `[Portfolio] Consulta: ${sName}`;
     const bodyText = `Nombre / Empresa: ${sName}\nEmail: ${sEmail}\n\nMensaje:\n${sMsg}`;
     return `mailto:${publicEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;

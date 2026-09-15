@@ -31,6 +31,19 @@ export const unlockAudio = (): void => {
   }
 };
 
+// Automatically listen for first user gesture to unlock AudioContext
+if (typeof window !== 'undefined') {
+  const handleFirstInteraction = () => {
+    unlockAudio();
+    window.removeEventListener('pointerdown', handleFirstInteraction);
+    window.removeEventListener('keydown', handleFirstInteraction);
+    window.removeEventListener('touchstart', handleFirstInteraction);
+  };
+  window.addEventListener('pointerdown', handleFirstInteraction, { passive: true, once: true });
+  window.addEventListener('keydown', handleFirstInteraction, { passive: true, once: true });
+  window.addEventListener('touchstart', handleFirstInteraction, { passive: true, once: true });
+}
+
 const getAudioContext = (): AudioContext | null => {
   if (typeof window === 'undefined') return null;
   const AudioContextClass =

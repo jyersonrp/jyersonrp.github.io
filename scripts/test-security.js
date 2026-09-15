@@ -1,93 +1,21 @@
 import assert from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
 
-// Mirroring the exact functions from src/utils/security.ts to run under standard Node.js
-const rateLimitStore = new Map();
+// Import directly from the real TypeScript source code
+import {
+  sanitizeInput,
+  sanitizeQuery,
+  validateEmail,
+  checkRateLimit,
+  resetRateLimit,
+  getPublicEmail
+} from '../src/utils/security.ts';
 
-function sanitizeInput(input, maxLength = 2000) {
-  if (typeof input !== 'string') return '';
+console.log('--- Starting Rigorous Portfolio Security & Hardening Test Suite ---');
 
-  let sanitized = input
-    .replace(/[\u0000-\u0008\u000B-\u000C\u000E-\u001F\u007F]/g, '')
-    .replace(/<\s*script[^>]*>[\s\S]*?<\s*\/\s*script\s*>/gi, '')
-    .replace(/<\s*style[^>]*>[\s\S]*?<\s*\/\s*style\s*>/gi, '')
-    .replace(/<\s*iframe[^>]*>[\s\S]*?<\s*\/\s*iframe\s*>/gi, '')
-    .replace(/<\s*object[^>]*>[\s\S]*?<\s*\/\s*object\s*>/gi, '')
-    .replace(/<\s*embed[^>]*>[\s\S]*?<\s*\/\s*embed\s*>/gi, '')
-    .replace(/<\/?(?:[a-z][a-z0-9]*)\b[^>]*>/gi, '')
-    .replace(/javascript\s*:/gi, 'blocked-scheme:')
-    .replace(/vbscript\s*:/gi, 'blocked-scheme:')
-    .replace(/data\s*:\s*text\/html/gi, 'blocked-scheme:')
-    .trim();
-
-  if (sanitized.length > maxLength) {
-    sanitized = sanitized.slice(0, maxLength);
-  }
-
-  return sanitized;
-}
-
-function sanitizeQuery(query, maxLength = 100) {
-  if (typeof query !== 'string') return '';
-  return query
-    .replace(/[\u0000-\u001F\u007F]/g, '')
-    .replace(/[<>]/g, '')
-    .slice(0, maxLength)
-    .trim();
-}
-
-function validateEmail(email) {
-  const sanitized = email.trim();
-  if (!sanitized) {
-    return { isValid: false, message: 'Email is required' };
-  }
-  if (sanitized.length > 100) {
-    return { isValid: false, message: 'Email address exceeds maximum length (100 characters)' };
-  }
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
-  if (!emailRegex.test(sanitized)) {
-    return { isValid: false, message: 'Invalid email address format' };
-  }
-  return { isValid: true };
-}
-
-function checkRateLimit(actionKey, maxAttempts = 3, windowMs = 30000) {
-  const now = Date.now();
-  const timestamps = rateLimitStore.get(actionKey) || [];
-  const validTimestamps = timestamps.filter((time) => now - time < windowMs);
-
-  if (validTimestamps.length >= maxAttempts) {
-    const oldestTimestamp = validTimestamps[0];
-    const retryAfterMs = windowMs - (now - oldestTimestamp);
-    const retryAfterSeconds = Math.max(1, Math.ceil(retryAfterMs / 1000));
-    return {
-      allowed: false,
-      remaining: 0,
-      retryAfterSeconds
-    };
-  }
-
-  validTimestamps.push(now);
-  rateLimitStore.set(actionKey, validTimestamps);
-
-  return {
-    allowed: true,
-    remaining: maxAttempts - validTimestamps.length,
-    retryAfterSeconds: 0
-  };
-}
-
-const EMAIL_PARTS = ['jyerson', '@', 'gmail', '.com'];
-function getPublicEmail() {
-  return EMAIL_PARTS.join('');
-}
-
-// -----------------------------------------------------------------------------
-// Test Suite Execution
-// -----------------------------------------------------------------------------
-console.log('--- Starting Portfolio Security Verification Suite ---');
-
-// 1. Test XSS / Script injection stripping
-console.log('[Test 1] Testing XSS script and iframe neutralization...');
+// 1. Test XSS script and iframe neutralization
+console.log('[Test 1] Testing XSS script and tag neutralization...');
 const maliciousPayload = '<script>alert("XSS")</script>Hello <iframe src="evil.com"></iframe>World!';
 const cleanPayload = sanitizeInput(maliciousPayload, 80);
 assert.strictEqual(cleanPayload, 'Hello World!', 'Should strip script and iframe tags completely');
@@ -95,56 +23,104 @@ assert.ok(!cleanPayload.includes('<script>'), 'Script tag must not survive');
 assert.ok(!cleanPayload.includes('alert'), 'Alert payload must not survive');
 console.log('✓ XSS neutralization passed:', cleanPayload);
 
-// 2. Test pseudo-protocol neutralization
-console.log('[Test 2] Testing javascript: URI scheme blocking...');
+// 2. Test nested tag evasion bypass
+console.log('[Test 2] Testing nested tag evasion bypass...');
+const nestedPayload = '<scr<script>ipt>alert(1)</script>SafeText';
+const cleanNested = sanitizeInput(nestedPayload);
+assert.ok(!cleanNested.includes('<script>'), 'Nested script tag must not reconstruct');
+assert.ok(!cleanNested.includes('alert(1)'), 'Alert payload in nested tag must not survive');
+console.log('✓ Nested evasion neutralization passed:', cleanNested);
+
+// 3. Test pseudo-protocol neutralization
+console.log('[Test 3] Testing dangerous URI scheme blocking...');
 const evilLink = 'javascript:alert(1)';
 const safeLink = sanitizeInput(evilLink);
 assert.strictEqual(safeLink, 'blocked-scheme:alert(1)');
+const evilVb = 'vbscript:msgbox(1)';
+assert.strictEqual(sanitizeInput(evilVb), 'blocked-scheme:msgbox(1)');
 console.log('✓ Protocol neutralization passed:', safeLink);
 
-// 3. Test null-byte and control character removal
-console.log('[Test 3] Testing null-byte and control characters...');
+// 4. Test null-byte and control character removal
+console.log('[Test 4] Testing null-byte and control characters...');
 const poisonedString = 'Hello\u0000World\u0007!';
 const sanitizedString = sanitizeInput(poisonedString);
 assert.strictEqual(sanitizedString, 'HelloWorld!');
 console.log('✓ Poisoned string sanitized:', sanitizedString);
 
-// 4. Test max length truncation
-console.log('[Test 4] Testing boundary truncation...');
-const longInput = 'A'.repeat(500);
+// 5. Test CRLF / Email Header Injection prevention
+console.log('[Test 5] Testing CRLF / Email Header Injection prevention...');
+const headerInjectionAttempt = 'CEO\r\nBcc: evil@attacker.com\r\nSubject: Pwned';
+const sanitizedSingleLine = sanitizeInput(headerInjectionAttempt, 80, false);
+assert.ok(!sanitizedSingleLine.includes('\r'), 'CR must be stripped for single-line inputs');
+assert.ok(!sanitizedSingleLine.includes('\n'), 'LF must be stripped for single-line inputs');
+assert.strictEqual(sanitizedSingleLine, 'CEO Bcc: evil@attacker.com Subject: Pwned');
+
+// Verify multiline is preserved when explicitly allowed (for message bodies)
+const multilineValid = 'Line 1\nLine 2\r\nLine 3';
+const sanitizedMultiline = sanitizeInput(multilineValid, 200, true);
+assert.ok(sanitizedMultiline.includes('\n'), 'Newline must be preserved for message body');
+console.log('✓ CRLF injection protection passed');
+
+// 6. Test boundary length truncation
+console.log('[Test 6] Testing boundary truncation...');
+const longInput = 'X'.repeat(500);
 const cappedInput = sanitizeInput(longInput, 80);
 assert.strictEqual(cappedInput.length, 80);
 console.log('✓ Truncation passed (length 80)');
 
-// 5. Test RFC Email Validation
-console.log('[Test 5] Testing RFC Email validation...');
+// 7. Test Query Sanitization
+console.log('[Test 7] Testing search query sanitization...');
+const rawQuery = '  <script>python 3.11</script>  ';
+const cleanQuery = sanitizeQuery(rawQuery, 50);
+assert.strictEqual(cleanQuery, 'scriptpython 3.11/script');
+assert.ok(!cleanQuery.includes('<'));
+assert.ok(!cleanQuery.includes('>'));
+console.log('✓ Search query sanitization passed:', cleanQuery);
+
+// 8. Test RFC Email Validation
+console.log('[Test 8] Testing RFC Email validation...');
 assert.strictEqual(validateEmail('jyerson@gmail.com').isValid, true);
 assert.strictEqual(validateEmail('test.user+tag@company.co.uk').isValid, true);
 assert.strictEqual(validateEmail('invalid-email').isValid, false);
 assert.strictEqual(validateEmail('missing@domain').isValid, false);
 assert.strictEqual(validateEmail('@nodomain.com').isValid, false);
 assert.strictEqual(validateEmail('').isValid, false);
+assert.strictEqual(validateEmail('a'.repeat(95) + '@gmail.com').isValid, false, 'Should reject emails > 100 chars');
 console.log('✓ Email RFC validation tests passed');
 
-// 6. Test In-memory Rate Limiting
-console.log('[Test 6] Testing in-memory rate limiting...');
-const key = 'test_action_ratelimit';
-const attempt1 = checkRateLimit(key, 2, 5000);
+// 9. Test In-memory Rate Limiting & Reset
+console.log('[Test 9] Testing in-memory sliding window rate limiting...');
+const testKey = 'test_action_suite';
+resetRateLimit(testKey);
+
+const attempt1 = checkRateLimit(testKey, 2, 5000);
 assert.strictEqual(attempt1.allowed, true);
 assert.strictEqual(attempt1.remaining, 1);
 
-const attempt2 = checkRateLimit(key, 2, 5000);
+const attempt2 = checkRateLimit(testKey, 2, 5000);
 assert.strictEqual(attempt2.allowed, true);
 assert.strictEqual(attempt2.remaining, 0);
 
-const attempt3 = checkRateLimit(key, 2, 5000);
+const attempt3 = checkRateLimit(testKey, 2, 5000);
 assert.strictEqual(attempt3.allowed, false, '3rd attempt must be blocked');
 assert.ok(attempt3.retryAfterSeconds > 0);
-console.log('✓ Rate limiting correctly blocked excess attempts:', attempt3);
 
-// 7. Test Email Obfuscation
-console.log('[Test 7] Testing dynamic email assembly...');
+// Reset rate limit
+resetRateLimit(testKey);
+const attemptAfterReset = checkRateLimit(testKey, 2, 5000);
+assert.strictEqual(attemptAfterReset.allowed, true, 'Rate limit should allow submission after reset');
+console.log('✓ Rate limiting and reset passed');
+
+// 10. Test Dynamic Email Assembly & Anti-Scraping Obfuscation
+console.log('[Test 10] Testing dynamic email assembly and anti-scraper obfuscation...');
 assert.strictEqual(getPublicEmail(), 'jyerson@gmail.com');
-console.log('✓ Email assembly matches official contact:', getPublicEmail());
 
-console.log('--- ALL SECURITY TESTS PASSED SUCCESSFULLY (7/7) ---');
+// Verify that the security source file does NOT contain the raw email string literal
+const securitySource = fs.readFileSync(path.resolve('src/utils/security.ts'), 'utf8');
+assert.ok(
+  !securitySource.includes("'jyerson@gmail.com'") && !securitySource.includes('"jyerson@gmail.com"'),
+  'security.ts must not contain raw email string literal'
+);
+console.log('✓ Email assembly and source obfuscation confirmed');
+
+console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (10/10) ---');

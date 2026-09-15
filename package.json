@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:security": "node scripts/test-security.js"
+    "test:security": "node --experimental-strip-types scripts/test-security.js"
   },
   "dependencies": {
     "@types/three": "^0.186.0",
