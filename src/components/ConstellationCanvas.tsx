@@ -35,11 +35,13 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     paletteRef.current = palette;
 
     const pal = PALETTES[palette] || PALETTES.emerald;
-    const currentColors = themeMode === 'dark' ? pal.dotColorDark : pal.dotColorLight;
+    const isDark = themeMode === 'dark';
+    const currentColors = isDark ? pal.dotColorDark : pal.dotColorLight;
 
     if (particlesRef.current.length > 0) {
       particlesRef.current.forEach((p) => {
         p.color = currentColors[Math.floor(Math.random() * currentColors.length)];
+        p.alpha = isDark ? Math.random() * 0.35 + 0.25 : Math.random() * 0.35 + 0.50;
       });
     }
   }, [themeMode, palette]);
@@ -132,24 +134,25 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     const initParticles = () => {
       const isMobile = width < 768;
       const count = isMobile
-        ? Math.min(Math.max(Math.floor((width * height) / 36000), 14), 22)
-        : Math.min(Math.max(Math.floor((width * height) / 22000), 30), 60);
+        ? Math.min(Math.max(Math.floor((width * height) / 32000), 18), 28)
+        : Math.min(Math.max(Math.floor((width * height) / 20000), 38), 68);
 
       const pal = PALETTES[paletteRef.current] || PALETTES.emerald;
-      const cols = themeRef.current === 'dark' ? pal.dotColorDark : pal.dotColorLight;
+      const isDark = themeRef.current === 'dark';
+      const cols = isDark ? pal.dotColorDark : pal.dotColorLight;
       const newParticles: Particle[] = [];
 
       for (let i = 0; i < count; i++) {
-        const baseRadius = Math.random() * 0.9 + 0.6;
+        const baseRadius = isDark ? Math.random() * 0.9 + 0.6 : Math.random() * 1.0 + 0.85;
         newParticles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * (isMobile ? 0.16 : 0.22),
-          vy: (Math.random() - 0.5) * (isMobile ? 0.16 : 0.22),
+          vx: (Math.random() - 0.5) * (isMobile ? 0.18 : 0.24),
+          vy: (Math.random() - 0.5) * (isMobile ? 0.18 : 0.24),
           radius: baseRadius,
           baseRadius,
           color: cols[Math.floor(Math.random() * cols.length)],
-          alpha: Math.random() * 0.4 + 0.15,
+          alpha: isDark ? Math.random() * 0.35 + 0.25 : Math.random() * 0.35 + 0.50,
           twinkleSpeed: Math.random() * 0.02 + 0.008,
           twinklePhase: Math.random() * Math.PI * 2,
         });
@@ -181,6 +184,57 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         ? '#0284C7'
         : '#EA580C';
 
+      // -------------------------------------------------------------
+      // 1. ETHEREAL AMBIENT MESH GLOW (Breathes and floats smoothly)
+      // -------------------------------------------------------------
+      const now = Date.now() * 0.00035;
+
+      // Aura 1: Primary floating organic accent glow
+      const a1X = width * 0.25 + Math.cos(now) * 80;
+      const a1Y = height * 0.30 + Math.sin(now * 0.8) * 60;
+      const a1Radius = Math.max(width, height) * 0.52;
+      const grad1 = ctx.createRadialGradient(a1X, a1Y, 0, a1X, a1Y, a1Radius);
+
+      if (isDark) {
+        grad1.addColorStop(0, curPal.id === 'emerald' ? 'rgba(46, 230, 160, 0.055)' : curPal.id === 'ultraviolet' ? 'rgba(168, 85, 247, 0.055)' : 'rgba(245, 158, 11, 0.055)');
+        grad1.addColorStop(0.5, curPal.id === 'emerald' ? 'rgba(0, 240, 255, 0.018)' : curPal.id === 'ultraviolet' ? 'rgba(56, 189, 248, 0.018)' : 'rgba(249, 115, 22, 0.018)');
+        grad1.addColorStop(1, 'transparent');
+      } else {
+        grad1.addColorStop(0, curPal.id === 'emerald' ? 'rgba(5, 150, 105, 0.055)' : curPal.id === 'ultraviolet' ? 'rgba(126, 34, 206, 0.055)' : 'rgba(217, 119, 6, 0.055)');
+        grad1.addColorStop(0.5, curPal.id === 'emerald' ? 'rgba(2, 132, 199, 0.025)' : curPal.id === 'ultraviolet' ? 'rgba(2, 132, 199, 0.025)' : 'rgba(234, 88, 12, 0.025)');
+        grad1.addColorStop(1, 'transparent');
+      }
+
+      ctx.save();
+      ctx.fillStyle = grad1;
+      ctx.beginPath();
+      ctx.arc(a1X, a1Y, a1Radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
+      // Aura 2: Secondary floating organic accent glow
+      const a2X = width * 0.75 + Math.sin(now * 0.7) * 90;
+      const a2Y = height * 0.70 + Math.cos(now * 0.9) * 70;
+      const a2Radius = Math.max(width, height) * 0.48;
+      const grad2 = ctx.createRadialGradient(a2X, a2Y, 0, a2X, a2Y, a2Radius);
+
+      if (isDark) {
+        grad2.addColorStop(0, curPal.id === 'emerald' ? 'rgba(0, 240, 255, 0.05)' : curPal.id === 'ultraviolet' ? 'rgba(56, 189, 248, 0.05)' : 'rgba(249, 115, 22, 0.05)');
+        grad2.addColorStop(0.55, 'rgba(15, 23, 42, 0.01)');
+        grad2.addColorStop(1, 'transparent');
+      } else {
+        grad2.addColorStop(0, curPal.id === 'amber' ? 'rgba(234, 88, 12, 0.045)' : 'rgba(2, 132, 199, 0.045)');
+        grad2.addColorStop(0.55, curPal.id === 'emerald' ? 'rgba(5, 150, 105, 0.015)' : 'rgba(126, 34, 206, 0.015)');
+        grad2.addColorStop(1, 'transparent');
+      }
+
+      ctx.save();
+      ctx.fillStyle = grad2;
+      ctx.beginPath();
+      ctx.arc(a2X, a2Y, a2Radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+
       // Smooth mouse interpolation
       mouse.x += (mouse.targetX - mouse.x) * 0.08;
       mouse.y += (mouse.targetY - mouse.y) * 0.08;
@@ -193,34 +247,38 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           0,
           mouse.x,
           mouse.y,
-          mouse.radius * 1.3
+          mouse.radius * 1.4
         );
         radialGradient.addColorStop(
           0,
-          isDark ? curPal.glow : 'rgba(15, 23, 42, 0.04)'
+          isDark ? curPal.glow : 'rgba(15, 23, 42, 0.06)'
         );
         const secondaryStop = isDark
-          ? paletteRef.current === 'emerald'
-            ? 'rgba(0, 240, 255, 0.015)'
-            : paletteRef.current === 'ultraviolet'
-            ? 'rgba(56, 189, 248, 0.015)'
-            : 'rgba(249, 115, 22, 0.015)'
-          : paletteRef.current === 'emerald'
-          ? 'rgba(2, 132, 199, 0.02)'
-          : paletteRef.current === 'ultraviolet'
-          ? 'rgba(2, 132, 199, 0.02)'
-          : 'rgba(234, 88, 12, 0.02)';
+          ? curPal.id === 'emerald'
+            ? 'rgba(0, 240, 255, 0.02)'
+            : curPal.id === 'ultraviolet'
+            ? 'rgba(56, 189, 248, 0.02)'
+            : 'rgba(249, 115, 22, 0.02)'
+          : curPal.id === 'emerald'
+          ? 'rgba(2, 132, 199, 0.035)'
+          : curPal.id === 'ultraviolet'
+          ? 'rgba(2, 132, 199, 0.035)'
+          : 'rgba(234, 88, 12, 0.035)';
         radialGradient.addColorStop(0.6, secondaryStop);
         radialGradient.addColorStop(1, 'transparent');
         ctx.fillStyle = radialGradient;
         ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, mouse.radius * 1.3, 0, Math.PI * 2);
+        ctx.arc(mouse.x, mouse.y, mouse.radius * 1.4, 0, Math.PI * 2);
         ctx.fill();
       }
 
       const particles = particlesRef.current;
+      const isMobile = width < 768;
+      mouse.radius = isMobile ? 125 : 175;
 
-      // Update and draw particles
+      // -------------------------------------------------------------
+      // 2. PARTICLE SIMULATION & RENDERING
+      // -------------------------------------------------------------
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
@@ -236,49 +294,78 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
 
         // Gentle twinkle
         p.twinklePhase += p.twinkleSpeed;
-        const currentAlpha = p.alpha * (0.7 + 0.3 * Math.sin(p.twinklePhase));
+        const currentAlpha = isDark
+          ? p.alpha * (0.7 + 0.3 * Math.sin(p.twinklePhase))
+          : p.alpha * (0.8 + 0.2 * Math.sin(p.twinklePhase));
 
-        // Interactive mouse interaction
+        // ---------------------------------------------------------
+        // 3. ORGANIC GRAVITATIONAL CURSOR REACTIVITY
+        // ---------------------------------------------------------
         const dx = mouse.x - p.x;
         const dy = mouse.y - p.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         let activeRadius = p.baseRadius;
-        if (dist < mouse.radius && mouse.isActive) {
-          const force = (1 - dist / mouse.radius) * 0.35;
-          p.x += (dx / dist) * force;
-          p.y += (dy / dist) * force;
-          activeRadius = p.baseRadius * (1 + (1 - dist / mouse.radius) * 0.8);
+        if (dist < mouse.radius && mouse.isActive && dist > 1) {
+          const force = 1 - dist / mouse.radius;
+          const pull = force * (isMobile ? 0.04 : 0.065);
+          // Gravitational attraction towards cursor
+          p.vx += (dx / dist) * pull;
+          p.vy += (dy / dist) * pull;
+          // Fluid organic tangential swirl
+          p.vx += (-dy / dist) * pull * 0.3;
+          p.vy += (dx / dist) * pull * 0.3;
+          // Inertial damping
+          p.vx *= 0.96;
+          p.vy *= 0.96;
+          activeRadius = p.baseRadius * (1 + force * 0.75);
         }
 
         // Draw particle
         ctx.save();
-        ctx.globalAlpha = Math.min(Math.max(currentAlpha, 0.08), 0.7);
+        ctx.globalAlpha = isDark
+          ? Math.min(Math.max(currentAlpha, 0.15), 0.75)
+          : Math.min(Math.max(currentAlpha, 0.40), 0.88);
         ctx.fillStyle = p.color;
-        if (activeRadius > 1.4 && isDark) {
+        if (activeRadius > 1.3 && isDark) {
           ctx.shadowColor = p.color;
-          ctx.shadowBlur = 4;
+          ctx.shadowBlur = 5;
         }
         ctx.beginPath();
         ctx.arc(p.x, p.y, activeRadius, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
 
-        // Connect nearby particles with subtle, delicate glowing lines
+        // ---------------------------------------------------------
+        // 4. CONSTELLATION CONNECTION LINES (Calibrated for AAA Contrast)
+        // ---------------------------------------------------------
+        const maxDist = isMobile ? 85 : 125;
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const cdx = p.x - p2.x;
           const cdy = p.y - p2.y;
           const cdist = Math.sqrt(cdx * cdx + cdy * cdy);
-          const isMobile = width < 768;
-          const maxDist = isMobile ? 75 : 115;
 
           if (cdist < maxDist) {
-            const lineAlpha = (1 - cdist / maxDist) * (isMobile ? 0.05 : 0.07);
+            const factor = 1 - cdist / maxDist;
             ctx.save();
-            ctx.strokeStyle = primaryColor;
-            ctx.globalAlpha = isDark ? lineAlpha : lineAlpha * 1.4;
-            ctx.lineWidth = 0.55;
+
+            if (isDark) {
+              ctx.strokeStyle = primaryColor;
+              ctx.globalAlpha = factor * 0.14 + 0.03;
+              ctx.lineWidth = 0.6;
+            } else {
+              // In Light Mode: Smooth graphite/sapphire lines or accent highlights (0.14 to 0.28)
+              const isAccent =
+                p.color === primaryColor ||
+                p2.color === primaryColor ||
+                p.color === secondaryColor ||
+                p2.color === secondaryColor;
+              ctx.strokeStyle = isAccent ? primaryColor : '#334155';
+              ctx.globalAlpha = factor * 0.16 + 0.12; // Range: 0.12 to 0.28
+              ctx.lineWidth = 0.72;
+            }
+
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
@@ -287,13 +374,17 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           }
         }
 
-        // Connect to mouse if close
+        // ---------------------------------------------------------
+        // 5. MOUSE GRAVITATIONAL STREAM CONNECTION
+        // ---------------------------------------------------------
         if (mouse.isActive && dist < mouse.radius) {
-          const mouseLineAlpha = (1 - dist / mouse.radius) * 0.15;
+          const mouseLineFactor = 1 - dist / mouse.radius;
           ctx.save();
           ctx.strokeStyle = secondaryColor;
-          ctx.globalAlpha = isDark ? mouseLineAlpha : mouseLineAlpha * 1.2;
-          ctx.lineWidth = 0.75;
+          ctx.globalAlpha = isDark
+            ? mouseLineFactor * 0.22 + 0.04
+            : mouseLineFactor * 0.24 + 0.08;
+          ctx.lineWidth = isDark ? 0.75 : 0.85;
           ctx.beginPath();
           ctx.moveTo(p.x, p.y);
           ctx.lineTo(mouse.x, mouse.y);
@@ -321,7 +412,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-60 dark:opacity-70 print:hidden transition-opacity duration-500"
+      className="fixed inset-0 pointer-events-none z-0 print:hidden transition-opacity duration-500"
       style={{ willChange: 'transform' }}
     />
   );

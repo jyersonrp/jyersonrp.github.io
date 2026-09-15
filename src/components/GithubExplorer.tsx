@@ -216,7 +216,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
               <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-cyanNeon/40 to-transparent" />
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
               {language === 'es' ? (
                 <>
                   Repositorios de <span className="editorial-accent-cyan">código abierto</span> en vivo.
@@ -227,7 +227,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 </>
               )}
             </h2>
-            <p className="mt-4 text-neutral-400 text-base sm:text-lg max-w-xl font-light leading-relaxed">
+            <p className="mt-4 text-slate-600 dark:text-neutral-400 text-base sm:text-lg max-w-xl font-normal dark:font-light leading-relaxed">
               {language === 'es'
                 ? 'Conectado a la API oficial de GitHub de @jyersonrp con fallback offline verificado.'
                 : 'Direct connection to @jyersonrp GitHub API with resilient offline fallback.'}
@@ -236,7 +236,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
 
           {/* Live indicator & reload */}
           <div className="flex items-center gap-3 shrink-0">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-neutral-300">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-neutral-300">
               <span
                 className={`w-2 h-2 rounded-full ${
                   isLiveApi ? 'bg-emeraldNeon animate-pulse shadow-[0_0_8px_var(--accent-glow)]' : 'bg-amber-400'
@@ -257,7 +257,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
               onClick={fetchRepos}
               disabled={loading}
               title={language === 'es' ? 'Sincronizar repositorios' : 'Sync repos'}
-              className="p-2.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-neutral-300 hover:text-white transition-colors disabled:opacity-50"
+              className="p-2.5 rounded-full bg-slate-100 dark:bg-white/[0.03] hover:bg-slate-200 dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] text-slate-600 hover:text-slate-900 dark:text-neutral-300 dark:hover:text-white transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyanNeon' : ''}`} />
             </button>
@@ -266,7 +266,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
               href={PERSONAL_INFO.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] text-xs font-mono text-white flex items-center gap-2 transition-colors"
+              className="px-4 py-2 rounded-full bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] border border-slate-300 dark:border-white/[0.1] text-xs font-mono text-slate-900 dark:text-white flex items-center gap-2 transition-colors"
             >
               <GithubIcon className="w-3.5 h-3.5" />
               <span>@jyersonrp</span>
@@ -275,10 +275,10 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="glass-panel p-4 sm:p-5 rounded-3xl border border-white/[0.08] mb-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div className="glass-panel p-4 sm:p-5 rounded-3xl border border-slate-200 dark:border-white/[0.08] mb-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 shadow-[0_8px_30px_rgba(15,23,42,0.04)] dark:shadow-none">
           {/* Search Input */}
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 dark:text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder={
@@ -288,20 +288,20 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
               }
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-black/40 border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-cyanNeon transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/[0.08] rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-500 focus:outline-none focus:border-cyanNeon transition-colors"
             />
           </div>
 
           {/* Language and Sort filter pills */}
           <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
             {/* Sort Toggle */}
-            <div className="flex items-center gap-1 bg-white/[0.03] p-1 rounded-xl border border-white/[0.08] text-xs font-mono">
+            <div className="flex items-center gap-1 bg-slate-100 dark:bg-white/[0.03] p-1 rounded-xl border border-slate-200 dark:border-white/[0.08] text-xs font-mono">
               <button
                 onClick={() => setSortBy('updated')}
                 className={`px-3 py-1 rounded-lg transition-colors ${
                   sortBy === 'updated'
-                    ? 'bg-white/10 text-white font-semibold'
-                    : 'text-neutral-400 hover:text-white'
+                    ? 'bg-white dark:bg-white/10 text-slate-900 dark:text-white font-semibold shadow-sm dark:shadow-none'
+                    : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title={language === 'es' ? 'Más recientes' : 'Recently updated'}
               >
@@ -311,12 +311,12 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 onClick={() => setSortBy('stars')}
                 className={`px-3 py-1 rounded-lg transition-colors flex items-center gap-1.5 ${
                   sortBy === 'stars'
-                    ? 'bg-amber-400/20 text-amber-300 font-semibold border border-amber-400/30'
-                    : 'text-neutral-400 hover:text-white'
+                    ? 'bg-amber-400/20 text-amber-600 dark:text-amber-300 font-semibold border border-amber-400/30'
+                    : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
                 title={language === 'es' ? 'Más estrellas' : 'Most stars'}
               >
-                <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                <Star className="w-3 h-3 text-amber-500 dark:text-amber-400 fill-amber-500 dark:fill-amber-400" />
                 <span>Stars</span>
               </button>
             </div>
@@ -328,7 +328,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-colors ${
                   selectedLanguage === 'all'
                     ? 'bg-cyanNeon text-black font-semibold'
-                    : 'bg-white/[0.03] text-neutral-400 hover:text-white border border-white/[0.06]'
+                    : 'bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/[0.06]'
                 }`}
               >
                 {language === 'es' ? 'Todos' : 'All'}
@@ -340,7 +340,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                     selectedLanguage === lang
                       ? 'bg-cyanNeon text-black font-semibold shadow-[0_0_15px_var(--accent-glow-secondary)]'
-                      : 'bg-white/[0.03] text-neutral-400 hover:text-white border border-white/[0.06]'
+                      : 'bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/[0.06]'
                   }`}
                 >
                   <span
@@ -364,7 +364,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
             return (
               <div
                 key={repo.id}
-                className="glass-panel-card group relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 overflow-hidden border border-white/[0.09] hover:border-cyanNeon/40 backdrop-blur-2xl shadow-[0_15px_35px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-12px_var(--accent-glow-secondary)] hover:-translate-y-1.5 h-full"
+                className="glass-panel-card group relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 overflow-hidden border border-slate-200 dark:border-white/[0.09] hover:border-cyanNeon/40 backdrop-blur-2xl shadow-[0_15px_35px_-12px_rgba(0,0,0,0.06)] dark:shadow-[0_15px_35px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-12px_var(--accent-glow-secondary)] hover:-translate-y-1.5 h-full"
               >
                 {/* Holographic light sweep sheen */}
                 <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/[0.06] to-transparent pointer-events-none -skew-x-12" />
@@ -404,12 +404,12 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
 
                       {/* Title & Full Slug */}
                       <div>
-                        <h3 className="text-base sm:text-lg font-sans font-bold text-white group-hover:text-cyanNeon transition-colors leading-snug">
+                        <h3 className="text-base sm:text-lg font-sans font-bold text-slate-900 dark:text-white group-hover:text-cyanNeon transition-colors leading-snug">
                           {getRepoTitle(repo)}
                         </h3>
-                        <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400 mt-1">
-                          <FolderGit2 className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
-                          <span className="text-neutral-400 group-hover:text-neutral-200 transition-colors line-clamp-1">
+                        <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-neutral-400 mt-1">
+                          <FolderGit2 className="w-3.5 h-3.5 text-slate-400 dark:text-neutral-500 shrink-0" />
+                          <span className="text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-neutral-200 transition-colors line-clamp-1">
                             {repo.full_name || `jyersonrp/${repo.name}`}
                           </span>
                         </div>
@@ -422,14 +422,14 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Open repository ${repo.name}`}
-                      className="w-8 h-8 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/20 flex items-center justify-center text-neutral-400 hover:text-white transition-all shrink-0"
+                      className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-white/[0.03] hover:bg-slate-200 dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-slate-300 dark:hover:border-white/20 flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-neutral-400 dark:hover:text-white transition-all shrink-0"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   </div>
 
                   {/* Description */}
-                  <p className="relative z-10 text-xs sm:text-[13px] text-neutral-300/90 line-clamp-3 leading-relaxed my-4 min-h-[52px] font-light">
+                  <p className="relative z-10 text-xs sm:text-[13px] text-slate-700 dark:text-neutral-300 line-clamp-3 leading-relaxed my-4 min-h-[52px] font-normal dark:font-light">
                     {getRepoDescription(repo)}
                   </p>
 
@@ -439,7 +439,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                       {repo.topics.slice(0, 5).map((topic) => (
                         <span
                           key={topic}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/[0.03] text-neutral-300 border border-white/[0.07] group-hover:border-white/[0.12] hover:bg-white/[0.06] transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-mono bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.07] group-hover:border-slate-300 dark:group-hover:border-white/[0.12] hover:bg-slate-200 dark:hover:bg-white/[0.06] transition-colors"
                         >
                           <span className="w-1 h-1 rounded-full bg-cyanNeon" />
                           <span>{topic}</span>
@@ -450,11 +450,11 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 </div>
 
                 {/* Footer Metrics & Action Button */}
-                <div className="relative z-10 pt-4 border-t border-white/[0.06] flex items-center justify-between text-xs font-mono text-neutral-400 gap-2 flex-wrap">
+                <div className="relative z-10 pt-4 border-t border-slate-200 dark:border-white/[0.06] flex items-center justify-between text-xs font-mono text-slate-500 dark:text-neutral-400 gap-2 flex-wrap">
                   <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
                     {/* Language Badge */}
                     {repo.language && (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-neutral-300">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-[11px] font-mono text-slate-700 dark:text-neutral-300">
                         <span
                           className="w-2 h-2 rounded-full"
                           style={{
@@ -467,14 +467,14 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                     )}
 
                     {/* Stars Badge with Gold Glow */}
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-400/[0.08] border border-amber-400/20 text-amber-300 text-[11px] font-mono font-medium shadow-[0_0_8px_rgba(251,191,36,0.12)]">
-                      <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-400/[0.08] border border-amber-400/20 text-amber-600 dark:text-amber-300 text-[11px] font-mono font-medium shadow-[0_0_8px_rgba(251,191,36,0.12)]">
+                      <Star className="w-3.5 h-3.5 fill-amber-500 dark:fill-amber-400 text-amber-500 dark:text-amber-400" />
                       <span>{repo.stargazers_count}</span>
                     </span>
 
                     {/* Forks Badge */}
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.03] border border-white/[0.08] text-neutral-300 text-[11px] font-mono">
-                      <GitFork className="w-3.5 h-3.5 text-neutral-400" />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-neutral-300 text-[11px] font-mono">
+                      <GitFork className="w-3.5 h-3.5 text-slate-400 dark:text-neutral-400" />
                       <span>{repo.forks_count}</span>
                     </span>
                   </div>
@@ -496,7 +496,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
         </div>
 
         {filteredRepos.length === 0 && (
-          <div className="text-center py-16 bg-[#09090d] rounded-3xl border border-white/[0.08] text-neutral-400 font-mono text-xs">
+          <div className="text-center py-16 bg-white dark:bg-[#09090d] rounded-3xl border border-slate-200 dark:border-white/[0.08] text-slate-500 dark:text-neutral-400 font-mono text-xs">
             {language === 'es'
               ? 'No se encontraron repositorios con ese criterio de búsqueda.'
               : 'No repositories found matching your query.'}

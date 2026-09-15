@@ -10,7 +10,7 @@ export const PALETTES: Record<ColorPalette, PaletteConfig> = {
     glow: 'rgba(46, 230, 160, 0.35)',
     gradient: 'linear-gradient(135deg, #2EE6A0 0%, #00F0FF 100%)',
     dotColorDark: ['#2EE6A0', '#00F0FF', '#E2E8F0', '#94A3B8'],
-    dotColorLight: ['#059669', '#0284C7', '#475569', '#64748B'],
+    dotColorLight: ['#059669', '#0284C7', '#1E293B', '#334155', '#475569'],
   },
   ultraviolet: {
     id: 'ultraviolet',
@@ -21,7 +21,7 @@ export const PALETTES: Record<ColorPalette, PaletteConfig> = {
     glow: 'rgba(168, 85, 247, 0.35)',
     gradient: 'linear-gradient(135deg, #A855F7 0%, #38BDF8 100%)',
     dotColorDark: ['#A855F7', '#38BDF8', '#E2E8F0', '#C084FC'],
-    dotColorLight: ['#7E22CE', '#0284C7', '#475569', '#64748B'],
+    dotColorLight: ['#7E22CE', '#0284C7', '#1E293B', '#334155', '#475569'],
   },
   amber: {
     id: 'amber',
@@ -32,7 +32,7 @@ export const PALETTES: Record<ColorPalette, PaletteConfig> = {
     glow: 'rgba(245, 158, 11, 0.35)',
     gradient: 'linear-gradient(135deg, #F59E0B 0%, #F97316 100%)',
     dotColorDark: ['#F59E0B', '#F97316', '#FEF08A', '#FDBA74'],
-    dotColorLight: ['#D97706', '#EA580C', '#475569', '#64748B'],
+    dotColorLight: ['#D97706', '#EA580C', '#1E293B', '#334155', '#475569'],
   },
 };
 

@@ -61,7 +61,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
             </h1>
 
             {/* Subtitle / Clear Value Proposition */}
-            <p className="text-sm sm:text-base md:text-lg text-slate-600 dark:text-neutral-300/90 font-light leading-relaxed max-w-2xl pt-1">
+            <p className="text-sm sm:text-base md:text-lg text-slate-700 dark:text-neutral-300 font-normal dark:font-light leading-relaxed max-w-2xl pt-1">
               {language === 'es' ? (
                 <>
                   Soy <span className="text-slate-900 dark:text-white font-medium">{PERSONAL_INFO.fullName}</span>, desarrollador Full-Stack enfocado en{' '}

@@ -225,9 +225,9 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
     const flow = getFlowDiagram(project);
 
     return (
-      <div className="bg-[#09090d] border border-white/[0.08] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl flex flex-col transition-all duration-300 hover:border-white/[0.14]">
+      <div className="bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl dark:shadow-2xl flex flex-col transition-all duration-300 hover:border-slate-300 dark:hover:border-white/[0.14]">
         {/* Terminal Chrome Header with Traffic Lights & Integrated Navigation Tabs */}
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-3 bg-white/[0.02] border-b border-white/[0.06]">
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-5 py-3 bg-slate-50 dark:bg-white/[0.02] border-b border-slate-200 dark:border-white/[0.06]">
           {/* Traffic lights & window title */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
@@ -235,20 +235,20 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
               <span className="w-2.5 h-2.5 rounded-full bg-emeraldNeon/70" />
             </div>
-            <span className="text-neutral-400 font-mono text-[11px] font-medium hidden sm:inline">
+            <span className="text-slate-600 dark:text-neutral-400 font-mono text-[11px] font-medium hidden sm:inline">
               {project.type === 'nvr' ? 'nvr-vision://console' : project.type === 'odoo' ? 'odoo-meta://chatter' : 'fsm-bot://simulator'}
             </span>
           </div>
 
           {/* Integrated Navigation Tabs: UI Mockup (Default), Telemetry, Pipeline, Code */}
-          <div className="flex flex-wrap items-center gap-1 p-0.5 bg-black/60 rounded-lg border border-white/[0.06]">
+          <div className="flex flex-wrap items-center gap-1 p-0.5 bg-slate-100 dark:bg-black/60 rounded-lg border border-slate-300 dark:border-white/[0.06]">
             {/* Primary Tab: Vista de Producto (UI Mockup) */}
             <button
               onClick={() => setProjectTab(project.id, 'mockup')}
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'mockup'
                   ? 'bg-accent-gradient text-black font-bold shadow-[0_0_15px_var(--accent-glow)]'
-                  : 'text-neutral-300 hover:text-white'
+                  : 'text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/[0.05]'
               }`}
             >
               <Monitor className="w-3 h-3" />
@@ -261,7 +261,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'overview'
                   ? 'bg-emeraldNeon text-black font-semibold shadow-sm'
-                  : 'text-neutral-400 hover:text-white'
+                  : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/[0.05]'
               }`}
             >
               <Activity className="w-3 h-3" />
@@ -274,7 +274,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'flow'
                   ? 'bg-cyanNeon text-black font-semibold shadow-sm'
-                  : 'text-neutral-400 hover:text-white'
+                  : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/[0.05]'
               }`}
             >
               <Workflow className="w-3 h-3" />
@@ -286,8 +286,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               onClick={() => setProjectTab(project.id, 'code')}
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'code'
-                  ? 'bg-white text-black font-semibold shadow-sm'
-                  : 'text-neutral-400 hover:text-white'
+                  ? 'bg-slate-800 dark:bg-white text-white dark:text-black font-semibold shadow-sm'
+                  : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-white/[0.05]'
               }`}
             >
               <Code className="w-3 h-3" />
@@ -327,8 +327,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
           {/* TAB 3: Execution Pipeline */}
           {currentTab === 'flow' && (
             <div className="font-mono text-xs space-y-2.5">
-              <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
-                <span className="text-xs font-semibold text-white">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-neutral-400">
+                <span className="text-xs font-semibold text-slate-900 dark:text-white">
                   {language === 'es' ? 'Flujo de Ejecución Verificado' : 'Verified Execution Flow'}
                 </span>
                 <span className="text-[10px] text-emeraldNeon tracking-wider uppercase font-semibold">
@@ -336,15 +336,15 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 </span>
               </div>
               {flow.map((node) => (
-                <div key={node.step} className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/[0.1] transition-colors">
+                <div key={node.step} className="flex items-center gap-3 p-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.05] hover:border-slate-300 dark:hover:border-white/[0.1] transition-colors">
                   <span className="w-5 h-5 rounded-md bg-emeraldNeon/10 text-emeraldNeon font-mono font-bold text-[11px] flex items-center justify-center shrink-0">
                     {node.step}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-white text-xs">{node.title}</div>
-                    <div className="text-[10px] text-neutral-400 truncate font-light">{node.desc}</div>
+                    <div className="font-semibold text-slate-900 dark:text-white text-xs">{node.title}</div>
+                    <div className="text-[10px] text-slate-600 dark:text-neutral-400 truncate font-normal dark:font-light">{node.desc}</div>
                   </div>
-                  <ChevronRight className="w-3.5 h-3.5 text-neutral-600 shrink-0" />
+                  <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-neutral-600 shrink-0" />
                 </div>
               ))}
             </div>
@@ -353,8 +353,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
           {/* TAB 4: Telemetry Overview */}
           {currentTab === 'overview' && project.type === 'nvr' && (
             <div className="font-mono text-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
-                <span className="text-white text-xs font-medium">Cam_01 [1080p RTSP Stream]</span>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-neutral-400">
+                <span className="text-slate-900 dark:text-white text-xs font-medium">Cam_01 [1080p RTSP Stream]</span>
                 <div className="flex items-center gap-2 text-[var(--accent-primary)] text-[10px] tracking-wider">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
                   <span>ECO: 1 FPS → 30 FPS</span>
@@ -395,8 +395,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
 
           {currentTab === 'overview' && project.type === 'odoo' && (
             <div className="font-mono text-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
-                <span className="text-white text-xs font-medium">Meta Cloud API &lt;&gt; Odoo Chatter</span>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-neutral-400">
+                <span className="text-slate-900 dark:text-white text-xs font-medium">Meta Cloud API &lt;&gt; Odoo Chatter</span>
                 <div className="flex items-center gap-2 text-[var(--accent-primary)] text-[10px] tracking-wider">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse shadow-[0_0_6px_var(--accent-glow)]" />
                   <span>RAM STREAM: 0 BYTES DISK</span>
@@ -445,8 +445,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
 
           {currentTab === 'overview' && project.type === 'bot' && (
             <div className="font-mono text-xs space-y-3">
-              <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
-                <span className="text-white text-xs font-medium">WhatsBot FSM — Glam Nails CRM</span>
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-neutral-400">
+                <span className="text-slate-900 dark:text-white text-xs font-medium">WhatsBot FSM — Glam Nails CRM</span>
                 <div className="flex items-center gap-2 text-[var(--accent-secondary)] text-[10px] tracking-wider">
                   <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-secondary)] animate-pulse shadow-[0_0_6px_var(--accent-glow-secondary)]" />
                   <span>FOR UPDATE NOWAIT</span>
@@ -509,20 +509,20 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
         </div>
 
         {/* Integrated Terminal Footer with Architecture Chips & Discreet GitHub Link */}
-        <div className="px-4 sm:px-5 py-3.5 bg-white/[0.015] border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
+        <div className="px-4 sm:px-5 py-3.5 bg-slate-50 dark:bg-white/[0.015] border-t border-slate-200 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
           {/* Architecture Components chips */}
           <div className="flex flex-wrap items-center gap-1.5">
             {project.architecture.slice(0, 3).map((item, aIdx) => (
               <span
                 key={aIdx}
-                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.06] text-[10px] font-mono text-neutral-300"
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] text-[10px] font-mono text-slate-700 dark:text-neutral-300"
               >
                 <Check className="w-2.5 h-2.5 text-[var(--accent-primary)]" />
                 <span>{item}</span>
               </span>
             ))}
             {project.architecture.length > 3 && (
-              <span className="text-[10px] font-mono text-neutral-500 px-1">
+              <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-500 px-1">
                 +{project.architecture.length - 3}
               </span>
             )}
@@ -534,11 +534,11 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playSound('click')}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.18] text-xs font-mono text-neutral-300 hover:text-white transition-all group"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/[0.18] text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group"
           >
-            <GithubIcon className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white" />
+            <GithubIcon className="w-3.5 h-3.5 text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-white" />
             <span className="font-semibold">{language === 'es' ? 'Ver en GitHub' : 'View on GitHub'}</span>
-            <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-[var(--accent-secondary)] transition-colors" />
+            <ExternalLink className="w-3 h-3 text-slate-500 dark:text-neutral-500 group-hover:text-[var(--accent-secondary)] transition-colors" />
           </a>
         </div>
       </div>
@@ -560,7 +560,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emeraldNeon/40 to-transparent" />
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
             {language === 'es' ? (
               <>
                 Sistemas desarrollados para <span className="editorial-accent-emerald">resolver</span> problemas críticos.
@@ -571,7 +571,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               </>
             )}
           </h2>
-          <p className="mt-4 text-neutral-400 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+          <p className="mt-4 text-slate-600 dark:text-neutral-400 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
             {language === 'es'
               ? 'Proyectos de ingeniería reales con código modular, arquitecturas limpias, alta concurrencia y métricas de impacto verificables.'
               : 'Production-grade engineering case studies with modular code, clean architecture, high concurrency, and quantifiable impact.'}
@@ -583,7 +583,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
           {FEATURED_PROJECTS.map((project, idx) => (
             <div key={project.id} id={project.id} className="scroll-mt-28 sm:scroll-mt-32">
               <ProjectTiltCard maxTilt={5}>
-                <div className="glass-panel-card border border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
+                <div className="glass-panel-card border border-slate-200 dark:border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
                 {/* Subtle top card accent glow on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
@@ -598,52 +598,52 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                       <span className="text-xs font-mono text-emeraldNeon uppercase tracking-[0.25em] font-semibold">
                         {language === 'es' ? `0${idx + 1} // CASO DE ESTUDIO` : `0${idx + 1} // CASE STUDY`}
                       </span>
-                      <span className="text-[11px] font-mono text-neutral-400 bg-white/[0.03] border border-white/[0.06] px-2.5 py-0.5 rounded-full">
+                      <span className="text-[11px] font-mono text-slate-700 dark:text-neutral-300 bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.06] px-2.5 py-0.5 rounded-full">
                         {project.tags[0]}
                       </span>
                     </div>
 
                     {/* Title & Tagline */}
                     <div>
-                      <h3 className="text-2xl sm:text-3xl font-sans font-bold text-white tracking-tight leading-snug">
+                      <h3 className="text-2xl sm:text-3xl font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-snug">
                         {project.title[language]}
                       </h3>
-                      <p className="mt-3 text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
+                      <p className="mt-3 text-slate-700 dark:text-neutral-300 text-sm sm:text-base leading-relaxed font-normal dark:font-light">
                         {project.tagline[language]}
                       </p>
                     </div>
 
                     {/* Problem & Solution: Editorial Callout Format */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
-                      <div className="border-l-2 border-rose-400/50 pl-4 py-1">
-                        <div className="flex items-center gap-1.5 text-rose-400 font-mono text-[11px] uppercase tracking-wider mb-1.5 font-semibold">
+                      <div className="border-l-2 border-rose-500 dark:border-rose-400/50 pl-4 py-1">
+                        <div className="flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-mono text-[11px] uppercase tracking-wider mb-1.5 font-bold">
                           <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                           <span>{language === 'es' ? 'El Desafío' : 'The Challenge'}</span>
                         </div>
-                        <p className="text-xs text-neutral-300/85 leading-relaxed font-light">
+                        <p className="text-xs text-slate-700 dark:text-neutral-300 leading-relaxed font-normal dark:font-light">
                           {project.problem[language]}
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-emeraldNeon/60 pl-4 py-1">
-                        <div className="flex items-center gap-1.5 text-emeraldNeon font-mono text-[11px] uppercase tracking-wider mb-1.5 font-semibold">
+                      <div className="border-l-2 border-emeraldNeon/70 pl-4 py-1">
+                        <div className="flex items-center gap-1.5 text-emeraldNeon font-mono text-[11px] uppercase tracking-wider mb-1.5 font-bold">
                           <Lightbulb className="w-3.5 h-3.5 shrink-0" />
                           <span>{language === 'es' ? 'La Solución' : 'The Solution'}</span>
                         </div>
-                        <p className="text-xs text-neutral-300/85 leading-relaxed font-light">
+                        <p className="text-xs text-slate-700 dark:text-neutral-300 leading-relaxed font-normal dark:font-light">
                           {project.solution[language]}
                         </p>
                       </div>
                     </div>
 
                     {/* Metrics Row */}
-                    <div className="grid grid-cols-3 gap-2.5 sm:gap-4 py-4 border-y border-white/[0.06]">
+                    <div className="grid grid-cols-3 gap-2.5 sm:gap-4 py-4 border-y border-slate-200 dark:border-white/[0.06]">
                       {project.metrics.map((m, mIdx) => (
                         <div key={mIdx} className="text-left">
                           <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-emeraldNeon font-sans tracking-tight leading-none mb-1">
                             {m.value}
                           </div>
-                          <div className="text-[10px] sm:text-[11px] text-neutral-400 font-mono tracking-tight leading-tight line-clamp-2">
+                          <div className="text-[10px] sm:text-[11px] text-slate-600 dark:text-neutral-400 font-mono tracking-tight leading-tight line-clamp-2">
                             {m.label[language]}
                           </div>
                         </div>
@@ -655,7 +655,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.07] text-[11px] font-mono text-neutral-400 hover:text-white transition-colors"
+                          className="px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-[11px] font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:border-slate-300 dark:hover:border-white/20 transition-colors"
                         >
                           #{tag}
                         </span>

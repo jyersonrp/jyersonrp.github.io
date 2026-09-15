@@ -106,13 +106,13 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
       </div>
 
       {/* Card Footer: Level */}
-      <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/[0.05] flex items-center justify-between text-xs font-mono text-neutral-400">
+      <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/[0.05] flex items-center justify-between text-xs font-mono text-slate-600 dark:text-neutral-400">
         <div className="flex items-center gap-1.5">
           <CheckCircle2
             className="w-3.5 h-3.5 transition-colors duration-300"
             style={{ color: isHovered ? meta.brandColor : 'var(--accent-secondary)' }}
           />
-          <span className="text-[11px] text-slate-600 dark:text-neutral-300">{skill.level}</span>
+          <span className="text-[11px] text-slate-700 dark:text-neutral-300 font-medium">{skill.level}</span>
         </div>
       </div>
     </div>
@@ -144,7 +144,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
             <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emeraldNeon/40 to-transparent" />
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
             {language === 'es' ? (
               <>
                 Ingeniería basada en <span className="editorial-accent-emerald">fundamentos</span> y visión de vanguardia.
@@ -155,7 +155,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
               </>
             )}
           </h2>
-          <p className="mt-4 text-neutral-400 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
+          <p className="mt-4 text-slate-600 dark:text-neutral-400 text-base sm:text-lg max-w-2xl font-light leading-relaxed">
             {language === 'es'
               ? 'Conocimiento profundo respaldado por excelencia académica en la Universidad de Oriente (UDO) y ejecución en producción.'
               : 'Deep technical proficiency proven through academic honors at Universidad de Oriente (UDO) and production battle-testing.'}
@@ -174,7 +174,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
               className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                 activeCategory === idx
                   ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-semibold shadow-md'
-                  : 'bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08]'
+                  : 'bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08]'
               }`}
             >
               <span>{icons[idx]}</span>
@@ -184,16 +184,16 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
         </div>
 
         {/* Active Category Display */}
-        <div className="glass-panel-card border border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 p-6 sm:p-10 rounded-3xl relative overflow-hidden">
+        <div className="glass-panel-card border border-slate-200 dark:border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 p-6 sm:p-10 rounded-3xl relative overflow-hidden">
           {/* Subtle top card accent glow */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-70 pointer-events-none" />
 
           <div className="mb-8 pb-6 border-b border-slate-200 dark:border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h3 className="text-xl sm:text-2xl font-sans font-bold text-white tracking-tight">
+              <h3 className="text-xl sm:text-2xl font-sans font-bold text-slate-900 dark:text-white tracking-tight">
                 {SKILL_CATEGORIES[activeCategory].title[language]}
               </h3>
-              <p className="text-xs sm:text-sm text-neutral-400 mt-1.5 font-light">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-neutral-400 mt-1.5 font-normal dark:font-light">
                 {SKILL_CATEGORIES[activeCategory].description[language]}
               </p>
             </div>

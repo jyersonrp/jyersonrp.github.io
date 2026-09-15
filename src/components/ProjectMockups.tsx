@@ -80,25 +80,25 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
   return (
     <div className="space-y-3 font-mono">
       {/* CCTV Top Status Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-xl bg-black/60 border border-white/[0.08] text-[10.5px]">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-xl bg-slate-900 dark:bg-black/60 border border-slate-800 dark:border-white/[0.08] text-[10.5px]">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75" />
             <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500" />
           </span>
           <span className="text-white font-bold tracking-wider">REC</span>
-          <span className="text-neutral-500">|</span>
-          <span className="text-neutral-300 font-semibold">{activeCamera}: {currentCam.name}</span>
+          <span className="text-slate-500 dark:text-neutral-500">|</span>
+          <span className="text-slate-200 dark:text-neutral-300 font-semibold">{activeCamera}: {currentCam.name}</span>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="text-neutral-400 text-[10px]">
+          <div className="text-slate-400 dark:text-neutral-400 text-[10px]">
             {currentTime || '2026-09-12 20:46:12.842'}
           </div>
           <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
             isAlarmMode
               ? 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/40 animate-pulse'
-              : 'bg-white/[0.06] text-neutral-400 border border-white/[0.08]'
+              : 'bg-slate-800 dark:bg-white/[0.06] text-slate-300 dark:text-neutral-400 border border-slate-700 dark:border-white/[0.08]'
           }`}>
             {isAlarmMode
               ? (language === 'es' ? 'MODO 30 FPS [ALARMA ONNX]' : '30 FPS MODE [ONNX ALARM]')
@@ -200,7 +200,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
       </div>
 
       {/* Interactive Controls Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06]">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06]">
         {/* Camera Selector Pills */}
         <div className="flex items-center gap-1.5">
           {(['CAM_01', 'CAM_02', 'CAM_03'] as const).map((cam) => (
@@ -212,8 +212,8 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
               }}
               className={`px-2.5 py-1 rounded-md text-[10px] font-mono transition-all ${
                 activeCamera === cam
-                  ? 'bg-white/[0.14] text-white border border-white/[0.25] font-bold shadow-sm'
-                  : 'text-neutral-400 hover:text-white bg-transparent'
+                  ? 'bg-slate-200 dark:bg-white/[0.14] text-slate-800 dark:text-white border border-slate-300 dark:border-white/[0.25] font-bold shadow-sm'
+                  : 'text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.05] bg-transparent'
               }`}
             >
               {cam}
@@ -230,7 +230,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           className={`px-3 py-1.5 rounded-lg text-[10.5px] font-semibold transition-all flex items-center gap-2 shadow-sm ${
             isAlarmMode
               ? 'bg-[var(--accent-primary)] text-black hover:brightness-110'
-              : 'bg-white/[0.08] text-white hover:bg-white/[0.15] border border-white/[0.1]'
+              : 'bg-slate-200 dark:bg-white/[0.08] text-slate-800 dark:text-white hover:bg-slate-300 dark:hover:bg-white/[0.15] border border-slate-300 dark:border-white/[0.1]'
           }`}
         >
           <Zap className="w-3.5 h-3.5" />
@@ -254,12 +254,12 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
   return (
     <div className="space-y-3 font-sans">
       {/* Odoo ERP Header Breadcrumb */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-[#14121a] border border-white/[0.08] text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-[#14121a] border border-slate-200 dark:border-white/[0.08] text-xs">
         <div className="flex items-center gap-2">
           <div className="w-2.5 h-2.5 rounded-full bg-[#714B67] border border-white/20" />
-          <span className="text-neutral-400 font-mono text-[11px]">Odoo 17 ERP</span>
-          <span className="text-neutral-600">/</span>
-          <span className="text-white font-semibold">
+          <span className="text-slate-600 dark:text-neutral-400 font-mono text-[11px]">Odoo 17 ERP</span>
+          <span className="text-slate-400 dark:text-neutral-600">/</span>
+          <span className="text-slate-900 dark:text-white font-semibold">
             {language === 'es' ? 'Ventas / Presupuesto #SO-2025-084' : 'Sales / Quotation #SO-2025-084'}
           </span>
         </div>
@@ -271,9 +271,9 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
       </div>
 
       {/* Odoo Chatter Message Stream Container */}
-      <div className="bg-[#0b0b12] rounded-2xl p-4 border border-white/[0.08] space-y-3 font-sans">
+      <div className="bg-slate-50 dark:bg-[#0b0b12] rounded-2xl p-4 border border-slate-200 dark:border-white/[0.08] space-y-3 font-sans">
         {/* System Activity Entry */}
-        <div className="flex items-center justify-between text-[10.5px] font-mono text-neutral-400 pb-2 border-b border-white/[0.06]">
+        <div className="flex items-center justify-between text-[10.5px] font-mono text-slate-600 dark:text-neutral-400 pb-2 border-b border-slate-200 dark:border-white/[0.06]">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-secondary)]" />
             <span>
@@ -282,16 +282,16 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
                 : 'Odoo System (Automated) > WhatsApp Meta Cloud API'}
             </span>
           </div>
-          <span className="text-neutral-500">{language === 'es' ? 'Hoy 14:32' : 'Today 14:32'}</span>
+          <span className="text-slate-500 dark:text-neutral-500">{language === 'es' ? 'Hoy 14:32' : 'Today 14:32'}</span>
         </div>
 
         {/* WhatsApp Sent Message Bubble (Chatter Integration) */}
-        <div className="rounded-xl p-3.5 bg-[#121b18] border border-white/[0.08] space-y-3 relative overflow-hidden">
+        <div className="rounded-xl p-3.5 bg-emerald-50/70 dark:bg-[#121b18] border border-emerald-200/80 dark:border-white/[0.08] space-y-3 relative overflow-hidden">
           {/* Subtle WhatsApp top tag */}
           <div className="flex items-center justify-between text-[11px]">
             <span className="font-semibold text-[var(--accent-primary)] flex items-center gap-1.5">
               <span>{language === 'es' ? 'Mensaje HSM WhatsApp' : 'WhatsApp HSM Template'}</span>
-              <span className="text-[10px] text-neutral-400 font-mono font-normal">a +58 412 892 1044</span>
+              <span className="text-[10px] text-slate-600 dark:text-neutral-400 font-mono font-normal">a +58 412 892 1044</span>
             </span>
             <span className="text-[10.5px] text-[var(--accent-secondary)] flex items-center gap-1 font-mono">
               <CheckCheck className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
@@ -299,26 +299,26 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
             </span>
           </div>
 
-          <p className="text-xs text-neutral-200 leading-relaxed font-normal">
+          <p className="text-xs text-slate-800 dark:text-neutral-200 leading-relaxed font-normal">
             {language === 'es'
               ? 'Estimado cliente de Distribuidora Industrial C.A., adjuntamos su cotización formal #SO-2025-084 generada automáticamente. Puede responder a este chat para cualquier requerimiento adicional.'
               : 'Dear Industrial Distributor client, please find attached your automated quotation #SO-2025-084. Feel free to reply directly to this chat for any questions or confirmation.'}
           </p>
 
           {/* Embedded PDF Invoice Card (Generated via in-RAM BytesIO) */}
-          <div className="p-3 rounded-xl bg-black/60 border border-white/[0.1] hover:border-[var(--accent-primary)]/40 transition-colors flex items-center justify-between gap-3">
+          <div className="p-3 rounded-xl bg-white dark:bg-black/60 border border-slate-200 dark:border-white/[0.1] hover:border-[var(--accent-primary)]/40 transition-colors flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0">
-                <FileText className="w-5 h-5 text-rose-400" />
+                <FileText className="w-5 h-5 text-rose-500 dark:text-rose-400" />
               </div>
               <div className="min-w-0">
-                <div className="text-xs font-semibold text-white truncate">
+                <div className="text-xs font-semibold text-slate-900 dark:text-white truncate">
                   {language === 'es' ? 'Presupuesto_SO-2025-084.pdf' : 'Quotation_SO-2025-084.pdf'}
                 </div>
-                <div className="text-[10.5px] font-mono text-neutral-400 flex items-center gap-2">
+                <div className="text-[10.5px] font-mono text-slate-600 dark:text-neutral-400 flex items-center gap-2">
                   <span className="text-[var(--accent-primary)] font-bold">1,428 KB (RAM Stream)</span>
-                  <span className="text-neutral-600">•</span>
-                  <span className="text-neutral-400">$1,450.00 USD</span>
+                  <span className="text-slate-400 dark:text-neutral-600">•</span>
+                  <span className="text-slate-700 dark:text-neutral-400">$1,450.00 USD</span>
                 </div>
               </div>
             </div>
@@ -328,7 +328,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
                 playSound('open');
                 setShowPdfModal(true);
               }}
-              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 hover:from-[var(--accent-primary)]/30 hover:to-[var(--accent-secondary)]/30 border border-[var(--accent-primary)]/40 text-xs font-mono text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 hover:from-[var(--accent-primary)]/30 hover:to-[var(--accent-secondary)]/30 border border-[var(--accent-primary)]/40 text-xs font-mono text-slate-900 dark:text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
             >
               <Eye className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span className="text-[11px] font-semibold">{language === 'es' ? 'Previsualizar PDF' : 'Preview PDF'}</span>
@@ -338,19 +338,19 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
 
         {/* Cryptographic & Memory Guarantee Badges */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[10.5px]">
-          <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center gap-2 text-neutral-300">
+          <div className="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] flex items-center gap-2 text-slate-700 dark:text-neutral-300">
             <Lock className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
             <div className="truncate">
-              <span className="text-neutral-400">HMAC-SHA256: </span>
+              <span className="text-slate-500 dark:text-neutral-400">HMAC-SHA256: </span>
               <span className="text-[var(--accent-primary)] font-semibold">
                 {language === 'es' ? 'VALIDADO (sha256=8f4b...)' : 'VALIDATED (sha256=8f4b...)'}
               </span>
             </div>
           </div>
-          <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center gap-2 text-neutral-300">
+          <div className="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] flex items-center gap-2 text-slate-700 dark:text-neutral-300">
             <Zap className="w-3.5 h-3.5 text-[var(--accent-secondary)] shrink-0" />
             <div className="truncate">
-              <span className="text-neutral-400">{language === 'es' ? 'Disco: ' : 'Disk: '}</span>
+              <span className="text-slate-500 dark:text-neutral-400">{language === 'es' ? 'Disco: ' : 'Disk: '}</span>
               <span className="text-[var(--accent-secondary)] font-semibold">
                 {language === 'es' ? '0 bytes escritos (100% RAM)' : '0 bytes written (100% RAM)'}
               </span>
@@ -552,8 +552,8 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
       </div>
 
       {/* Concurrency Simulator Control Strip */}
-      <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
-        <div className="flex items-center gap-2 text-neutral-300">
+      <div className="p-3 rounded-2xl bg-slate-100 dark:bg-white/[0.02] border border-slate-200 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
+        <div className="flex items-center gap-2 text-slate-700 dark:text-neutral-300">
           <Shield className="w-4 h-4 text-[var(--accent-primary)]" />
           <span>
             {language === 'es'

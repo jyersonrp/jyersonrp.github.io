@@ -437,19 +437,29 @@ html:not(.dark) [class*="bg-[#202c33]"] .text-white {
   color: #FFFFFF !important;
 }
 
-/* Body & neutral texts */
-html.light .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *),
-html:not(.dark) .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *),
-html.light .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *),
-html:not(.dark) .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *) {
+/* Body & neutral texts with AAA Contrast */
+html.light .text-neutral-100:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-100:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-200/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-200/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-300/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-300/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #334155 !important;
 }
 
-html.light .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *),
-html:not(.dark) .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *),
-html.light .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *),
-html:not(.dark) .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *) {
-  color: #64748B !important;
+html.light .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-400/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-400/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-500/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-500/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+  color: #475569 !important;
 }
 
 /* Preserve high contrast dark styling for terminal & code pre blocks */
