@@ -101,7 +101,7 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
                   <div className="space-y-3 mb-6 bg-white/[0.02] border border-white/[0.05] p-4 rounded-2xl">
                     {item.achievements[language].map((ach, aIdx) => (
                       <div key={aIdx} className="flex items-start gap-3 text-xs text-neutral-300 font-light leading-relaxed">
-                        <CheckCircle2 className="w-4 h-4 text-[#2EE6A0] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-[var(--accent-primary)] shrink-0 mt-0.5" />
                         <span>{ach}</span>
                       </div>
                     ))}
@@ -119,7 +119,7 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
                         return (
                           <span
                             key={skill}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-mono bg-white/[0.03] text-neutral-300 border border-white/[0.08] hover:border-[#2EE6A0]/40 transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-mono bg-white/[0.03] text-neutral-300 border border-white/[0.08] hover:border-[var(--accent-primary)]/40 transition-colors"
                           >
                             <SkillIcon className="w-3.5 h-3.5 shrink-0" style={{ color: meta.brandColor }} />
                             <span>{skill}</span>
@@ -136,18 +136,18 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
             <div className="space-y-4">
               <div className="flex items-center justify-between pb-3 border-b border-white/[0.08]">
                 <div className="flex items-center gap-2.5">
-                  <Languages className="w-5 h-5 text-[#00F0FF]" />
+                  <Languages className="w-5 h-5 text-[var(--accent-secondary)]" />
                   <h3 className="text-lg sm:text-xl font-sans font-bold text-white tracking-tight">
                     {language === 'es' ? 'Dominio de Idiomas & Entorno Global' : 'Languages & Global Readiness'}
                   </h3>
                 </div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-[#00F0FF] bg-[#00F0FF]/10 border border-[#00F0FF]/25 px-2.5 py-0.5 rounded-full font-medium">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[var(--accent-secondary)] bg-[var(--accent-secondary)]/10 border border-[var(--accent-secondary)]/25 px-2.5 py-0.5 rounded-full font-medium">
                   Bilingual C1
                 </span>
               </div>
 
-              <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#00F0FF]/40 transition-all duration-300 p-6 sm:p-7 rounded-3xl relative overflow-hidden group shadow-[0_12px_35px_-12px_rgba(0,0,0,0.5)]">
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00F0FF]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[var(--accent-secondary)]/40 transition-all duration-300 p-6 sm:p-7 rounded-3xl relative overflow-hidden group shadow-[0_12px_35px_-12px_rgba(0,0,0,0.5)]">
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--accent-secondary)]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
                   {/* Spanish */}
@@ -160,22 +160,22 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
                         {language === 'es' ? 'Español' : 'Spanish'}
                       </div>
                     </div>
-                    <span className="text-xs font-mono text-[#2EE6A0] bg-[#2EE6A0]/10 border border-[#2EE6A0]/25 px-2.5 py-1 rounded-full font-semibold">
+                    <span className="text-xs font-mono text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/25 px-2.5 py-1 rounded-full font-semibold">
                       {language === 'es' ? 'Nativo' : 'Native'}
                     </span>
                   </div>
 
                   {/* English C1 */}
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-[#00F0FF]/[0.08] to-transparent border border-[#00F0FF]/25 flex items-center justify-between shadow-[0_0_20px_rgba(0,240,255,0.08)]">
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--accent-secondary)]/[0.08] to-transparent border border-[var(--accent-secondary)]/25 flex items-center justify-between shadow-[0_0_20px_var(--accent-glow-secondary)]">
                     <div>
-                      <div className="text-xs font-mono text-[#00F0FF] uppercase tracking-wider flex items-center gap-1.5">
+                      <div className="text-xs font-mono text-[var(--accent-secondary)] uppercase tracking-wider flex items-center gap-1.5">
                         <span>{language === 'es' ? 'Nivel Avanzado C1' : 'Advanced Level C1'}</span>
                       </div>
                       <div className="text-base font-bold text-white mt-0.5">
                         {language === 'es' ? 'Inglés' : 'English'}
                       </div>
                     </div>
-                    <span className="text-xs font-mono text-[#00F0FF] bg-[#00F0FF]/15 border border-[#00F0FF]/35 px-2.5 py-1 rounded-full font-semibold shadow-[0_0_10px_rgba(0,240,255,0.2)]">
+                    <span className="text-xs font-mono text-[var(--accent-secondary)] bg-[var(--accent-secondary)]/15 border border-[var(--accent-secondary)]/35 px-2.5 py-1 rounded-full font-semibold shadow-[0_0_10px_var(--accent-glow-secondary)]">
                       C1 Fluency
                     </span>
                   </div>
@@ -183,7 +183,7 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
 
                 {/* Recruiter Footnote */}
                 <div className="flex items-start gap-2.5 text-xs text-neutral-300 font-light leading-relaxed pt-3 border-t border-white/[0.06]">
-                  <Globe2 className="w-4 h-4 text-[#00F0FF] shrink-0 mt-0.5" />
+                  <Globe2 className="w-4 h-4 text-[var(--accent-secondary)] shrink-0 mt-0.5" />
                   <span>
                     {language === 'es'
                       ? 'Capacidad verificada para colaborar con equipos internacionales distribuidos, participar activamente en standups técnicos, redactar documentación de arquitectura y realizar revisiones de código en inglés.'

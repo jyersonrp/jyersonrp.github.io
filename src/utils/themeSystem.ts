@@ -110,11 +110,24 @@ export const applyTheme = (theme: ThemeMode, palette: ColorPalette) => {
     : '#EA580C';
 
   const glowColor = isDark ? pal.glow : pal.glow.replace('0.35', '0.22');
+  const glowSecondary = isDark
+    ? palette === 'emerald'
+      ? 'rgba(0, 240, 255, 0.35)'
+      : palette === 'ultraviolet'
+      ? 'rgba(56, 189, 248, 0.35)'
+      : 'rgba(249, 115, 22, 0.35)'
+    : palette === 'emerald'
+    ? 'rgba(2, 132, 199, 0.22)'
+    : palette === 'ultraviolet'
+    ? 'rgba(2, 132, 199, 0.22)'
+    : 'rgba(234, 88, 12, 0.22)';
 
   root.style.setProperty('--accent-primary', primaryColor);
   root.style.setProperty('--accent-secondary', secondaryColor);
   root.style.setProperty('--accent-hover', pal.primaryHover);
   root.style.setProperty('--accent-glow', glowColor);
+  root.style.setProperty('--glow-color', glowColor);
+  root.style.setProperty('--accent-glow-secondary', glowSecondary);
 
   root.style.setProperty(
     '--accent-gradient',

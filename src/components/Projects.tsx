@@ -51,7 +51,7 @@ const CodeHighlighter: React.FC<{ code: string }> = ({ code }) => {
       } else if (tok.startsWith('"') || tok.startsWith("'") || tok.startsWith('`')) {
         elements.push(<span key={match.index} className="text-[#38bdf8]">{tok}</span>);
       } else if (/^(?:class|def|return|if|else|elif|for|while|import|from|export|async|function|await|const|let|var|throw|new|try|catch|true|false|True|False|None|null)$/.test(tok)) {
-        elements.push(<span key={match.index} className="text-[#2EE6A0] font-semibold">{tok}</span>);
+        elements.push(<span key={match.index} className="text-[var(--accent-primary)] font-semibold">{tok}</span>);
       } else if (/^(?:models|ir|BytesIO|models\.Model|PrismaClient|DetectionResult|InferenceSession|HybridDetector|WhatsAppConnector|SlotAlreadyReservedError|Date|Promise|cv2|np|ort|tx|db)$/.test(tok)) {
         elements.push(<span key={match.index} className="text-[#c084fc] font-medium">{tok}</span>);
       } else if (/^(?:self|this)$/.test(tok)) {
@@ -355,8 +355,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             <div className="font-mono text-xs space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
                 <span className="text-white text-xs font-medium">Cam_01 [1080p RTSP Stream]</span>
-                <div className="flex items-center gap-2 text-[#2EE6A0] text-[10px] tracking-wider">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2EE6A0] animate-pulse" />
+                <div className="flex items-center gap-2 text-[var(--accent-primary)] text-[10px] tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
                   <span>ECO: 1 FPS → 30 FPS</span>
                 </div>
               </div>
@@ -366,8 +366,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
                 {/* Responsive Bounding Box */}
-                <div className="absolute top-6 left-6 sm:left-12 w-28 sm:w-36 h-28 sm:h-36 border-2 border-[#2EE6A0] bg-[#2EE6A0]/10 rounded-lg p-1.5 animate-pulse">
-                  <div className="inline-block bg-[#2EE6A0] text-black font-bold text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded tracking-wide">
+                <div className="absolute top-6 left-6 sm:left-12 w-28 sm:w-36 h-28 sm:h-36 border-2 border-[var(--accent-primary)] bg-[var(--accent-primary)]/10 rounded-lg p-1.5 animate-pulse">
+                  <div className="inline-block bg-[var(--accent-primary)] text-black font-bold text-[8px] sm:text-[9px] px-1.5 py-0.5 rounded tracking-wide">
                     PERSON 98.4% [YOLOv8]
                   </div>
                 </div>
@@ -376,7 +376,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                   <span className="bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-white border border-white/[0.08]">
                     FPS: 30.2 | LATENCY: 68ms
                   </span>
-                  <span className="bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[#00F0FF] border border-white/[0.08]">
+                  <span className="bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[var(--accent-secondary)] border border-white/[0.08]">
                     MOG2_MOTION: TRIGGERED
                   </span>
                 </div>
@@ -385,7 +385,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                   <span className="text-neutral-300">
                     OpenCV MOG2 → ROI → ONNX Runtime
                   </span>
-                  <span className="bg-[#2EE6A0]/20 text-[#2EE6A0] px-2 py-0.5 rounded border border-[#2EE6A0]/30 font-semibold">
+                  <span className="bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] px-2 py-0.5 rounded border border-[var(--accent-primary)]/30 font-semibold">
                     CPU: 14% (Eco Mode)
                   </span>
                 </div>
@@ -397,8 +397,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             <div className="font-mono text-xs space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
                 <span className="text-white text-xs font-medium">Meta Cloud API &lt;&gt; Odoo Chatter</span>
-                <div className="flex items-center gap-2 text-[#2EE6A0] text-[10px] tracking-wider">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2EE6A0] animate-pulse shadow-[0_0_6px_#2EE6A0]" />
+                <div className="flex items-center gap-2 text-[var(--accent-primary)] text-[10px] tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse shadow-[0_0_6px_var(--accent-glow)]" />
                   <span>RAM STREAM: 0 BYTES DISK</span>
                 </div>
               </div>
@@ -406,10 +406,10 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               <div className="bg-[#0c0c12] p-4 rounded-xl border border-white/[0.05] space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] pb-2 border-b border-white/[0.05]">
                   <div className="flex items-center gap-2">
-                    <span className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-[#2EE6A0] font-bold">POST</span>
+                    <span className="px-1.5 py-0.5 rounded bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] font-bold">POST</span>
                     <span className="text-neutral-300">/api/v1/whatsapp/webhook</span>
                   </div>
-                  <span className="text-[#2EE6A0] font-semibold bg-[#2EE6A0]/10 border border-[#2EE6A0]/30 px-2 py-0.5 rounded-full">
+                  <span className="text-[var(--accent-primary)] font-semibold bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 px-2 py-0.5 rounded-full">
                     HMAC-SHA256: VALID
                   </span>
                 </div>
@@ -418,24 +418,24 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 <div className="bg-black/40 p-2.5 rounded-lg border border-white/[0.04] space-y-1.5">
                   <div className="flex justify-between items-center text-[10.5px]">
                     <span className="text-neutral-400">{language === 'es' ? 'Búfer BytesIO (Factura PDF):' : 'BytesIO Buffer (PDF Stream):'}</span>
-                    <span className="text-[#00F0FF] font-semibold">1,428 KB in RAM</span>
+                    <span className="text-[var(--accent-secondary)] font-semibold">1,428 KB in RAM</span>
                   </div>
                   <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-[#2EE6A0] to-[#00F0FF] rounded-full w-[45%]" />
+                    <div className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full w-[45%]" />
                   </div>
                   <div className="flex justify-between items-center text-[9.5px] text-neutral-400">
                     <span>{language === 'es' ? 'Escritura en disco: 0 bytes' : 'Disk writes: 0 bytes'}</span>
-                    <span className="text-[#2EE6A0] font-medium">{language === 'es' ? 'Cero latencia I/O' : 'Zero I/O bottleneck'}</span>
+                    <span className="text-[var(--accent-primary)] font-medium">{language === 'es' ? 'Cero latencia I/O' : 'Zero I/O bottleneck'}</span>
                   </div>
                 </div>
 
                 <div className="text-[10.5px] text-neutral-300 space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-[#2EE6A0]">✓</span>
+                    <span className="text-[var(--accent-primary)]">✓</span>
                     <span className="text-neutral-400">{language === 'es' ? 'Orden #SO-2025-084 sincronizada en Odoo ORM (12ms)' : 'Order #SO-2025-084 live synced into Odoo ORM (12ms)'}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[#00F0FF]">✓</span>
+                    <span className="text-[var(--accent-secondary)]">✓</span>
                     <span className="text-neutral-400">{language === 'es' ? 'Despacho HSM vía Meta Graph API (Ventana 24h)' : 'HSM Template dispatched via Meta Graph API (24h window)'}</span>
                   </div>
                 </div>
@@ -447,8 +447,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             <div className="font-mono text-xs space-y-3">
               <div className="flex items-center justify-between pb-2 border-b border-white/[0.06] text-neutral-400">
                 <span className="text-white text-xs font-medium">WhatsBot FSM — Glam Nails CRM</span>
-                <div className="flex items-center gap-2 text-[#00F0FF] text-[10px] tracking-wider">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF] animate-pulse shadow-[0_0_6px_#00F0FF]" />
+                <div className="flex items-center gap-2 text-[var(--accent-secondary)] text-[10px] tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-secondary)] animate-pulse shadow-[0_0_6px_var(--accent-glow-secondary)]" />
                   <span>FOR UPDATE NOWAIT</span>
                 </div>
               </div>
@@ -467,7 +467,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                     </span>
                   </div>
                   <div className="flex items-start gap-2 text-[10.5px]">
-                    <span className="px-1.5 py-0.5 rounded bg-[#2EE6A0]/15 text-[#2EE6A0] font-semibold shrink-0">BOT FSM</span>
+                    <span className="px-1.5 py-0.5 rounded bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] font-semibold shrink-0">BOT FSM</span>
                     <span className="text-white">
                       {language === 'es'
                         ? '✓ Turno confirmado para Viernes 3:00 PM (Bloqueo pesimista adquirido)'
@@ -486,18 +486,18 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                     <span className="text-neutral-500 font-bold block">02</span>
                     <span className="truncate block">FSM_SLOT</span>
                   </div>
-                  <div className="p-1 rounded bg-[#00F0FF]/10 border border-[#00F0FF]/30 text-[#00F0FF] font-semibold">
-                    <span className="text-[#00F0FF] font-bold block">03</span>
+                  <div className="p-1 rounded bg-[var(--accent-secondary)]/10 border border-[var(--accent-secondary)]/30 text-[var(--accent-secondary)] font-semibold">
+                    <span className="text-[var(--accent-secondary)] font-bold block">03</span>
                     <span className="truncate block">ROW_LOCK</span>
                   </div>
-                  <div className="p-1 rounded bg-[#2EE6A0]/10 border border-[#2EE6A0]/30 text-[#2EE6A0] font-semibold">
-                    <span className="text-[#2EE6A0] font-bold block">04</span>
+                  <div className="p-1 rounded bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 text-[var(--accent-primary)] font-semibold">
+                    <span className="text-[var(--accent-primary)] font-bold block">04</span>
                     <span className="truncate block">COMMIT</span>
                   </div>
                 </div>
 
                 <div className="pt-2 border-t border-white/[0.05] flex items-center justify-between text-[10px] text-neutral-400">
-                  <span className="text-[#2EE6A0] flex items-center gap-1">
+                  <span className="text-[var(--accent-primary)] flex items-center gap-1">
                     <Check className="w-3 h-3" />
                     <span>{language === 'es' ? '0 Colisiones de Turno' : '0 Slot Collisions'}</span>
                   </span>
@@ -517,7 +517,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 key={aIdx}
                 className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.03] border border-white/[0.06] text-[10px] font-mono text-neutral-300"
               >
-                <Check className="w-2.5 h-2.5 text-[#2EE6A0]" />
+                <Check className="w-2.5 h-2.5 text-[var(--accent-primary)]" />
                 <span>{item}</span>
               </span>
             ))}
@@ -538,7 +538,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
           >
             <GithubIcon className="w-3.5 h-3.5 text-neutral-400 group-hover:text-white" />
             <span className="font-semibold">{language === 'es' ? 'Ver en GitHub' : 'View on GitHub'}</span>
-            <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-[#00F0FF] transition-colors" />
+            <ExternalLink className="w-3 h-3 text-neutral-500 group-hover:text-[var(--accent-secondary)] transition-colors" />
           </a>
         </div>
       </div>

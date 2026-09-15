@@ -58,7 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close popover when clicking outside
+  // Close popover when clicking outside or pressing Escape
   useEffect(() => {
     if (!isThemePopoverOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
@@ -66,8 +66,17 @@ export const Navbar: React.FC<NavbarProps> = ({
         setIsThemePopoverOpen(false);
       }
     };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsThemePopoverOpen(false);
+      }
+    };
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isThemePopoverOpen]);
 
   const navLinks = [

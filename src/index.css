@@ -13,6 +13,7 @@
     --accent-secondary: #00F0FF;
     --accent-hover: #26c589;
     --accent-glow: rgba(46, 230, 160, 0.35);
+    --glow-color: rgba(46, 230, 160, 0.35);
     --accent-glow-secondary: rgba(0, 240, 255, 0.35);
     --accent-gradient: linear-gradient(135deg, #2EE6A0 0%, #00F0FF 100%);
     --accent-gradient-primary: linear-gradient(to right, #2EE6A0, #5ef2ba, #00F0FF);
@@ -29,28 +30,70 @@
     --text-muted: #94A3B8;
   }
 
-  /* Ultraviolet Pulse Palette */
+  /* Ultraviolet Pulse Palette (Dark Mode) */
   [data-palette="ultraviolet"] {
     --accent-primary: #A855F7;
     --accent-secondary: #38BDF8;
     --accent-hover: #9333ea;
     --accent-glow: rgba(168, 85, 247, 0.35);
+    --glow-color: rgba(168, 85, 247, 0.35);
     --accent-glow-secondary: rgba(56, 189, 248, 0.35);
     --accent-gradient: linear-gradient(135deg, #A855F7 0%, #38BDF8 100%);
     --accent-gradient-primary: linear-gradient(to right, #A855F7, #c084fc, #38BDF8);
     --accent-gradient-secondary: linear-gradient(to right, #38BDF8, #818cf8, #A855F7);
   }
 
-  /* Solar Amber Palette */
+  /* Solar Amber Palette (Dark Mode) */
   [data-palette="amber"] {
     --accent-primary: #F59E0B;
     --accent-secondary: #F97316;
     --accent-hover: #d97706;
     --accent-glow: rgba(245, 158, 11, 0.35);
+    --glow-color: rgba(245, 158, 11, 0.35);
     --accent-glow-secondary: rgba(249, 115, 22, 0.35);
     --accent-gradient: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
     --accent-gradient-primary: linear-gradient(to right, #F59E0B, #fbbf24, #F97316);
     --accent-gradient-secondary: linear-gradient(to right, #F97316, #fb923c, #F59E0B);
+  }
+
+  /* Luxury Studio Light Mode - Calibrated Palettes (AAA Contrast) */
+  html.light[data-palette="emerald"],
+  html:not(.dark)[data-palette="emerald"] {
+    --accent-primary: #059669;
+    --accent-secondary: #0284C7;
+    --accent-hover: #047857;
+    --accent-glow: rgba(5, 150, 105, 0.22);
+    --glow-color: rgba(5, 150, 105, 0.22);
+    --accent-glow-secondary: rgba(2, 132, 199, 0.22);
+    --accent-gradient: linear-gradient(135deg, #059669 0%, #0284C7 100%);
+    --accent-gradient-primary: linear-gradient(to right, #059669, #10b981, #0284C7);
+    --accent-gradient-secondary: linear-gradient(to right, #0284C7, #38bdf8, #059669);
+  }
+
+  html.light[data-palette="ultraviolet"],
+  html:not(.dark)[data-palette="ultraviolet"] {
+    --accent-primary: #7E22CE;
+    --accent-secondary: #0284C7;
+    --accent-hover: #6b21a8;
+    --accent-glow: rgba(126, 34, 206, 0.22);
+    --glow-color: rgba(126, 34, 206, 0.22);
+    --accent-glow-secondary: rgba(2, 132, 199, 0.22);
+    --accent-gradient: linear-gradient(135deg, #7E22CE 0%, #0284C7 100%);
+    --accent-gradient-primary: linear-gradient(to right, #7E22CE, #a855f7, #0284C7);
+    --accent-gradient-secondary: linear-gradient(to right, #0284C7, #38bdf8, #7E22CE);
+  }
+
+  html.light[data-palette="amber"],
+  html:not(.dark)[data-palette="amber"] {
+    --accent-primary: #D97706;
+    --accent-secondary: #EA580C;
+    --accent-hover: #b45309;
+    --accent-glow: rgba(217, 119, 6, 0.22);
+    --glow-color: rgba(217, 119, 6, 0.22);
+    --accent-glow-secondary: rgba(234, 88, 12, 0.22);
+    --accent-gradient: linear-gradient(135deg, #D97706 0%, #EA580C 100%);
+    --accent-gradient-primary: linear-gradient(to right, #D97706, #f59e0b, #EA580C);
+    --accent-gradient-secondary: linear-gradient(to right, #EA580C, #f97316, #D97706);
   }
 
   /* Luxury Studio Light Mode Base */
@@ -273,22 +316,40 @@ html.light .border-white\/\[0\.08\],
 html:not(.dark) .border-white\/\[0\.08\],
 html.light .border-white\/\[0\.09\],
 html:not(.dark) .border-white\/\[0\.09\],
+html.light .border-white\/\[0\.07\],
+html:not(.dark) .border-white\/\[0\.07\],
 html.light .border-white\/\[0\.06\],
 html:not(.dark) .border-white\/\[0\.06\],
 html.light .border-white\/\[0\.05\],
 html:not(.dark) .border-white\/\[0\.05\],
+html.light .border-white\/5,
+html:not(.dark) .border-white\/5,
 html.light .border-white\/10,
 html:not(.dark) .border-white\/10,
+html.light .border-white\/\[0\.1\],
+html:not(.dark) .border-white\/\[0\.1\],
 html.light .border-white\/15,
-html:not(.dark) .border-white\/15 {
+html:not(.dark) .border-white\/15,
+html.light .border-white\/\[0\.12\],
+html:not(.dark) .border-white\/\[0\.12\],
+html.light .border-white\/20,
+html:not(.dark) .border-white\/20,
+html.light .border-white\/25,
+html:not(.dark) .border-white\/25 {
   border-color: rgba(226, 232, 240, 0.9) !important;
 }
 
-/* Light mode pills */
+/* Light mode pills and cards */
+html.light .bg-white\/\[0\.02\],
+html:not(.dark) .bg-white\/\[0\.02\],
 html.light .bg-white\/\[0\.03\],
 html:not(.dark) .bg-white\/\[0\.03\],
 html.light .bg-white\/\[0\.04\],
 html:not(.dark) .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.05\],
+html:not(.dark) .bg-white\/\[0\.05\],
+html.light .bg-white\/\[0\.06\],
+html:not(.dark) .bg-white\/\[0\.06\],
 html.light .bg-white\/5,
 html:not(.dark) .bg-white\/5 {
   background-color: rgba(15, 23, 42, 0.04) !important;
@@ -318,36 +379,76 @@ html:not(.dark) .text-white {
   color: #0F172A !important;
 }
 
-/* Preserve bright/white text inside solid accent buttons and dark terminals */
+/* Preserve bright/white text inside solid accent buttons, dark overlays, preloader, and dark terminals */
+html.light [data-preloader] .text-white,
+html:not(.dark) [data-preloader] .text-white,
+html.light [data-preloader] [class*="text-white"],
+html:not(.dark) [data-preloader] [class*="text-white"],
+html.light [class*="bg-[#050508]"] .text-white,
+html:not(.dark) [class*="bg-[#050508]"] .text-white,
+html.light [class*="bg-[#050508]"] [class*="text-white"],
+html:not(.dark) [class*="bg-[#050508]"] [class*="text-white"],
 html.light button[class*="bg-[#2EE6A0]"] .text-white,
 html:not(.dark) button[class*="bg-[#2EE6A0]"] .text-white,
 html.light a[class*="bg-[#2EE6A0]"] .text-white,
 html:not(.dark) a[class*="bg-[#2EE6A0]"] .text-white,
+html.light [class*="emeraldNeon"].text-white,
+html:not(.dark) [class*="emeraldNeon"].text-white,
+html.light [class*="emeraldNeon"] .text-white,
+html:not(.dark) [class*="emeraldNeon"] .text-white,
+html.light [class*="cyanNeon"].text-white,
+html:not(.dark) [class*="cyanNeon"].text-white,
+html.light [class*="cyanNeon"] .text-white,
+html:not(.dark) [class*="cyanNeon"] .text-white,
 html.light .bg-black .text-white,
+html.light .bg-black.text-white,
 html:not(.dark) .bg-black .text-white,
+html:not(.dark) .bg-black.text-white,
 html.light .bg-slate-900 .text-white,
+html.light .bg-slate-900.text-white,
 html:not(.dark) .bg-slate-900 .text-white,
+html:not(.dark) .bg-slate-900.text-white,
 html.light [class*="bg-accent"] .text-white,
 html:not(.dark) [class*="bg-accent"] .text-white,
+html.light [class*="var(--accent"].text-white,
+html:not(.dark) [class*="var(--accent"].text-white,
+html.light [class*="var(--accent"] .text-white,
+html:not(.dark) [class*="var(--accent"] .text-white,
+html.light [class*="from-[var(--accent"].text-white,
+html:not(.dark) [class*="from-[var(--accent"].text-white,
+html.light [class*="from-[var(--accent"] .text-white,
+html:not(.dark) [class*="from-[var(--accent"] .text-white,
+html.light [style*="--accent"].text-white,
+html:not(.dark) [style*="--accent"].text-white,
+html.light [style*="--accent"] .text-white,
+html:not(.dark) [style*="--accent"] .text-white,
+html.light [class*="bg-[#005c4b]"].text-white,
+html:not(.dark) [class*="bg-[#005c4b]"].text-white,
+html.light [class*="bg-[#005c4b]"] .text-white,
+html:not(.dark) [class*="bg-[#005c4b]"] .text-white,
 html.light pre .text-white,
 html:not(.dark) pre .text-white,
 html.light [class*="bg-[#0c0c12]"] .text-white,
-html:not(.dark) [class*="bg-[#0c0c12]"] .text-white {
+html:not(.dark) [class*="bg-[#0c0c12]"] .text-white,
+html.light [class*="bg-[#0c0d14]"] .text-white,
+html:not(.dark) [class*="bg-[#0c0d14]"] .text-white,
+html.light [class*="bg-[#202c33]"] .text-white,
+html:not(.dark) [class*="bg-[#202c33]"] .text-white {
   color: #FFFFFF !important;
 }
 
 /* Body & neutral texts */
-html.light .text-neutral-200,
-html:not(.dark) .text-neutral-200,
-html.light .text-neutral-300,
-html:not(.dark) .text-neutral-300 {
+html.light .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *),
+html:not(.dark) .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *),
+html.light .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *),
+html:not(.dark) .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *) {
   color: #334155 !important;
 }
 
-html.light .text-neutral-400,
-html:not(.dark) .text-neutral-400,
-html.light .text-neutral-500,
-html:not(.dark) .text-neutral-500 {
+html.light .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *),
+html:not(.dark) .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *),
+html.light .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *),
+html:not(.dark) .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *) {
   color: #64748B !important;
 }
 
@@ -355,7 +456,11 @@ html:not(.dark) .text-neutral-500 {
 html.light pre,
 html:not(.dark) pre,
 html.light [class*="bg-[#0c0c12]"],
-html:not(.dark) [class*="bg-[#0c0c12]"] {
+html:not(.dark) [class*="bg-[#0c0c12]"],
+html.light [class*="bg-[#0c0d14]"],
+html:not(.dark) [class*="bg-[#0c0d14]"],
+html.light [class*="bg-[#202c33]"],
+html:not(.dark) [class*="bg-[#202c33]"] {
   background-color: #0F172A !important;
   color: #F1F5F9 !important;
   border-color: rgba(51, 65, 85, 0.4) !important;
@@ -364,13 +469,17 @@ html:not(.dark) [class*="bg-[#0c0c12]"] {
 html.light [class*="bg-[#0c0c12]"] .text-neutral-400,
 html:not(.dark) [class*="bg-[#0c0c12]"] .text-neutral-400,
 html.light [class*="bg-[#0c0c12]"] .text-neutral-300,
-html:not(.dark) [class*="bg-[#0c0c12]"] .text-neutral-300 {
+html:not(.dark) [class*="bg-[#0c0c12]"] .text-neutral-300,
+html.light [class*="bg-[#0c0d14]"] .text-neutral-400,
+html:not(.dark) [class*="bg-[#0c0d14]"] .text-neutral-400,
+html.light [class*="bg-[#0c0d14]"] .text-neutral-300,
+html:not(.dark) [class*="bg-[#0c0d14]"] .text-neutral-300 {
   color: #CBD5E1 !important;
 }
 
 /* Light mode form elements */
-html.light input:not([type="checkbox"]):not([type="radio"]),
-html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+html.light input:not([type="checkbox"]):not([type="radio"]):not(.bg-transparent),
+html:not(.dark) input:not([type="checkbox"]):not([type="radio"]):not(.bg-transparent),
 html.light textarea,
 html:not(.dark) textarea,
 html.light select,

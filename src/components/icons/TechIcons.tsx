@@ -212,22 +212,22 @@ export const FramerMotionIcon: React.FC<TechIconProps> = ({ className = "w-5 h-5
 
 // 20. POO & SOLID (Modular Object-Oriented Engineering)
 export const OopSolidIcon: React.FC<TechIconProps> = ({ className = "w-5 h-5" }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="#00F0FF" strokeWidth="1.8">
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="var(--accent-secondary)" strokeWidth="1.8">
     <polygon points="12 2 21 7 21 17 12 22 3 17 3 7 12 2" />
-    <line x1="12" y1="2" x2="12" y2="22" stroke="#2EE6A0" />
-    <line x1="3" y1="7" x2="21" y2="17" stroke="#00F0FF" />
-    <line x1="21" y1="7" x2="3" y2="17" stroke="#00F0FF" />
-    <circle cx="12" cy="12" r="3.5" fill="#09090f" stroke="#2EE6A0" strokeWidth="2" />
+    <line x1="12" y1="2" x2="12" y2="22" stroke="var(--accent-primary)" />
+    <line x1="3" y1="7" x2="21" y2="17" stroke="var(--accent-secondary)" />
+    <line x1="21" y1="7" x2="3" y2="17" stroke="var(--accent-secondary)" />
+    <circle cx="12" cy="12" r="3.5" fill="#09090f" stroke="var(--accent-primary)" strokeWidth="2" />
   </svg>
 );
 
 // 21. Clean Architecture (Concentric layers & separation of concerns)
 export const CleanArchitectureIcon: React.FC<TechIconProps> = ({ className = "w-5 h-5" }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="9.5" stroke="#2EE6A0" strokeWidth="1.5" strokeDasharray="3 2" />
-    <circle cx="12" cy="12" r="6.5" stroke="#00F0FF" strokeWidth="1.8" />
-    <circle cx="12" cy="12" r="3.5" fill="#2EE6A0" stroke="#ffffff" strokeWidth="1.5" />
-    <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3" stroke="#2EE6A0" strokeWidth="1.8" strokeLinecap="round" />
+    <circle cx="12" cy="12" r="9.5" stroke="var(--accent-primary)" strokeWidth="1.5" strokeDasharray="3 2" />
+    <circle cx="12" cy="12" r="6.5" stroke="var(--accent-secondary)" strokeWidth="1.8" />
+    <circle cx="12" cy="12" r="3.5" fill="var(--accent-primary)" stroke="#ffffff" strokeWidth="1.5" />
+    <path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3" stroke="var(--accent-primary)" strokeWidth="1.8" strokeLinecap="round" />
   </svg>
 );
 
@@ -512,10 +512,10 @@ export const getTechSkillMeta = (skillName: string): TechSkillMeta => {
   if (normalized.includes('poo') || normalized.includes('solid') || /(^|\W)oop(\W|$)/i.test(normalized)) {
     return {
       icon: OopSolidIcon,
-      brandColor: '#00F0FF',
-      glowColor: 'rgba(0, 240, 255, 0.55)',
-      borderHoverClass: 'hover:border-[#00F0FF]/70',
-      bgHoverClass: 'hover:bg-[#00F0FF]/[0.08]',
+      brandColor: 'var(--accent-secondary)',
+      glowColor: 'var(--accent-glow-secondary)',
+      borderHoverClass: 'hover:border-[var(--accent-secondary)]/70',
+      bgHoverClass: 'hover:bg-[var(--accent-secondary)]/[0.08]',
     };
   }
 
@@ -523,10 +523,10 @@ export const getTechSkillMeta = (skillName: string): TechSkillMeta => {
   if (normalized.includes('clean architecture') || normalized.includes('arquitectura') || normalized.includes('patrones de diseño')) {
     return {
       icon: CleanArchitectureIcon,
-      brandColor: '#2EE6A0',
-      glowColor: 'rgba(46, 230, 160, 0.55)',
-      borderHoverClass: 'hover:border-[#2EE6A0]/70',
-      bgHoverClass: 'hover:bg-[#2EE6A0]/[0.08]',
+      brandColor: 'var(--accent-primary)',
+      glowColor: 'var(--accent-glow)',
+      borderHoverClass: 'hover:border-[var(--accent-primary)]/70',
+      bgHoverClass: 'hover:bg-[var(--accent-primary)]/[0.08]',
     };
   }
 
@@ -582,9 +582,9 @@ export const getTechSkillMeta = (skillName: string): TechSkillMeta => {
   // Default fallback
   return {
     icon: CleanArchitectureIcon,
-    brandColor: '#2EE6A0',
-    glowColor: 'rgba(46, 230, 160, 0.5)',
-    borderHoverClass: 'hover:border-[#2EE6A0]/70',
-    bgHoverClass: 'hover:bg-[#2EE6A0]/[0.07]',
+    brandColor: 'var(--accent-primary)',
+    glowColor: 'var(--accent-glow)',
+    borderHoverClass: 'hover:border-[var(--accent-primary)]/70',
+    bgHoverClass: 'hover:bg-[var(--accent-primary)]/[0.07]',
   };
 };

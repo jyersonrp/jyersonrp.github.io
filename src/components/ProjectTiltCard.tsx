@@ -48,7 +48,7 @@ export const ProjectTiltCard: React.FC<ProjectTiltCardProps> = ({
 
       card.style.transform = `perspective(1200px) rotateX(${currentRotX.toFixed(3)}deg) rotateY(${currentRotY.toFixed(3)}deg) translateZ(4px)`;
       glare.style.opacity = currentGlareOpacity.toFixed(3);
-      glare.style.background = `radial-gradient(circle 440px at ${currentGlareX.toFixed(1)}% ${currentGlareY.toFixed(1)}%, rgba(255, 255, 255, 0.22), rgba(46, 230, 160, 0.1) 40%, transparent 75%)`;
+      glare.style.background = `radial-gradient(circle 440px at ${currentGlareX.toFixed(1)}% ${currentGlareY.toFixed(1)}%, rgba(255, 255, 255, 0.22), var(--accent-glow, rgba(46, 230, 160, 0.1)) 40%, transparent 75%)`;
 
       // Check if animation has settled to idle
       const isSettled =

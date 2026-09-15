@@ -51,11 +51,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
     // Trigger subtle confetti celebration
     try {
+      const pCol = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim() || '#2EE6A0';
+      const sCol = getComputedStyle(document.documentElement).getPropertyValue('--accent-secondary').trim() || '#00F0FF';
       confetti({
         particleCount: 40,
         spread: 60,
         origin: { y: 0.8 },
-        colors: ['#2EE6A0', '#00F0FF', '#ffffff']
+        colors: [pCol, sCol, '#ffffff']
       });
     } catch (e) {
       // ignore
@@ -140,11 +142,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
     // Trigger subtle celebratory confetti
     try {
+      const pCol = getComputedStyle(document.documentElement).getPropertyValue('--accent-primary').trim() || '#2EE6A0';
+      const sCol = getComputedStyle(document.documentElement).getPropertyValue('--accent-secondary').trim() || '#00F0FF';
       confetti({
         particleCount: 50,
         spread: 70,
         origin: { y: 0.7 },
-        colors: ['#2EE6A0', '#00F0FF', '#ffffff']
+        colors: [pCol, sCol, '#ffffff']
       });
     } catch (err) {
       // ignore
@@ -210,17 +214,17 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   return (
     <section id="contact" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
       {/* Background ambient radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#2EE6A0]/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[var(--accent-primary)]/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto">
         {/* Editorial Section Header */}
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-4">
-            <div className="h-px w-10 sm:w-14 bg-gradient-to-l from-[#2EE6A0]/50 to-transparent" />
-            <span className="text-[11px] font-mono tracking-[0.25em] text-emeraldNeon uppercase font-semibold">
+            <div className="h-px w-10 sm:w-14 bg-gradient-to-l from-[var(--accent-primary)]/50 to-transparent" />
+            <span className="text-[11px] font-mono tracking-[0.25em] text-[var(--accent-primary)] uppercase font-semibold">
               06 / {language === 'es' ? 'CONTACTO & CONTRATACIÓN' : 'GET IN TOUCH & HIRE'}
             </span>
-            <div className="h-px w-10 sm:w-14 bg-gradient-to-r from-emeraldNeon/50 to-transparent" />
+            <div className="h-px w-10 sm:w-14 bg-gradient-to-r from-[var(--accent-primary)]/50 to-transparent" />
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">

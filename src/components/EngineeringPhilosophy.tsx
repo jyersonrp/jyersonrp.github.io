@@ -46,7 +46,7 @@ const CodeSnippetView: React.FC<{ code: string; filename: string }> = ({ code, f
       } else if (tok.startsWith('"') || tok.startsWith("'") || tok.startsWith('`')) {
         elements.push(<span key={match.index} className="text-[#38bdf8]">{tok}</span>);
       } else if (/^(?:class|def|return|if|else|elif|for|while|import|from|as|async|await|with|yield|pass|assert|True|False|None)$/.test(tok)) {
-        elements.push(<span key={match.index} className="text-[#2EE6A0] font-semibold">{tok}</span>);
+        elements.push(<span key={match.index} className="text-[var(--accent-primary)] font-semibold">{tok}</span>);
       } else if (/^(?:VisionDetector|OnnxYoloAdapter|BoundingBox|Protocol|InferenceSession|AsyncRateLimiter|WebhookSecurityVerifier|SecuritySignatureMismatchError|bytes|str|float|int|List)$/.test(tok)) {
         elements.push(<span key={match.index} className="text-[#c084fc] font-medium">{tok}</span>);
       } else if (tok === 'self') {
@@ -71,7 +71,7 @@ const CodeSnippetView: React.FC<{ code: string; filename: string }> = ({ code, f
       {/* File Header */}
       <div className="flex items-center justify-between px-4 py-2.5 bg-white/[0.03] border-b border-white/[0.06] text-xs font-mono">
         <div className="flex items-center gap-2">
-          <Terminal className="w-3.5 h-3.5 text-[#2EE6A0]" />
+          <Terminal className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
           <span className="text-neutral-300 font-medium">{filename}</span>
         </div>
         <div className="flex items-center gap-1.5">

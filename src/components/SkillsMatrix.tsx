@@ -30,7 +30,7 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
-      className="p-5 rounded-2xl border transition-all duration-300 flex flex-col justify-between h-full group/card relative overflow-hidden cursor-default outline-none focus-visible:ring-2 focus-visible:ring-[#2EE6A0]/50"
+      className="p-5 rounded-2xl border transition-all duration-300 flex flex-col justify-between h-full group/card relative overflow-hidden cursor-default outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent-primary)]/50"
       style={{
         borderColor: isHovered
           ? meta.brandColor
@@ -65,8 +65,16 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
           <div
             className="w-10 h-10 rounded-xl flex items-center justify-center border transition-all duration-300"
             style={{
-              backgroundColor: isHovered ? `${meta.brandColor}18` : 'rgba(255, 255, 255, 0.03)',
-              borderColor: isHovered ? `${meta.brandColor}65` : 'rgba(255, 255, 255, 0.08)',
+              backgroundColor: isHovered
+                ? (meta.brandColor.startsWith('var(')
+                    ? `color-mix(in srgb, ${meta.brandColor} 12%, transparent)`
+                    : `${meta.brandColor}18`)
+                : 'rgba(255, 255, 255, 0.03)',
+              borderColor: isHovered
+                ? (meta.brandColor.startsWith('var(')
+                    ? `color-mix(in srgb, ${meta.brandColor} 40%, transparent)`
+                    : `${meta.brandColor}65`)
+                : 'rgba(255, 255, 255, 0.08)',
               boxShadow: isHovered ? `0 0 16px ${meta.glowColor}` : 'none',
               transform: isHovered ? 'scale(1.08)' : 'scale(1)',
             }}
@@ -80,17 +88,16 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
           </div>
 
           {skill.highlight && (
-            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-medium tracking-wider bg-[#2EE6A0]/10 text-[#2EE6A0] border border-[#2EE6A0]/25 shadow-[0_0_8px_rgba(46,230,160,0.2)]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2EE6A0] animate-pulse" />
+            <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-mono font-medium tracking-wider bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] border border-[var(--accent-primary)]/25 shadow-[0_0_8px_var(--accent-glow)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse" />
               {language === 'es' ? 'CORE' : 'KEY'}
             </span>
           )}
         </div>
 
         <h4
-          className="font-sans font-bold text-white text-[15px] tracking-tight transition-colors duration-200"
+          className="font-sans font-bold text-slate-900 dark:text-white text-[15px] tracking-tight transition-colors duration-200"
           style={{
-            color: isHovered ? '#ffffff' : 'rgba(255, 255, 255, 0.92)',
             textShadow: isHovered ? `0 0 16px ${meta.glowColor}` : 'none',
           }}
         >
@@ -99,13 +106,13 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
       </div>
 
       {/* Card Footer: Level */}
-      <div className="mt-4 pt-3 border-t border-white/[0.05] flex items-center justify-between text-xs font-mono text-neutral-400">
+      <div className="mt-4 pt-3 border-t border-slate-200 dark:border-white/[0.05] flex items-center justify-between text-xs font-mono text-neutral-400">
         <div className="flex items-center gap-1.5">
           <CheckCircle2
             className="w-3.5 h-3.5 transition-colors duration-300"
-            style={{ color: isHovered ? meta.brandColor : '#00F0FF' }}
+            style={{ color: isHovered ? meta.brandColor : 'var(--accent-secondary)' }}
           />
-          <span className="text-[11px] text-neutral-300">{skill.level}</span>
+          <span className="text-[11px] text-slate-600 dark:text-neutral-300">{skill.level}</span>
         </div>
       </div>
     </div>
@@ -166,8 +173,8 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
               }}
               className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                 activeCategory === idx
-                  ? 'bg-white text-black font-semibold shadow-[0_0_25px_rgba(255,255,255,0.2)]'
-                  : 'bg-white/[0.03] text-neutral-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.08]'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-semibold shadow-md'
+                  : 'bg-slate-100 dark:bg-white/[0.03] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/70 dark:hover:bg-white/[0.06] border border-slate-200 dark:border-white/[0.08]'
               }`}
             >
               <span>{icons[idx]}</span>
@@ -181,7 +188,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
           {/* Subtle top card accent glow */}
           <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-70 pointer-events-none" />
 
-          <div className="mb-8 pb-6 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="mb-8 pb-6 border-b border-slate-200 dark:border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
               <h3 className="text-xl sm:text-2xl font-sans font-bold text-white tracking-tight">
                 {SKILL_CATEGORIES[activeCategory].title[language]}

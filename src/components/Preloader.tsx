@@ -187,6 +187,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
       {!isFinished && (
         <motion.div
           key="preloader-curtain"
+          data-preloader="true"
           initial={{ opacity: 1, y: 0 }}
           exit={{
             y: '-100%',
@@ -203,7 +204,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
 
           {/* Dynamic Laser Scanline Sweep Animation */}
           <div
-            className="absolute inset-x-0 h-28 pointer-events-none opacity-20 bg-gradient-to-b from-transparent via-[#2EE6A0]/20 to-transparent blur-sm animate-float"
+            className="absolute inset-x-0 h-28 pointer-events-none opacity-20 bg-gradient-to-b from-transparent via-[var(--accent-primary)]/20 to-transparent blur-sm animate-float"
             style={{ animationDuration: '3.5s' }}
           />
 
@@ -213,19 +214,19 @@ export const Preloader: React.FC<PreloaderProps> = ({
             style={{
               width: `${400 + progress * 3}px`,
               height: `${300 + progress * 2}px`,
-              background: `radial-gradient(circle, rgba(46,230,160,${0.06 + (progress / 100) * 0.12}) 0%, rgba(0,240,255,0.05) 50%, transparent 80%)`
+              background: `radial-gradient(circle, var(--accent-glow) 0%, var(--accent-glow-secondary, rgba(0,240,255,0.05)) 50%, transparent 80%)`
             }}
           />
 
           {/* Luminous Leading-Edge Laser Line on Shutter Curtain */}
-          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0] to-transparent shadow-[0_0_20px_#2EE6A0] pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent shadow-[0_0_20px_var(--accent-glow)] pointer-events-none" />
 
           {/* Top Status Bar & Navigation Telemetry */}
           <div className="relative z-10 flex items-center justify-between text-xs font-mono uppercase tracking-widest text-neutral-400 border-b border-white/[0.06] pb-4">
             <div className="flex items-center gap-3">
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#2EE6A0] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#2EE6A0] shadow-[0_0_8px_#2EE6A0]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-primary)] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-glow)]" />
               </span>
               <div className="flex items-center gap-2">
                 <span className="text-white font-bold tracking-wider">YERSON RODRÍGUEZ</span>
@@ -235,12 +236,12 @@ export const Preloader: React.FC<PreloaderProps> = ({
 
             <div className="hidden md:flex items-center gap-4 text-[11px] text-neutral-400">
               <div className="flex items-center gap-1.5">
-                <Terminal className="w-3.5 h-3.5 text-[#00F0FF]" />
+                <Terminal className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
                 <span className="text-neutral-300">CORE: PYTHON 3.11</span>
               </div>
               <span className="text-neutral-700">•</span>
               <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#2EE6A0]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                 <span className="text-neutral-300">CSP: STRICT</span>
               </div>
               <span className="text-neutral-700">•</span>
@@ -249,13 +250,13 @@ export const Preloader: React.FC<PreloaderProps> = ({
 
             <button
               onClick={handleSkip}
-              className="group flex items-center gap-1.5 text-neutral-400 hover:text-white transition-all border border-white/10 hover:border-[#2EE6A0]/50 px-3.5 py-1.5 rounded-full bg-white/[0.03] hover:bg-[#2EE6A0]/10 text-[10.5px] font-mono cursor-pointer active:scale-95"
+              className="group flex items-center gap-1.5 text-neutral-400 hover:text-white transition-all border border-white/10 hover:border-[var(--accent-primary)]/50 px-3.5 py-1.5 rounded-full bg-white/[0.03] hover:bg-[var(--accent-primary)]/10 text-[10.5px] font-mono cursor-pointer active:scale-95"
             >
               <span>{language === 'es' ? 'Saltar Intro' : 'Skip Intro'}</span>
               <kbd className="hidden sm:inline-block px-1.5 py-0.2 rounded bg-white/10 text-[9px] text-neutral-300">
                 ESC
               </kbd>
-              <ChevronRight className="w-3 h-3 text-[#2EE6A0] group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-3 h-3 text-[var(--accent-primary)] group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
 
@@ -264,18 +265,18 @@ export const Preloader: React.FC<PreloaderProps> = ({
             {/* Monumental Counter with Cyber-Luxury Aesthetic */}
             <div className="relative text-center select-none mb-4 sm:mb-6">
               {/* Backlight Glow Aura */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-80 h-32 sm:h-44 bg-[#2EE6A0]/20 rounded-full blur-[60px] pointer-events-none -z-10" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 sm:w-80 h-32 sm:h-44 bg-[var(--accent-primary)]/20 rounded-full blur-[60px] pointer-events-none -z-10" />
 
-              <div className="font-serif italic text-7xl sm:text-9xl md:text-[11rem] tracking-tight text-white leading-none font-extrabold select-none drop-shadow-[0_0_40px_rgba(46,230,160,0.35)] py-1">
+              <div className="font-serif italic text-7xl sm:text-9xl md:text-[11rem] tracking-tight text-white leading-none font-extrabold select-none drop-shadow-[0_0_40px_var(--accent-glow)] py-1">
                 {progress.toString().padStart(3, '0')}
-                <span className="text-2xl sm:text-4xl md:text-5xl font-sans not-italic font-bold text-[#2EE6A0] ml-2 inline-block align-baseline">
+                <span className="text-2xl sm:text-4xl md:text-5xl font-sans not-italic font-bold text-[var(--accent-primary)] ml-2 inline-block align-baseline">
                   %
                 </span>
               </div>
 
               {/* Dynamic Status Notification */}
               <div className="mt-2.5 text-xs sm:text-sm font-mono tracking-widest text-neutral-300 flex items-center justify-center gap-2.5 px-4 text-center">
-                <Sparkles className="w-3.5 h-3.5 text-[#00F0FF] animate-spin" style={{ animationDuration: '4s' }} />
+                <Sparkles className="w-3.5 h-3.5 text-[var(--accent-secondary)] animate-spin" style={{ animationDuration: '4s' }} />
                 <span className="font-medium tracking-[0.18em]">
                   {language === 'es' ? activeStageText.es : activeStageText.en}
                 </span>
@@ -286,7 +287,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
             <div className="w-full max-w-xl mx-auto px-4">
               <div className="w-full h-1.5 bg-white/[0.08] rounded-full overflow-hidden relative shadow-inner">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-[#2EE6A0] via-[#00F0FF] to-[#2EE6A0] rounded-full shadow-[0_0_15px_rgba(46,230,160,0.9)] relative"
+                  className="h-full bg-gradient-to-r from-[var(--accent-primary)] via-[var(--accent-secondary)] to-[var(--accent-primary)] rounded-full shadow-[0_0_15px_var(--accent-glow)] relative"
                   style={{ width: `${progress}%` }}
                   transition={{ ease: 'linear' }}
                 >
@@ -296,7 +297,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
 
               <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400 mt-2">
                 <span>000 // STANDBY</span>
-                <span className="text-[#2EE6A0] font-semibold">{progress} / 100 COMPLETED</span>
+                <span className="text-[var(--accent-primary)] font-semibold">{progress} / 100 COMPLETED</span>
                 <span>SYS // READY</span>
               </div>
             </div>
@@ -318,9 +319,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
                     key={module.id}
                     className={`p-3 rounded-xl border transition-all duration-300 backdrop-blur-md flex flex-col justify-between ${
                       isReady
-                        ? 'bg-[#2EE6A0]/[0.06] border-[#2EE6A0]/35 shadow-[0_0_15px_rgba(46,230,160,0.1)]'
+                        ? 'bg-[var(--accent-primary)]/[0.06] border-[var(--accent-primary)]/35 shadow-[0_0_15px_var(--accent-glow)]'
                         : isActive
-                        ? 'bg-[#00F0FF]/[0.05] border-[#00F0FF]/35 shadow-[0_0_12px_rgba(0,240,255,0.08)]'
+                        ? 'bg-[var(--accent-secondary)]/[0.05] border-[var(--accent-secondary)]/35 shadow-[0_0_12px_var(--accent-glow-secondary)]'
                         : 'bg-white/[0.02] border-white/[0.05] opacity-60'
                     }`}
                   >
@@ -329,9 +330,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
                         <div
                           className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 text-xs font-mono font-bold ${
                             isReady
-                              ? 'bg-[#2EE6A0]/20 text-[#2EE6A0]'
+                              ? 'bg-[var(--accent-primary)]/20 text-[var(--accent-primary)]'
                               : isActive
-                              ? 'bg-[#00F0FF]/20 text-[#00F0FF]'
+                              ? 'bg-[var(--accent-secondary)]/20 text-[var(--accent-secondary)]'
                               : 'bg-white/5 text-neutral-500'
                           }`}
                         >
@@ -365,9 +366,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
                         <span
                           className={`text-[9px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold ${
                             isReady
-                              ? 'bg-[#2EE6A0]/20 text-[#2EE6A0] border border-[#2EE6A0]/40'
+                              ? 'bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] border border-[var(--accent-primary)]/40'
                               : isActive
-                              ? 'bg-[#00F0FF]/20 text-[#00F0FF] border border-[#00F0FF]/40'
+                              ? 'bg-[var(--accent-secondary)]/20 text-[var(--accent-secondary)] border border-[var(--accent-secondary)]/40'
                               : 'bg-white/5 text-neutral-500 border border-white/10'
                           }`}
                         >
@@ -381,9 +382,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
                       <div
                         className={`h-full transition-all duration-150 rounded-full ${
                           isReady
-                            ? 'bg-[#2EE6A0] shadow-[0_0_8px_#2EE6A0]'
+                            ? 'bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-glow)]'
                             : isActive
-                            ? 'bg-gradient-to-r from-[#00F0FF] to-[#2EE6A0] shadow-[0_0_6px_#00F0FF]'
+                            ? 'bg-gradient-to-r from-[var(--accent-secondary)] to-[var(--accent-primary)] shadow-[0_0_6px_var(--accent-glow-secondary)]'
                             : 'bg-transparent'
                         }`}
                         style={{ width: `${subPct}%` }}
@@ -398,9 +399,9 @@ export const Preloader: React.FC<PreloaderProps> = ({
           {/* Bottom Telemetry & Engineering Credo */}
           <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-neutral-400 border-t border-white/[0.06] pt-4">
             <div className="flex items-center gap-3 text-[11px] text-neutral-300">
-              <span className="text-[#2EE6A0] font-semibold">UDO • 10/10 POO</span>
+              <span className="text-[var(--accent-primary)] font-semibold">UDO • 10/10 POO</span>
               <span className="text-neutral-700">•</span>
-              <span className="text-[#00F0FF]">C1 ENGLISH</span>
+              <span className="text-[var(--accent-secondary)]">C1 ENGLISH</span>
               <span className="text-neutral-700">•</span>
               <span className="text-neutral-400">REACT + THREE.JS</span>
             </div>

@@ -97,7 +97,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           </div>
           <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
             isAlarmMode
-              ? 'bg-[#2EE6A0]/15 text-[#2EE6A0] border border-[#2EE6A0]/40 animate-pulse'
+              ? 'bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/40 animate-pulse'
               : 'bg-white/[0.06] text-neutral-400 border border-white/[0.08]'
           }`}>
             {isAlarmMode
@@ -114,10 +114,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.85)_100%)] pointer-events-none" />
 
         {/* Reticle grid marks in corners */}
-        <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-[#2EE6A0]/50 pointer-events-none" />
-        <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-[#00F0FF]/50 pointer-events-none" />
-        <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-[#00F0FF]/50 pointer-events-none" />
-        <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-[#2EE6A0]/50 pointer-events-none" />
+        <div className="absolute top-4 left-4 w-5 h-5 border-t-2 border-l-2 border-[var(--accent-primary)]/50 pointer-events-none" />
+        <div className="absolute top-4 right-4 w-5 h-5 border-t-2 border-r-2 border-[var(--accent-secondary)]/50 pointer-events-none" />
+        <div className="absolute bottom-4 left-4 w-5 h-5 border-b-2 border-l-2 border-[var(--accent-secondary)]/50 pointer-events-none" />
+        <div className="absolute bottom-4 right-4 w-5 h-5 border-b-2 border-r-2 border-[var(--accent-primary)]/50 pointer-events-none" />
 
         {/* Center Crosshair */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 pointer-events-none opacity-25">
@@ -129,11 +129,11 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
         {isAlarmMode ? (
           <>
             {/* Dynamic Bounding Box 1: Verified Target */}
-            <div className="absolute top-8 left-10 sm:left-16 w-32 sm:w-40 h-36 sm:h-44 border-2 border-[#2EE6A0] bg-[#2EE6A0]/15 shadow-[0_0_20px_rgba(46,230,160,0.25)] rounded-lg p-1.5 transition-all duration-300">
-              <div className="inline-flex items-center gap-1 bg-[#2EE6A0] text-black font-extrabold text-[8.5px] px-1.5 py-0.5 rounded tracking-wider shadow">
+            <div className="absolute top-8 left-10 sm:left-16 w-32 sm:w-40 h-36 sm:h-44 border-2 border-[var(--accent-primary)] bg-[var(--accent-primary)]/15 shadow-[0_0_20px_var(--accent-glow)] rounded-lg p-1.5 transition-all duration-300">
+              <div className="inline-flex items-center gap-1 bg-[var(--accent-primary)] text-black font-extrabold text-[8.5px] px-1.5 py-0.5 rounded tracking-wider shadow">
                 <span>{currentCam.objectType}</span>
               </div>
-              <div className="mt-1 flex flex-col gap-0.5 text-[8px] text-[#2EE6A0] font-mono">
+              <div className="mt-1 flex flex-col gap-0.5 text-[8px] text-[var(--accent-primary)] font-mono">
                 <span>TRACK: [x:320, y:180]</span>
                 <span>YOLOv8 ONNX RUNTIME</span>
               </div>
@@ -153,8 +153,8 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           /* ECO Standby Mode Overlay */
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="bg-black/80 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/10 text-center space-y-1">
-              <div className="text-[#2EE6A0] text-xs font-bold flex items-center justify-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#2EE6A0] animate-ping" />
+              <div className="text-[var(--accent-primary)] text-xs font-bold flex items-center justify-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] animate-ping" />
                 <span>ECO 1 FPS STANDBY</span>
               </div>
               <div className="text-[10px] text-neutral-400">
@@ -170,17 +170,17 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
         <div className="relative z-10 flex items-center justify-between text-[10px]">
           <div className="flex items-center gap-2 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/[0.08]">
             <span className="text-neutral-400">FPS:</span>
-            <span className={`font-bold ${isAlarmMode ? 'text-[#2EE6A0]' : 'text-neutral-300'}`}>
+            <span className={`font-bold ${isAlarmMode ? 'text-[var(--accent-primary)]' : 'text-neutral-300'}`}>
               {isAlarmMode ? '30.2 FPS' : '1.0 FPS'}
             </span>
             <span className="text-neutral-600">•</span>
             <span className="text-neutral-400">LAT:</span>
-            <span className="text-[#00F0FF] font-semibold">{isAlarmMode ? '64ms' : '8ms'}</span>
+            <span className="text-[var(--accent-secondary)] font-semibold">{isAlarmMode ? '64ms' : '8ms'}</span>
           </div>
 
           <div className="flex items-center gap-2 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/[0.08]">
             <span className="text-neutral-400">CPU LOAD:</span>
-            <span className={`font-bold ${isAlarmMode ? 'text-amber-400' : 'text-[#2EE6A0]'}`}>
+            <span className={`font-bold ${isAlarmMode ? 'text-amber-400' : 'text-[var(--accent-primary)]'}`}>
               {isAlarmMode ? '18.4% (ONNX)' : '3.1% (ECO)'}
             </span>
           </div>
@@ -191,7 +191,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           <div className="bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/[0.08] text-neutral-300">
             {currentCam.location}
           </div>
-          <div className="bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/[0.08] text-[#2EE6A0] font-semibold">
+          <div className="bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/[0.08] text-[var(--accent-primary)] font-semibold">
             {isAlarmMode
               ? (language === 'es' ? 'MOG2: MOVIMIENTO DETECTADO' : 'MOG2: MOTION DETECTED')
               : (language === 'es' ? 'MOG2: EN ESPERA (STANDBY)' : 'MOG2: STANDBY')}
@@ -229,7 +229,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           }}
           className={`px-3 py-1.5 rounded-lg text-[10.5px] font-semibold transition-all flex items-center gap-2 shadow-sm ${
             isAlarmMode
-              ? 'bg-[#2EE6A0] text-black hover:bg-[#26c589]'
+              ? 'bg-[var(--accent-primary)] text-black hover:brightness-110'
               : 'bg-white/[0.08] text-white hover:bg-white/[0.15] border border-white/[0.1]'
           }`}
         >
@@ -264,7 +264,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-[#2EE6A0] border border-emerald-500/30 text-[10.5px] font-medium font-mono">
+          <span className="px-2.5 py-0.5 rounded-full bg-[var(--accent-primary)]/15 text-[var(--accent-primary)] border border-[var(--accent-primary)]/30 text-[10.5px] font-medium font-mono">
             {language === 'es' ? '● Presupuesto Enviado' : '● Quotation Sent'}
           </span>
         </div>
@@ -275,7 +275,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
         {/* System Activity Entry */}
         <div className="flex items-center justify-between text-[10.5px] font-mono text-neutral-400 pb-2 border-b border-white/[0.06]">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-secondary)]" />
             <span>
               {language === 'es'
                 ? 'Sistema Odoo (Automático) > WhatsApp Meta Cloud API'
@@ -286,15 +286,15 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
         </div>
 
         {/* WhatsApp Sent Message Bubble (Chatter Integration) */}
-        <div className="rounded-xl p-3.5 bg-[#121b18] border border-emerald-500/20 space-y-3 relative overflow-hidden">
+        <div className="rounded-xl p-3.5 bg-[#121b18] border border-white/[0.08] space-y-3 relative overflow-hidden">
           {/* Subtle WhatsApp top tag */}
           <div className="flex items-center justify-between text-[11px]">
-            <span className="font-semibold text-[#2EE6A0] flex items-center gap-1.5">
+            <span className="font-semibold text-[var(--accent-primary)] flex items-center gap-1.5">
               <span>{language === 'es' ? 'Mensaje HSM WhatsApp' : 'WhatsApp HSM Template'}</span>
               <span className="text-[10px] text-neutral-400 font-mono font-normal">a +58 412 892 1044</span>
             </span>
-            <span className="text-[10.5px] text-[#00F0FF] flex items-center gap-1 font-mono">
-              <CheckCheck className="w-3.5 h-3.5 text-[#00F0FF]" />
+            <span className="text-[10.5px] text-[var(--accent-secondary)] flex items-center gap-1 font-mono">
+              <CheckCheck className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
               <span>{language === 'es' ? 'Leído' : 'Read'}</span>
             </span>
           </div>
@@ -306,7 +306,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
           </p>
 
           {/* Embedded PDF Invoice Card (Generated via in-RAM BytesIO) */}
-          <div className="p-3 rounded-xl bg-black/60 border border-white/[0.1] hover:border-[#2EE6A0]/40 transition-colors flex items-center justify-between gap-3">
+          <div className="p-3 rounded-xl bg-black/60 border border-white/[0.1] hover:border-[var(--accent-primary)]/40 transition-colors flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               <div className="w-9 h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5 text-rose-400" />
@@ -316,7 +316,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
                   {language === 'es' ? 'Presupuesto_SO-2025-084.pdf' : 'Quotation_SO-2025-084.pdf'}
                 </div>
                 <div className="text-[10.5px] font-mono text-neutral-400 flex items-center gap-2">
-                  <span className="text-[#2EE6A0] font-bold">1,428 KB (RAM Stream)</span>
+                  <span className="text-[var(--accent-primary)] font-bold">1,428 KB (RAM Stream)</span>
                   <span className="text-neutral-600">•</span>
                   <span className="text-neutral-400">$1,450.00 USD</span>
                 </div>
@@ -328,9 +328,9 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
                 playSound('open');
                 setShowPdfModal(true);
               }}
-              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#2EE6A0]/20 to-[#00F0FF]/20 hover:from-[#2EE6A0]/30 hover:to-[#00F0FF]/30 border border-[#2EE6A0]/40 text-xs font-mono text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 hover:from-[var(--accent-primary)]/30 hover:to-[var(--accent-secondary)]/30 border border-[var(--accent-primary)]/40 text-xs font-mono text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm"
             >
-              <Eye className="w-3.5 h-3.5 text-[#2EE6A0]" />
+              <Eye className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span className="text-[11px] font-semibold">{language === 'es' ? 'Previsualizar PDF' : 'Preview PDF'}</span>
             </button>
           </div>
@@ -339,19 +339,19 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
         {/* Cryptographic & Memory Guarantee Badges */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 font-mono text-[10.5px]">
           <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center gap-2 text-neutral-300">
-            <Lock className="w-3.5 h-3.5 text-[#2EE6A0] shrink-0" />
+            <Lock className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
             <div className="truncate">
               <span className="text-neutral-400">HMAC-SHA256: </span>
-              <span className="text-[#2EE6A0] font-semibold">
+              <span className="text-[var(--accent-primary)] font-semibold">
                 {language === 'es' ? 'VALIDADO (sha256=8f4b...)' : 'VALIDATED (sha256=8f4b...)'}
               </span>
             </div>
           </div>
           <div className="p-2 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center gap-2 text-neutral-300">
-            <Zap className="w-3.5 h-3.5 text-[#00F0FF] shrink-0" />
+            <Zap className="w-3.5 h-3.5 text-[var(--accent-secondary)] shrink-0" />
             <div className="truncate">
               <span className="text-neutral-400">{language === 'es' ? 'Disco: ' : 'Disk: '}</span>
-              <span className="text-[#00F0FF] font-semibold">
+              <span className="text-[var(--accent-secondary)] font-semibold">
                 {language === 'es' ? '0 bytes escritos (100% RAM)' : '0 bytes written (100% RAM)'}
               </span>
             </div>
@@ -361,7 +361,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
 
       {/* In-RAM PDF Interactive Preview Drawer */}
       {showPdfModal && (
-        <div className="p-4 rounded-2xl bg-[#0c0d14] border border-[#2EE6A0]/30 shadow-2xl space-y-3 font-sans animate-in fade-in duration-200">
+        <div className="p-4 rounded-2xl bg-[#0c0d14] border border-[var(--accent-primary)]/30 shadow-2xl space-y-3 font-sans animate-in fade-in duration-200">
           <div className="flex items-center justify-between pb-2 border-b border-white/10">
             <div className="flex items-center gap-2">
               <FileText className="w-4 h-4 text-rose-400" />
@@ -448,7 +448,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
         {/* Dynamic Island / Speaker Pill */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-20 flex items-center justify-center">
           <div className="w-2.5 h-2.5 rounded-full bg-[#181822] mr-2" />
-          <div className="w-1 h-1 rounded-full bg-[#2EE6A0]" />
+          <div className="w-1 h-1 rounded-full bg-[var(--accent-primary)]" />
         </div>
 
         {/* Screen Content Wrapper */}
@@ -472,9 +472,9 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
               <div>
                 <div className="text-xs font-semibold text-white flex items-center gap-1">
                   <span>Glam Nails Studio</span>
-                  <CheckCircle className="w-3 h-3 text-[#2EE6A0]" />
+                  <CheckCircle className="w-3 h-3 text-[var(--accent-primary)]" />
                 </div>
-                <div className="text-[10px] text-[#2EE6A0] font-mono">
+                <div className="text-[10px] text-[var(--accent-primary)] font-mono">
                   {language === 'es' ? 'en línea • bot FSM activo' : 'online • active FSM bot'}
                 </div>
               </div>
@@ -497,7 +497,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
                 </p>
                 <div className="text-[9px] text-emerald-200 text-right font-mono flex items-center justify-end gap-1">
                   <span>14:28</span>
-                  <CheckCheck className="w-3 h-3 text-[#00F0FF]" />
+                  <CheckCheck className="w-3 h-3 text-[var(--accent-secondary)]" />
                 </div>
               </div>
             </div>
@@ -522,15 +522,15 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
                 </p>
                 <div className="text-[9px] text-emerald-200 text-right font-mono flex items-center justify-end gap-1">
                   <span>14:29</span>
-                  <CheckCheck className="w-3 h-3 text-[#00F0FF]" />
+                  <CheckCheck className="w-3 h-3 text-[var(--accent-secondary)]" />
                 </div>
               </div>
             </div>
 
             {/* Bubble 4: Bot FSM Lock & Confirmation */}
             <div className="flex justify-start">
-              <div className="max-w-[88%] bg-[#202c33] text-neutral-200 p-2.5 rounded-xl rounded-tl-none shadow-sm space-y-1.5 border border-[#2EE6A0]/30">
-                <div className="flex items-center gap-1.5 text-[10px] font-mono text-[#2EE6A0]">
+              <div className="max-w-[88%] bg-[#202c33] text-neutral-200 p-2.5 rounded-xl rounded-tl-none shadow-sm space-y-1.5 border border-[var(--accent-primary)]/30">
+                <div className="flex items-center gap-1.5 text-[10px] font-mono text-[var(--accent-primary)]">
                   <Lock className="w-3 h-3" />
                   <span>
                     {language === 'es' ? 'PostgreSQL FOR UPDATE Bloqueado' : 'PostgreSQL FOR UPDATE Locked'}
@@ -543,7 +543,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
                 </p>
                 <div className="text-[9px] text-neutral-400 text-right font-mono flex items-center justify-end gap-1">
                   <span>14:29</span>
-                  <CheckCheck className="w-3 h-3 text-[#2EE6A0]" />
+                  <CheckCheck className="w-3 h-3 text-[var(--accent-primary)]" />
                 </div>
               </div>
             </div>
@@ -554,7 +554,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
       {/* Concurrency Simulator Control Strip */}
       <div className="p-3 rounded-2xl bg-white/[0.02] border border-white/[0.06] flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
         <div className="flex items-center gap-2 text-neutral-300">
-          <Shield className="w-4 h-4 text-[#2EE6A0]" />
+          <Shield className="w-4 h-4 text-[var(--accent-primary)]" />
           <span>
             {language === 'es'
               ? 'PostgreSQL Row-Level Lock: 0 Colisiones'
@@ -568,7 +568,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
             setConcurrencySimulated(true);
             setTimeout(() => setConcurrencySimulated(false), 4500);
           }}
-          className="px-3 py-1.5 rounded-lg bg-[#00F0FF]/15 hover:bg-[#00F0FF]/25 border border-[#00F0FF]/40 text-[#00F0FF] font-semibold text-[11px] transition-all flex items-center gap-1.5"
+          className="px-3 py-1.5 rounded-lg bg-[var(--accent-secondary)]/15 hover:bg-[var(--accent-secondary)]/25 border border-[var(--accent-secondary)]/40 text-[var(--accent-secondary)] font-semibold text-[11px] transition-all flex items-center gap-1.5"
         >
           <Sparkles className="w-3 h-3" />
           <span>{language === 'es' ? 'Simular Concurrencia Simultánea' : 'Simulate Simultaneous Collision'}</span>
@@ -586,13 +586,13 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[10px]">
             {/* Thread 1: Winner */}
             <div className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-neutral-300 space-y-1">
-              <div className="text-[#2EE6A0] font-bold flex items-center justify-between">
+              <div className="text-[var(--accent-primary)] font-bold flex items-center justify-between">
                 <span>{language === 'es' ? 'HILO A (Cliente 1)' : 'THREAD A (Client 1)'}</span>
                 <span>{language === 'es' ? 'LOCK ADQUIRIDO' : 'LOCK ACQUIRED'}</span>
               </div>
               <div className="text-neutral-400">14:29:00.104210</div>
               <div className="text-neutral-200">SELECT ... FOR UPDATE NOWAIT</div>
-              <div className="text-[#2EE6A0]">
+              <div className="text-[var(--accent-primary)]">
                 {language === 'es' ? '✓ Commit: Turno 4:00 PM Otorgado' : '✓ Commit: 4:00 PM Slot Granted'}
               </div>
             </div>

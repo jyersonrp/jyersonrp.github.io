@@ -30,7 +30,10 @@
             document.documentElement.classList.remove('light');
             document.documentElement.setAttribute('data-theme', 'dark');
           }
-          var palette = localStorage.getItem('portfolio_color_palette') || 'emerald';
+          var palette = localStorage.getItem('portfolio_color_palette');
+          if (palette !== 'emerald' && palette !== 'ultraviolet' && palette !== 'amber') {
+            palette = 'emerald';
+          }
           document.documentElement.setAttribute('data-palette', palette);
         } catch (e) {}
       })();

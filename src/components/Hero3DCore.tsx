@@ -131,8 +131,32 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
     const nodes: Node3D[] = [];
 
     const curPal = PALETTES[paletteRef.current] || PALETTES.emerald;
-    const initPrimary = themeRef.current === 'dark' ? curPal.primary : '#059669';
-    const initSecondary = themeRef.current === 'dark' ? curPal.secondary : '#0284C7';
+    const isDark = themeRef.current === 'dark';
+    const initPrimary = isDark
+      ? curPal.primary
+      : paletteRef.current === 'emerald'
+      ? '#059669'
+      : paletteRef.current === 'ultraviolet'
+      ? '#7E22CE'
+      : '#D97706';
+    const initSecondary = isDark
+      ? curPal.secondary
+      : paletteRef.current === 'emerald'
+      ? '#0284C7'
+      : paletteRef.current === 'ultraviolet'
+      ? '#0284C7'
+      : '#EA580C';
+    const initTertiary = isDark
+      ? paletteRef.current === 'emerald'
+        ? '#5ef2ba'
+        : paletteRef.current === 'ultraviolet'
+        ? '#c084fc'
+        : '#fbbf24'
+      : paletteRef.current === 'emerald'
+      ? '#10b981'
+      : paletteRef.current === 'ultraviolet'
+      ? '#a855f7'
+      : '#f59e0b';
 
     const goldenRatio = (1 + Math.sqrt(5)) / 2;
     for (let i = 0; i < nodeCount; i++) {
@@ -186,7 +210,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
         tiltY: -0.65,
         speed: 1.0,
         angle: Math.PI,
-        color: '#5ef2ba',
+        color: initTertiary,
         size: 3.5,
       },
     ];
@@ -376,10 +400,18 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
         0,
         isDark ? activePal.glow : 'rgba(15, 23, 42, 0.04)'
       );
-      bgGrad.addColorStop(
-        0.4,
-        isDark ? 'rgba(0, 240, 255, 0.05)' : 'rgba(2, 132, 199, 0.03)'
-      );
+      const secondaryGlowStop = isDark
+        ? paletteRef.current === 'emerald'
+          ? 'rgba(0, 240, 255, 0.05)'
+          : paletteRef.current === 'ultraviolet'
+          ? 'rgba(56, 189, 248, 0.05)'
+          : 'rgba(249, 115, 22, 0.05)'
+        : paletteRef.current === 'emerald'
+        ? 'rgba(2, 132, 199, 0.03)'
+        : paletteRef.current === 'ultraviolet'
+        ? 'rgba(2, 132, 199, 0.03)'
+        : 'rgba(234, 88, 12, 0.03)';
+      bgGrad.addColorStop(0.4, secondaryGlowStop);
       bgGrad.addColorStop(1, 'transparent');
       ctx.fillStyle = bgGrad;
       ctx.beginPath();
@@ -655,7 +687,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
 
       {/* Floating HUD Telemetry Overlay */}
       <div className="absolute top-3 left-4 right-4 flex items-center justify-between pointer-events-none text-[10px] font-mono">
-        <div className="flex items-center gap-2 bg-black/60 dark:bg-black/60 bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/[0.08] dark:border-white/[0.08] border-slate-200/90 shadow-sm">
+        <div className="flex items-center gap-2 bg-white/85 dark:bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.08] shadow-sm">
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse"
             style={{
@@ -663,12 +695,12 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
               boxShadow: `0 0 8px ${primaryColor}`,
             }}
           />
-          <span className="text-neutral-300 dark:text-neutral-300 text-slate-700 tracking-wider">
+          <span className="text-slate-700 dark:text-neutral-300 tracking-wider">
             {language === 'es' ? 'NÚCLEO NEURONAL // 3D' : 'NEURAL CORE // 3D'}
           </span>
         </div>
         <div
-          className="hidden sm:flex items-center gap-1.5 bg-black/60 dark:bg-black/60 bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/[0.08] dark:border-white/[0.08] border-slate-200/90 shadow-sm"
+          className="hidden sm:flex items-center gap-1.5 bg-white/85 dark:bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.08] shadow-sm"
           style={{ color: secondaryColor }}
         >
           <Cpu className="w-3 h-3" style={{ color: secondaryColor }} />
@@ -680,7 +712,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
 
       {/* Bottom Interaction Guide Pill */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
-        <div className="flex items-center gap-2 bg-black/70 dark:bg-black/70 bg-white/90 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/[0.1] dark:border-white/[0.1] border-slate-200/90 text-[10px] font-mono text-neutral-300 dark:text-neutral-300 text-slate-700 shadow-xl whitespace-nowrap">
+        <div className="flex items-center gap-2 bg-white/90 dark:bg-black/70 backdrop-blur-md px-3.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.1] text-[10px] font-mono text-slate-700 dark:text-neutral-300 shadow-xl whitespace-nowrap">
           <span
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: secondaryColor }}

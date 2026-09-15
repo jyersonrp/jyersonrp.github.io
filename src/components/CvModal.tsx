@@ -172,46 +172,46 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
         {/* Printable CV Content */}
         <div id="cv-printable-content" className="p-4 sm:p-8 lg:p-12 space-y-8 print:p-0">
           {/* Header */}
-          <div className="border-b border-white/10 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="border-b border-slate-200 dark:border-white/10 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-sans font-extrabold text-white tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-sans font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {PERSONAL_INFO.fullName}
               </h1>
-              <p className="text-sm sm:text-base text-[#2EE6A0] font-mono mt-1 font-semibold">
+              <p className="text-sm sm:text-base text-[var(--accent-primary)] font-mono mt-1 font-semibold">
                 {PERSONAL_INFO.title[language]}
               </p>
-              <p className="text-xs text-neutral-400 mt-2 max-w-xl leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-neutral-400 mt-2 max-w-xl leading-relaxed">
                 {PERSONAL_INFO.about[language]}
               </p>
             </div>
 
             {/* Contact details */}
-            <div className="space-y-1.5 text-xs font-mono text-neutral-300 shrink-0">
+            <div className="space-y-1.5 text-xs font-mono text-slate-700 dark:text-neutral-300 shrink-0">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[#2EE6A0]" />
+                <MapPin className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
                 <span>{PERSONAL_INFO.location}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[#00F0FF]" />
-                <a href={`mailto:${getPublicEmail()}`} className="hover:underline text-white">
+                <Mail className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
+                <a href={`mailto:${getPublicEmail()}`} className="hover:underline text-slate-900 dark:text-white">
                   {getPublicEmail()}
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[#2EE6A0]" />
-                <a href={`tel:${PERSONAL_INFO.phoneClean}`} className="hover:underline text-white">
+                <Phone className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+                <a href={`tel:${PERSONAL_INFO.phoneClean}`} className="hover:underline text-slate-900 dark:text-white">
                   {PERSONAL_INFO.phone}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <GithubIcon className="w-3.5 h-3.5 text-neutral-400" />
-                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#00F0FF]">
+                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)]">
                   github.com/jyersonrp
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <LinkedinIcon className="w-3.5 h-3.5 text-neutral-400" />
-                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline text-[#00F0FF]">
+                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)]">
                   linkedin.com/in/yerson-jose-rodriguez-perez
                 </a>
               </div>
@@ -220,20 +220,20 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
 
           {/* Education & Academic Honors */}
           <div>
-            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[#2EE6A0] mb-4 font-bold">
+            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[var(--accent-primary)] mb-4 font-bold">
               {language === 'es' ? 'Educación & Méritos Académicos' : 'Education & Academic Honors'}
             </h2>
             <div className="space-y-4">
               {EDUCATION_ITEMS.map((edu, idx) => (
-                <div key={idx} className="p-4 rounded-xl bg-white/5 border border-white/5">
+                <div key={idx} className="p-4 rounded-xl bg-slate-100/75 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                    <span className="font-bold text-white text-sm">{edu.degree[language]}</span>
-                    <span className="text-xs font-mono text-[#00F0FF] font-bold">{edu.badge}</span>
+                    <span className="font-bold text-slate-900 dark:text-white text-sm">{edu.degree[language]}</span>
+                    <span className="text-xs font-mono text-[var(--accent-secondary)] font-bold">{edu.badge}</span>
                   </div>
-                  <div className="text-xs text-neutral-400 font-mono mt-0.5">
+                  <div className="text-xs text-slate-500 dark:text-neutral-400 font-mono mt-0.5">
                     {edu.institution} | {edu.period}
                   </div>
-                  <p className="text-xs text-neutral-300 mt-2 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-neutral-300 mt-2 leading-relaxed">
                     {edu.details[language]}
                   </p>
                 </div>
@@ -243,15 +243,15 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
 
           {/* Certifications */}
           <div>
-            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[#00F0FF] mb-3 font-bold">
+            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[var(--accent-secondary)] mb-3 font-bold">
               {language === 'es' ? 'Certificaciones Profesionales' : 'Professional Certifications'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {CERTIFICATIONS.map((cert, idx) => (
-                <div key={idx} className="p-3.5 rounded-xl bg-white/5 border border-white/5 text-xs">
-                  <div className="font-bold text-white">{cert.name[language]}</div>
-                  <div className="text-neutral-400 font-mono text-[11px]">{cert.issuer} • {cert.year}</div>
-                  <div className="text-neutral-300 text-[10px] mt-1">{cert.skills.join(', ')}</div>
+                <div key={idx} className="p-3.5 rounded-xl bg-slate-100/75 dark:bg-white/5 border border-slate-200/80 dark:border-white/5 text-xs">
+                  <div className="font-bold text-slate-900 dark:text-white">{cert.name[language]}</div>
+                  <div className="text-slate-500 dark:text-neutral-400 font-mono text-[11px]">{cert.issuer} • {cert.year}</div>
+                  <div className="text-slate-600 dark:text-neutral-300 text-[10px] mt-1">{cert.skills.join(', ')}</div>
                 </div>
               ))}
             </div>
@@ -259,23 +259,23 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
 
           {/* Star Projects */}
           <div>
-            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[#2EE6A0] mb-4 font-bold">
+            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[var(--accent-primary)] mb-4 font-bold">
               {language === 'es' ? 'Proyectos Relevantes & Casos de Estudio' : 'Relevant Projects & Case Studies'}
             </h2>
             <div className="space-y-4">
               {FEATURED_PROJECTS.map((proj) => (
-                <div key={proj.id} className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
+                <div key={proj.id} className="p-4 rounded-xl bg-slate-100/75 dark:bg-white/5 border border-slate-200/80 dark:border-white/5 space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-white">{proj.title[language]}</span>
-                    <span className="text-[11px] font-mono text-[#2EE6A0]">{proj.tags.slice(0, 3).join(' • ')}</span>
+                    <span className="font-bold text-sm text-slate-900 dark:text-white">{proj.title[language]}</span>
+                    <span className="text-[11px] font-mono text-[var(--accent-primary)]">{proj.tags.slice(0, 3).join(' • ')}</span>
                   </div>
-                  <p className="text-xs text-neutral-300 leading-relaxed">
+                  <p className="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed">
                     {proj.solution[language]}
                   </p>
-                  <div className="flex flex-wrap gap-3 pt-1 text-[11px] font-mono text-[#00F0FF]">
+                  <div className="flex flex-wrap gap-3 pt-1 text-[11px] font-mono text-[var(--accent-secondary)]">
                     {proj.metrics.map((m, mIdx) => (
                       <span key={mIdx}>
-                        {m.label[language]}: <strong className="text-white">{m.value}</strong>
+                        {m.label[language]}: <strong className="text-slate-900 dark:text-white">{m.value}</strong>
                       </span>
                     ))}
                   </div>
@@ -286,14 +286,14 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
 
           {/* Technical Skills Summary */}
           <div>
-            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[#00F0FF] mb-3 font-bold">
+            <h2 className="cv-section-title text-xs font-mono uppercase tracking-widest text-[var(--accent-secondary)] mb-3 font-bold">
               {language === 'es' ? 'Habilidades & Tecnologías' : 'Technical Skills & Proficiencies'}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               {SKILL_CATEGORIES.map((cat, idx) => (
-                <div key={idx} className="p-3 rounded-xl bg-white/5 border border-white/5">
-                  <div className="font-bold text-white mb-1">{cat.title[language]}</div>
-                  <div className="text-neutral-300 text-[11px] leading-relaxed">
+                <div key={idx} className="p-3 rounded-xl bg-slate-100/75 dark:bg-white/5 border border-slate-200/80 dark:border-white/5">
+                  <div className="font-bold text-slate-900 dark:text-white mb-1">{cat.title[language]}</div>
+                  <div className="text-slate-600 dark:text-neutral-300 text-[11px] leading-relaxed">
                     {cat.skills.map((s) => s.name).join(', ')}
                   </div>
                 </div>
@@ -302,9 +302,9 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
           </div>
 
           {/* Languages */}
-          <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400">
+          <div className="pt-4 border-t border-slate-200 dark:border-white/10 flex items-center justify-between text-xs font-mono text-slate-500 dark:text-neutral-400">
             <div>
-              <strong className="text-white">Idiomas / Languages:</strong> Español (Nativo) • Inglés (Avanzado C1 – Fluidez Profesional)
+              <strong className="text-slate-900 dark:text-white">Idiomas / Languages:</strong> Español (Nativo) • Inglés (Avanzado C1 – Fluidez Profesional)
             </div>
             <div>Maturín, Monagas, Venezuela</div>
           </div>

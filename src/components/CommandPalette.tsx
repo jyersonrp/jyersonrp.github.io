@@ -64,11 +64,11 @@ interface CommandItem {
 }
 
 const CATEGORY_META: Record<CommandCategory, { es: string; en: string; color: string }> = {
-  navigation: { es: 'Secciones', en: 'Sections', color: '#2EE6A0' },
-  projects: { es: 'Casos de Estudio & Proyectos', en: 'Case Studies & Projects', color: '#00F0FF' },
+  navigation: { es: 'Secciones', en: 'Sections', color: 'var(--accent-primary)' },
+  projects: { es: 'Casos de Estudio & Proyectos', en: 'Case Studies & Projects', color: 'var(--accent-secondary)' },
   repos: { es: 'Repositorios GitHub', en: 'GitHub Repositories', color: '#c084fc' },
   skills: { es: 'Stack Técnico & Habilidades', en: 'Tech Stack & Skills', color: '#38bdf8' },
-  actions: { es: 'Acciones & Documentos', en: 'Actions & Documents', color: '#2EE6A0' },
+  actions: { es: 'Acciones & Documentos', en: 'Actions & Documents', color: 'var(--accent-primary)' },
   theme: { es: 'Temas & Paletas Cromáticas', en: 'Themes & Color Palettes', color: '#f59e0b' },
   social: { es: 'Contacto & Redes', en: 'Contact & Social', color: '#fbbf24' }
 };
@@ -161,7 +161,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Inicio / Portada', en: 'Home / Hero' },
       subtitle: { es: 'Volver a la cabecera principal y esfera 3D', en: 'Jump to main hero section & 3D core' },
-      icon: <Sparkles className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Sparkles className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'SECCIÓN',
       keywords: ['inicio', 'home', 'top', 'hero', 'portada', 'esfera', '3d'],
       action: () => {
@@ -174,7 +174,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Casos de Estudio & Proyectos', en: 'Case Studies & Projects' },
       subtitle: { es: 'Smart NVR, Odoo WhatsApp Chatter, WhatsBot CRM', en: 'Smart NVR, Odoo WhatsApp Chatter, WhatsBot CRM' },
-      icon: <Cpu className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <Cpu className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'SECCIÓN',
       keywords: ['proyectos', 'projects', 'casos', 'estudios', 'nvr', 'odoo', 'whatsbot'],
       action: () => {
@@ -187,7 +187,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Filosofía & Arquitectura de Software', en: 'Engineering Philosophy & Architecture' },
       subtitle: { es: 'POO 10/10 en UDO, Clean Architecture, Concurrencia y Calidad', en: 'OOP 10/10 at UDO, Clean Architecture, Concurrency and Quality' },
-      icon: <Layers className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Layers className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'SECCIÓN',
       keywords: ['filosofia', 'philosophy', 'arquitectura', 'architecture', 'poo', 'clean', 'solid', '10/10', 'concurrencia'],
       action: () => {
@@ -200,7 +200,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Explorador de Repositorios GitHub', en: 'GitHub Repositories Explorer' },
       subtitle: { es: 'Código fuente abierto, commits y sincronización en vivo', en: 'Open-source code, commits, and live sync' },
-      icon: <FolderGit2 className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <FolderGit2 className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'SECCIÓN',
       keywords: ['repos', 'github', 'codigo', 'commits', 'repositorios', 'open source'],
       action: () => {
@@ -213,7 +213,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Stack Técnico & Habilidades', en: 'Technical Stack & Skills' },
       subtitle: { es: 'Python, FastAPI, Odoo ERP, OpenCV, TypeScript, Docker', en: 'Python, FastAPI, Odoo ERP, OpenCV, TypeScript, Docker' },
-      icon: <Code className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Code className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'SECCIÓN',
       keywords: ['habilidades', 'skills', 'stack', 'python', 'odoo', 'fastapi', 'typescript', 'docker'],
       action: () => {
@@ -226,7 +226,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Trayectoria & Educación', en: 'Experience & Education' },
       subtitle: { es: 'Universidad de Oriente (UDO) & Certificaciones', en: 'Universidad de Oriente (UDO) & Certifications' },
-      icon: <FileText className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <FileText className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'SECCIÓN',
       keywords: ['experiencia', 'educacion', 'udo', 'certificaciones', 'education', 'experience'],
       action: () => {
@@ -239,7 +239,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'navigation',
       title: { es: 'Contacto Directo & Redes', en: 'Direct Contact & Socials' },
       subtitle: { es: 'Email, WhatsApp, LinkedIn y formulario de propuesta', en: 'Email, WhatsApp, LinkedIn and project proposal form' },
-      icon: <Mail className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Mail className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'SECCIÓN',
       keywords: ['contacto', 'contact', 'email', 'whatsapp', 'telefono', 'contratar'],
       action: () => {
@@ -256,9 +256,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'projects',
       title: { es: 'Proyecto: Smart NVR Videovigilancia IA', en: 'Project: Smart NVR Video Surveillance AI' },
       subtitle: { es: 'Pipeline híbrido OpenCV MOG2 + YOLOv8 ONNX, streaming ultrarrápido <75ms', en: 'OpenCV MOG2 + YOLOv8 ONNX hybrid pipeline, <75ms ultra-low latency streaming' },
-      icon: <Cpu className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Cpu className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'NVR / AI',
-      badgeColor: '#2EE6A0',
+      badgeColor: 'var(--accent-primary)',
       keywords: ['nvr', 'videovigilancia', 'opencv', 'yolov8', 'onnx', 'camaras', 'vision', 'ia', 'inteligente', 'surveillance'],
       action: () => {
         onClose();
@@ -270,9 +270,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'projects',
       title: { es: 'Proyecto: Odoo WhatsApp Chatter Meta', en: 'Project: Odoo WhatsApp Chatter Meta' },
       subtitle: { es: 'Módulo ERP nativo, PDFs en memoria RAM (0 bytes en disco) y HMAC-SHA256', en: 'Native ERP module, in-memory PDFs (0 disk footprint), and HMAC-SHA256' },
-      icon: <Server className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <Server className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'ERP / META',
-      badgeColor: '#00F0FF',
+      badgeColor: 'var(--accent-secondary)',
       keywords: ['odoo', 'whatsapp', 'erp', 'meta', 'chatter', 'facturas', 'pdf', 'hmac', 'webhook'],
       action: () => {
         onClose();
@@ -315,7 +315,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'repos',
       title: { es: 'Repo: odoo-whatsapp-chatter-meta', en: 'Repo: odoo-whatsapp-chatter-meta' },
       subtitle: { es: 'github.com/jyersonrp/odoo-whatsapp-chatter-meta', en: 'github.com/jyersonrp/odoo-whatsapp-chatter-meta' },
-      icon: <GithubIcon className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <GithubIcon className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'GITHUB',
       keywords: ['repo', 'github', 'odoo', 'whatsapp', 'meta', 'codigo', 'fuente'],
       action: () => {
@@ -328,7 +328,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'repos',
       title: { es: 'Repo: WhatsBot-GlamNails', en: 'Repo: WhatsBot-GlamNails' },
       subtitle: { es: 'github.com/jyersonrp/WhatsBot-GlamNails', en: 'github.com/jyersonrp/WhatsBot-GlamNails' },
-      icon: <GithubIcon className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <GithubIcon className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'GITHUB',
       keywords: ['repo', 'github', 'whatsbot', 'bot', 'fsm', 'typescript', 'codigo'],
       action: () => {
@@ -354,7 +354,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'repos',
       title: { es: 'Perfil Oficial de GitHub (@jyersonrp)', en: 'Official GitHub Profile (@jyersonrp)' },
       subtitle: { es: 'github.com/jyersonrp', en: 'github.com/jyersonrp' },
-      icon: <GithubIcon className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <GithubIcon className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'PROFILE',
       keywords: ['github', 'perfil', 'profile', 'jyersonrp', 'repositorios'],
       action: () => {
@@ -371,7 +371,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: Python 3 & FastAPI Asíncrono', en: 'Skill: Python 3 & Async FastAPI' },
       subtitle: { es: 'APIs asíncronas de alto throughput, WebSockets y Clean Architecture', en: 'High-throughput async APIs, WebSockets, and Clean Architecture' },
-      icon: <Code className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Code className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'BACKEND',
       keywords: ['python', 'fastapi', 'async', 'backend', 'api', 'habilidad', 'skill'],
       action: () => {
@@ -384,7 +384,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: Odoo ERP (ORM & Módulos Nativos)', en: 'Skill: Odoo ERP (ORM & Native Modules)' },
       subtitle: { es: 'Desarrollo de módulos desacoplados, modelos de negocio e integraciones', en: 'Decoupled module development, business models, and integrations' },
-      icon: <Server className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <Server className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'ERP',
       keywords: ['odoo', 'erp', 'orm', 'python', 'enterprise', 'habilidad', 'skill'],
       action: () => {
@@ -397,7 +397,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: OpenCV (MOG2) & YOLOv8 / YOLOv11', en: 'Skill: OpenCV (MOG2) & YOLOv8 / YOLOv11' },
       subtitle: { es: 'Detección en tiempo real, sustracción de fondo e inferencia acelerada', en: 'Real-time object detection, background subtraction, and fast inference' },
-      icon: <Cpu className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Cpu className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'AI / VISION',
       keywords: ['opencv', 'yolo', 'yolov8', 'yolov11', 'vision', 'ia', 'ai', 'mog2', 'deteccion'],
       action: () => {
@@ -410,7 +410,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: ONNX Runtime (Inferencia Óptima)', en: 'Skill: ONNX Runtime (Optimized Inference)' },
       subtitle: { es: 'Inferencia neuronal en hardware modesto sin saturar CPU ni generar calor', en: 'Neural inference on edge/CPU without thermal throttling' },
-      icon: <Cpu className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <Cpu className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'AI ENGINE',
       keywords: ['onnx', 'runtime', 'inferencia', 'optimizacion', 'ia', 'modelos'],
       action: () => {
@@ -423,7 +423,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: PostgreSQL & Transacciones ACID', en: 'Skill: PostgreSQL & ACID Transactions' },
       subtitle: { es: 'Bloqueos pesimistas FOR UPDATE, modelado relacional y alta concurrencia', en: 'Pessimistic FOR UPDATE locking, relational modeling, and concurrency' },
-      icon: <Database className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Database className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'DATABASE',
       keywords: ['postgres', 'postgresql', 'sql', 'bd', 'base de datos', 'locking', 'acid'],
       action: () => {
@@ -436,7 +436,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: Docker, CI/CD & Contenedores', en: 'Skill: Docker, CI/CD & Containers' },
       subtitle: { es: 'Compilaciones multi-stage, despliegues reproducibles y GitHub Actions', en: 'Multi-stage builds, reproducible deployments, and GitHub Actions' },
-      icon: <ShieldCheck className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <ShieldCheck className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'DEVOPS',
       keywords: ['docker', 'devops', 'ci/cd', 'contenedores', 'github actions'],
       action: () => {
@@ -449,7 +449,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: TypeScript, React & Node.js', en: 'Skill: TypeScript, React & Node.js' },
       subtitle: { es: 'Tipado estricto, interfaces reactivas modernas y FSMs concurrentes', en: 'Strict typing, modern reactive interfaces, and concurrent FSMs' },
-      icon: <Code className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Code className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'FULL-STACK',
       keywords: ['typescript', 'react', 'nodejs', 'frontend', 'javascript'],
       action: () => {
@@ -462,7 +462,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'skills',
       title: { es: 'Habilidad: Pytest, TDD & Contratos Tipados', en: 'Skill: Pytest, TDD & Typing Contracts' },
       subtitle: { es: 'Testing riguroso de webhooks, emulación de caídas y suites automatizadas', en: 'Rigorous webhook testing, network partition mocks, and automated suites' },
-      icon: <Award className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Award className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'QUALITY',
       keywords: ['pytest', 'tdd', 'testing', 'tests', 'calidad', 'type hints'],
       action: () => {
@@ -479,7 +479,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'actions',
       title: { es: 'Descargar CV Oficial en PDF', en: 'Download Official PDF Resume' },
       subtitle: { es: 'Descarga directa de CV_Yerson_Rodriguez.pdf (24.2 KB)', en: 'Direct download of CV_Yerson_Rodriguez.pdf (24.2 KB)' },
-      icon: <Download className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Download className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'PDF',
       keywords: ['cv', 'curriculum', 'resume', 'pdf', 'descargar', 'download', 'archivo'],
       action: downloadCvDirect
@@ -489,7 +489,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'actions',
       title: { es: 'Ver Currículum en Pantalla (Modal)', en: 'View Resume Onscreen (Modal)' },
       subtitle: { es: 'Abrir visor interactivo, imprimible y descargable', en: 'Open interactive, printable, and downloadable viewer' },
-      icon: <FileText className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <FileText className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'MODAL',
       keywords: ['cv', 'curriculum', 'resume', 'ver', 'view', 'modal', 'pantalla', 'online'],
       action: () => {
@@ -528,7 +528,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         es: 'Actual: Español (ES)',
         en: 'Current: English (EN)'
       },
-      icon: <Globe className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <Globe className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: language.toUpperCase(),
       keywords: ['idioma', 'language', 'english', 'espanol', 'ingles', 'spanish', 'toggle'],
       action: () => {
@@ -547,7 +547,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         es: soundEnabled ? 'Sonido Web Audio activo (haz clic para silenciar)' : 'Sonido desactivado (haz clic para activar)',
         en: soundEnabled ? 'Web Audio sound active (click to mute)' : 'Sound currently muted (click to enable)'
       },
-      icon: soundEnabled ? <Volume2 className="w-4 h-4 text-[#2EE6A0]" /> : <VolumeX className="w-4 h-4 text-neutral-500" />,
+      icon: soundEnabled ? <Volume2 className="w-4 h-4 text-[var(--accent-primary)]" /> : <VolumeX className="w-4 h-4 text-neutral-500" />,
       badge: soundEnabled ? 'ON' : 'MUTED',
       keywords: ['sonido', 'sound', 'audio', 'mute', 'volumen', 'haptic', 'clics', 'silencio'],
       action: () => {
@@ -667,7 +667,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'social',
       title: { es: 'Abrir Chat Directo de WhatsApp', en: 'Start Direct WhatsApp Chat' },
       subtitle: { es: PERSONAL_INFO.phone, en: PERSONAL_INFO.phone },
-      icon: <Phone className="w-4 h-4 text-[#2EE6A0]" />,
+      icon: <Phone className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'CHAT',
       keywords: ['whatsapp', 'mensaje', 'chat', 'directo', 'contacto'],
       action: () => {
@@ -680,7 +680,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       category: 'social',
       title: { es: 'Conectar en LinkedIn', en: 'Connect on LinkedIn' },
       subtitle: { es: 'linkedin.com/in/yerson-jose-rodriguez-perez', en: 'linkedin.com/in/yerson-jose-rodriguez-perez' },
-      icon: <LinkedinIcon className="w-4 h-4 text-[#00F0FF]" />,
+      icon: <LinkedinIcon className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'RED',
       keywords: ['linkedin', 'red', 'trabajo', 'conectar', 'perfil'],
       action: () => {
@@ -850,18 +850,24 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                         <span className="font-semibold text-xs sm:text-sm truncate">
                           {item.title[language]}
                         </span>
-                        {item.badge && (
-                          <span
-                            className="px-1.5 py-0.5 rounded text-[9.5px] font-mono shrink-0"
-                            style={{
-                              backgroundColor: `${catMeta.color}18`,
-                              color: catMeta.color,
-                              border: `1px solid ${catMeta.color}35`
-                            }}
-                          >
-                            {item.badge}
-                          </span>
-                        )}
+                        {item.badge && (() => {
+                          const bColor = item.badgeColor || catMeta.color;
+                          const isVar = bColor.startsWith('var(');
+                          const bg = isVar ? `color-mix(in srgb, ${bColor} 12%, transparent)` : `${bColor}18`;
+                          const border = isVar ? `color-mix(in srgb, ${bColor} 25%, transparent)` : `${bColor}35`;
+                          return (
+                            <span
+                              className="px-1.5 py-0.5 rounded text-[9.5px] font-mono shrink-0"
+                              style={{
+                                backgroundColor: bg,
+                                color: bColor,
+                                border: `1px solid ${border}`
+                              }}
+                            >
+                              {item.badge}
+                            </span>
+                          );
+                        })()}
                       </div>
                       {item.subtitle && (
                         <p className="text-[11px] text-slate-500 dark:text-neutral-400 truncate mt-0.5 font-light">

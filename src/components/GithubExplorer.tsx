@@ -196,14 +196,14 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
       case 'html':
         return '#E34F26';
       default:
-        return '#2EE6A0';
+        return 'var(--accent-primary)';
     }
   };
 
   return (
     <section id="repos" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
       {/* Background ambient radial glow */}
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[350px] bg-[#00F0FF]/[0.035] rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/4 right-1/4 w-[500px] h-[350px] bg-[var(--accent-secondary)]/[0.035] rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto">
         {/* Editorial Section Header */}
@@ -484,7 +484,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                     href={repo.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#2EE6A0]/10 hover:bg-[#2EE6A0] text-[#2EE6A0] hover:text-black border border-[#2EE6A0]/25 hover:border-[#2EE6A0] text-xs font-mono font-semibold transition-all duration-200 shadow-[0_0_12px_rgba(46,230,160,0.15)] hover:shadow-[0_0_20px_rgba(46,230,160,0.4)] hover:scale-[1.02]"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[var(--accent-primary)]/10 hover:bg-[var(--accent-primary)] text-[var(--accent-primary)] hover:text-black border border-[var(--accent-primary)]/25 hover:border-[var(--accent-primary)] text-xs font-mono font-semibold transition-all duration-200 shadow-[0_0_12px_var(--accent-glow)] hover:shadow-[0_0_20px_var(--accent-glow)] hover:scale-[1.02]"
                   >
                     <span>{language === 'es' ? 'Ver Código' : 'View Code'}</span>
                     <ExternalLink className="w-3.5 h-3.5" />

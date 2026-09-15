@@ -199,10 +199,18 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
           0,
           isDark ? curPal.glow : 'rgba(15, 23, 42, 0.04)'
         );
-        radialGradient.addColorStop(
-          0.6,
-          isDark ? 'rgba(0, 240, 255, 0.015)' : 'rgba(2, 132, 199, 0.02)'
-        );
+        const secondaryStop = isDark
+          ? paletteRef.current === 'emerald'
+            ? 'rgba(0, 240, 255, 0.015)'
+            : paletteRef.current === 'ultraviolet'
+            ? 'rgba(56, 189, 248, 0.015)'
+            : 'rgba(249, 115, 22, 0.015)'
+          : paletteRef.current === 'emerald'
+          ? 'rgba(2, 132, 199, 0.02)'
+          : paletteRef.current === 'ultraviolet'
+          ? 'rgba(2, 132, 199, 0.02)'
+          : 'rgba(234, 88, 12, 0.02)';
+        radialGradient.addColorStop(0.6, secondaryStop);
         radialGradient.addColorStop(1, 'transparent');
         ctx.fillStyle = radialGradient;
         ctx.beginPath();
@@ -313,7 +321,7 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-0 opacity-70 dark:opacity-70 opacity-60 print:hidden transition-opacity duration-500"
+      className="fixed inset-0 pointer-events-none z-0 opacity-60 dark:opacity-70 print:hidden transition-opacity duration-500"
       style={{ willChange: 'transform' }}
     />
   );

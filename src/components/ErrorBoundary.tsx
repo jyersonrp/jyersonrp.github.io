@@ -38,7 +38,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 this.setState({ hasError: false, error: null });
                 window.location.reload();
               }}
-              className="px-6 py-2.5 rounded-full bg-[#2EE6A0] text-black font-semibold text-sm hover:bg-[#26c589] transition-all"
+              className="px-6 py-2.5 rounded-full bg-[var(--accent-primary)] text-black font-semibold text-sm hover:brightness-110 transition-all"
             >
               Reiniciar aplicación
             </button>
