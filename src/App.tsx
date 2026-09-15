@@ -45,11 +45,11 @@ export function App() {
     }
   };
 
-  // Safety fallback: guaranteed reveal after 1.2s max
+  // Safety fallback: guaranteed reveal after 6s in the rare event of browser freeze
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    }, 1200);
+    }, 6000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -128,11 +128,12 @@ export function App() {
       {/* Minimalist Scroll Progress Indicator */}
       <ScrollProgress />
 
-      {/* Milan Compain Preloader */}
+      {/* Cyber-Luxury Awwwards Preloader */}
       {!isLoaded && (
         <Preloader
           onComplete={() => setIsLoaded(true)}
           language={language}
+          soundEnabled={soundEnabled}
         />
       )}
 

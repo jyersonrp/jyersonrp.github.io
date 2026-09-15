@@ -4,6 +4,12 @@ import { PERSONAL_INFO } from '../data/portfolioData';
 import { Language } from '../types';
 import { playSound } from '../utils/audioSystem';
 import {
+  sanitizeInput,
+  validateEmail,
+  checkRateLimit,
+  getPublicEmail
+} from '../utils/security';
+import {
   Mail,
   Copy,
   Check,
@@ -13,7 +19,9 @@ import {
   MapPin,
   Clock,
   ExternalLink,
-  RotateCcw
+  RotateCcw,
+  ShieldCheck,
+  AlertTriangle
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 
@@ -25,6 +33,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   const [copied, setCopied] = useState(false);
   const [copiedMessage, setCopiedMessage] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [securityError, setSecurityError] = useState<string | null>(null);
+  const [honeypot, setHoneypot] = useState('');
+  const publicEmail = getPublicEmail();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -34,7 +46,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
   const handleCopyEmail = () => {
     playSound('success');
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
+    navigator.clipboard.writeText(publicEmail);
     setCopied(true);
 
     // Trigger subtle confetti celebration
@@ -56,6 +68,73 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setSecurityError(null);
+
+    // Anti-bot honeypot detection
+    if (honeypot.trim().length > 0) {
+      // Drop bot submission silently and display faux success
+      setFormSubmitted(true);
+      return;
+    }
+
+    // In-memory rate limiting check (3 submissions per 40s)
+    const rateLimit = checkRateLimit('contact_form_submit', 3, 40000);
+    if (!rateLimit.allowed) {
+      playSound('close');
+      setSecurityError(
+        language === 'es'
+          ? `Límite de envíos alcanzado por seguridad. Por favor espera ${rateLimit.retryAfterSeconds} segundos antes de enviar otro mensaje.`
+          : `Submission rate limit exceeded for security. Please wait ${rateLimit.retryAfterSeconds} seconds before sending another message.`
+      );
+      return;
+    }
+
+    // Strict input sanitization and boundary checks
+    const sanitizedName = sanitizeInput(formData.name, 80);
+    const sanitizedEmail = sanitizeInput(formData.email, 100);
+    const sanitizedMessage = sanitizeInput(formData.message, 2000);
+    const allowedSubjects = ['opportunity', 'freelance', 'odoo', 'other'];
+    const sanitizedSubject = allowedSubjects.includes(formData.subject) ? formData.subject : 'other';
+
+    if (sanitizedName.length < 2) {
+      playSound('close');
+      setSecurityError(
+        language === 'es'
+          ? 'Por favor ingresa un nombre o empresa válido (mínimo 2 caracteres).'
+          : 'Please enter a valid name or company (minimum 2 characters).'
+      );
+      return;
+    }
+
+    const emailCheck = validateEmail(sanitizedEmail);
+    if (!emailCheck.isValid) {
+      playSound('close');
+      setSecurityError(
+        language === 'es'
+          ? 'Por favor ingresa una dirección de correo electrónico válida.'
+          : 'Please enter a valid email address.'
+      );
+      return;
+    }
+
+    if (sanitizedMessage.length < 5) {
+      playSound('close');
+      setSecurityError(
+        language === 'es'
+          ? 'Por favor ingresa un mensaje más detallado (mínimo 5 caracteres).'
+          : 'Please enter a more detailed message (minimum 5 characters).'
+      );
+      return;
+    }
+
+    // Store sanitized data
+    setFormData({
+      name: sanitizedName,
+      email: sanitizedEmail,
+      subject: sanitizedSubject,
+      message: sanitizedMessage
+    });
+
     playSound('success');
     setFormSubmitted(true);
 
@@ -78,9 +157,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
       other: language === 'es' ? 'Consulta General' : 'General Inquiry'
     };
 
-    const subjectText = `[Portfolio] ${subjectMap[formData.subject] || formData.subject}: ${formData.name}`;
-    const bodyText = `Hola Yerson,\n\nNombre / Empresa: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`;
-    const mailtoUrl = `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+    const subjectText = `[Portfolio] ${subjectMap[sanitizedSubject] || sanitizedSubject}: ${sanitizedName}`;
+    const bodyText = `Hola Yerson,\n\nNombre / Empresa: ${sanitizedName}\nEmail: ${sanitizedEmail}\n\nMensaje:\n${sanitizedMessage}`;
+    const mailtoUrl = `mailto:${publicEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
 
     try {
       window.location.href = mailtoUrl;
@@ -91,29 +170,40 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
   const handleCopyFormattedMessage = () => {
     playSound('success');
-    const formatted = `Nombre / Empresa: ${formData.name}\nEmail: ${formData.email}\nAsunto: ${formData.subject}\nMensaje:\n${formData.message}`;
+    const sName = sanitizeInput(formData.name, 80);
+    const sEmail = sanitizeInput(formData.email, 100);
+    const sMsg = sanitizeInput(formData.message, 2000);
+    const formatted = `Nombre / Empresa: ${sName}\nEmail: ${sEmail}\nAsunto: ${formData.subject}\nMensaje:\n${sMsg}`;
     navigator.clipboard.writeText(formatted);
     setCopiedMessage(true);
     setTimeout(() => setCopiedMessage(false), 3000);
   };
 
   const getWhatsAppLink = () => {
+    const sName = sanitizeInput(formData.name, 80);
+    const sEmail = sanitizeInput(formData.email, 100);
+    const sMsg = sanitizeInput(formData.message, 2000);
     const text = encodeURIComponent(
       language === 'es'
-        ? `Hola Yerson, te contacto desde tu portafolio:\n\n*Nombre:* ${formData.name}\n*Email:* ${formData.email}\n\n*Mensaje:* ${formData.message}`
-        : `Hello Yerson, reaching out from your portfolio:\n\n*Name:* ${formData.name}\n*Email:* ${formData.email}\n\n*Message:* ${formData.message}`
+        ? `Hola Yerson, te contacto desde tu portafolio:\n\n*Nombre:* ${sName}\n*Email:* ${sEmail}\n\n*Mensaje:* ${sMsg}`
+        : `Hello Yerson, reaching out from your portfolio:\n\n*Name:* ${sName}\n*Email:* ${sEmail}\n\n*Message:* ${sMsg}`
     );
     return `https://wa.me/${PERSONAL_INFO.phoneClean}?text=${text}`;
   };
 
   const getMailtoLink = () => {
-    const subjectText = `[Portfolio] Consulta: ${formData.name || 'Contacto Web'}`;
-    const bodyText = `Nombre / Empresa: ${formData.name}\nEmail: ${formData.email}\n\nMensaje:\n${formData.message}`;
-    return `mailto:${PERSONAL_INFO.email}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
+    const sName = sanitizeInput(formData.name, 80) || 'Contacto Web';
+    const sEmail = sanitizeInput(formData.email, 100);
+    const sMsg = sanitizeInput(formData.message, 2000);
+    const subjectText = `[Portfolio] Consulta: ${sName}`;
+    const bodyText = `Nombre / Empresa: ${sName}\nEmail: ${sEmail}\n\nMensaje:\n${sMsg}`;
+    return `mailto:${publicEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
   };
 
   const handleResetForm = () => {
     setFormData({ name: '', email: '', subject: 'opportunity', message: '' });
+    setHoneypot('');
+    setSecurityError(null);
     setFormSubmitted(false);
   };
 
@@ -161,7 +251,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               {language === 'es' ? 'CANAL DIRECTO // CORREO OFICIAL' : 'DIRECT CHANNEL // OFFICIAL EMAIL'}
             </div>
             <div className="text-2xl sm:text-3xl md:text-4xl font-mono font-bold text-white tracking-tight mb-6 select-all break-all">
-              {PERSONAL_INFO.email}
+              {publicEmail}
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-3">
@@ -183,7 +273,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               </button>
 
               <a
-                href={`mailto:${PERSONAL_INFO.email}`}
+                href={`mailto:${publicEmail}`}
                 className="px-5 py-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-white/[0.2] text-white text-xs font-mono transition-all flex items-center gap-2"
               >
                 <Mail className="w-4 h-4 text-[#00F0FF]" />
@@ -350,6 +440,28 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               </div>
             ) : (
               <form onSubmit={handleFormSubmit} className="space-y-5 text-xs sm:text-sm">
+                {/* Anti-spam Bot Honeypot field (hidden from legitimate humans) */}
+                <div className="hidden" aria-hidden="true" style={{ display: 'none', opacity: 0, position: 'absolute', left: '-9999px' }}>
+                  <label htmlFor="company_website_url_hp">Leave this empty</label>
+                  <input
+                    id="company_website_url_hp"
+                    type="text"
+                    name="_hp_company_url"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
+                {/* Security Error Banner */}
+                {securityError && (
+                  <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2.5 animate-in fade-in duration-200">
+                    <AlertTriangle className="w-4 h-4 shrink-0 text-rose-400" />
+                    <span>{securityError}</span>
+                  </div>
+                )}
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label className="block text-xs font-mono text-neutral-400 mb-2">
@@ -358,8 +470,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                     <input
                       type="text"
                       required
+                      maxLength={80}
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) => {
+                        setSecurityError(null);
+                        setFormData({ ...formData, name: e.target.value });
+                      }}
                       placeholder={language === 'es' ? 'Ej. Ana Gómez / TechCorp' : 'e.g. Jane Doe / TechCorp'}
                       className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-[#2EE6A0] transition-colors font-sans"
                     />
@@ -371,8 +487,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                     <input
                       type="email"
                       required
+                      maxLength={100}
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      onChange={(e) => {
+                        setSecurityError(null);
+                        setFormData({ ...formData, email: e.target.value });
+                      }}
                       placeholder="ejemplo@empresa.com"
                       className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-[#2EE6A0] transition-colors font-sans"
                     />
@@ -409,9 +529,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                   </label>
                   <textarea
                     required
+                    maxLength={2000}
                     rows={4}
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) => {
+                      setSecurityError(null);
+                      setFormData({ ...formData, message: e.target.value });
+                    }}
                     placeholder={
                       language === 'es'
                         ? 'Cuéntame sobre la posición, requerimientos técnicos o visión del proyecto...'
@@ -428,6 +552,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                   <Send className="w-4 h-4" />
                   <span>{language === 'es' ? 'Enviar Mensaje Ahora' : 'Send Message Now'}</span>
                 </button>
+
+                {/* Security trust badge */}
+                <div className="flex items-center justify-center gap-2 text-[10.5px] font-mono text-neutral-400 pt-1">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#2EE6A0]" />
+                  <span>
+                    {language === 'es'
+                      ? 'Sanitización estricta de inputs & protección anti-spam en cliente activa'
+                      : 'Strict input sanitization & active client-side anti-spam defense'}
+                  </span>
+                </div>
               </form>
             )}
           </div>

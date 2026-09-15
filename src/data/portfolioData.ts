@@ -1,4 +1,5 @@
 import { Project, ExperienceItem, EducationItem, CertificationItem, SkillCategory, ArchitecturePillar, EngineeringTenet } from '../types';
+import { getPublicEmail } from '../utils/security';
 
 export const PERSONAL_INFO = {
   name: "Yerson Rodríguez",
@@ -18,7 +19,7 @@ export const PERSONAL_INFO = {
   location: "Maturín, Monagas, Venezuela",
   phone: "+58 416-1828027",
   phoneClean: "+584161828027",
-  email: "jyerson@gmail.com",
+  email: getPublicEmail(),
   linkedin: "https://www.linkedin.com/in/yerson-jose-rodriguez-perez",
   github: "https://github.com/jyersonrp",
   status: {

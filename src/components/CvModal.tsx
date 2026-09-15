@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { PERSONAL_INFO, FEATURED_PROJECTS, EDUCATION_ITEMS, CERTIFICATIONS, SKILL_CATEGORIES } from '../data/portfolioData';
 import { Language } from '../types';
+import { getPublicEmail } from '../utils/security';
 import { X, Printer, Download, Mail, Phone, MapPin } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 
@@ -41,7 +42,7 @@ export const CvModal: React.FC<CvModalProps> = ({ isOpen, onClose, language }) =
     const content = `# ${PERSONAL_INFO.fullName}
 ${PERSONAL_INFO.title[language]}
 Location: ${PERSONAL_INFO.location}
-Email: ${PERSONAL_INFO.email} | Phone / WhatsApp: ${PERSONAL_INFO.phone}
+Email: ${getPublicEmail()} | Phone / WhatsApp: ${PERSONAL_INFO.phone}
 LinkedIn: ${PERSONAL_INFO.linkedin} | GitHub: ${PERSONAL_INFO.github}
 
 ---
@@ -192,8 +193,8 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[#00F0FF]" />
-                <a href={`mailto:${PERSONAL_INFO.email}`} className="hover:underline text-white">
-                  {PERSONAL_INFO.email}
+                <a href={`mailto:${getPublicEmail()}`} className="hover:underline text-white">
+                  {getPublicEmail()}
                 </a>
               </div>
               <div className="flex items-center gap-2">

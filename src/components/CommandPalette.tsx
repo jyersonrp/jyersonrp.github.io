@@ -3,6 +3,7 @@ import { Language } from '../types';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { playSound } from '../utils/audioSystem';
+import { safeOpenUrl, sanitizeQuery, getPublicEmail } from '../utils/security';
 import {
   Search,
   X,
@@ -293,7 +294,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'GITHUB',
       keywords: ['repo', 'github', 'videovigilancia', 'nvr', 'codigo', 'fuente'],
       action: () => {
-        window.open('https://github.com/jyersonrp/proyecto-videovigilancia-inteligente', '_blank');
+        safeOpenUrl('https://github.com/jyersonrp/proyecto-videovigilancia-inteligente');
         onClose();
       }
     },
@@ -306,7 +307,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'GITHUB',
       keywords: ['repo', 'github', 'odoo', 'whatsapp', 'meta', 'codigo', 'fuente'],
       action: () => {
-        window.open('https://github.com/jyersonrp/odoo-whatsapp-chatter-meta', '_blank');
+        safeOpenUrl('https://github.com/jyersonrp/odoo-whatsapp-chatter-meta');
         onClose();
       }
     },
@@ -319,7 +320,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'GITHUB',
       keywords: ['repo', 'github', 'whatsbot', 'bot', 'fsm', 'typescript', 'codigo'],
       action: () => {
-        window.open('https://github.com/jyersonrp/WhatsBot-GlamNails', '_blank');
+        safeOpenUrl('https://github.com/jyersonrp/WhatsBot-GlamNails');
         onClose();
       }
     },
@@ -332,7 +333,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'VITE+REACT',
       keywords: ['repo', 'github', 'portafolio', 'portfolio', 'web', 'react', 'vite'],
       action: () => {
-        window.open('https://github.com/jyersonrp/jyersonrp.github.io', '_blank');
+        safeOpenUrl('https://github.com/jyersonrp/jyersonrp.github.io');
         onClose();
       }
     },
@@ -345,7 +346,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'PROFILE',
       keywords: ['github', 'perfil', 'profile', 'jyersonrp', 'repositorios'],
       action: () => {
-        window.open(PERSONAL_INFO.github, '_blank');
+        safeOpenUrl(PERSONAL_INFO.github);
         onClose();
       }
     },
@@ -488,11 +489,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       id: 'act-copy-email',
       category: 'actions',
       title: { es: 'Copiar Correo Electrónico', en: 'Copy Email Address' },
-      subtitle: { es: PERSONAL_INFO.email, en: PERSONAL_INFO.email },
+      subtitle: { es: getPublicEmail(), en: getPublicEmail() },
       icon: <Copy className="w-4 h-4 text-neutral-300" />,
       badge: 'COPY',
       keywords: ['email', 'correo', 'copiar', 'copy'],
-      action: () => copyToClipboard(PERSONAL_INFO.email, language === 'es' ? 'Correo' : 'Email')
+      action: () => copyToClipboard(getPublicEmail(), language === 'es' ? 'Correo' : 'Email')
     },
     {
       id: 'act-copy-phone',
@@ -554,7 +555,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'CHAT',
       keywords: ['whatsapp', 'mensaje', 'chat', 'directo', 'contacto'],
       action: () => {
-        window.open(`https://wa.me/${PERSONAL_INFO.phoneClean}`, '_blank');
+        safeOpenUrl(`https://wa.me/${PERSONAL_INFO.phoneClean}`);
         onClose();
       }
     },
@@ -567,7 +568,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'RED',
       keywords: ['linkedin', 'red', 'trabajo', 'conectar', 'perfil'],
       action: () => {
-        window.open(PERSONAL_INFO.linkedin, '_blank');
+        safeOpenUrl(PERSONAL_INFO.linkedin);
         onClose();
       }
     }
@@ -643,7 +644,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             type="text"
             value={query}
             onChange={(e) => {
-              setQuery(e.target.value);
+              setQuery(sanitizeQuery(e.target.value));
               setSelectedIndex(0);
             }}
             onKeyDown={handleKeyDown}

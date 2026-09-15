@@ -47,7 +47,7 @@ const getAudioContext = (): AudioContext | null => {
   return audioCtx;
 };
 
-export type SoundType = 'click' | 'open' | 'close' | 'switch' | 'success' | 'simulation' | 'scan' | 'action';
+export type SoundType = 'click' | 'open' | 'close' | 'switch' | 'success' | 'simulation' | 'scan' | 'action' | 'boot';
 
 export const playSound = (type: SoundType = 'click'): void => {
   if (!isSoundEnabled) return;
@@ -225,6 +225,35 @@ export const playSound = (type: SoundType = 'click'): void => {
 
         osc.start(now);
         osc.stop(now + 0.05);
+        break;
+      }
+      case 'boot': {
+        // Ethereal cyber-luxury startup chord (A3, E4, B4, F#5) with gentle harmonic bloom
+        const frequencies = [220, 329.63, 493.88, 739.99];
+        const chordGain = ctx.createGain();
+        const lowpass = ctx.createBiquadFilter();
+
+        lowpass.type = 'lowpass';
+        lowpass.frequency.setValueAtTime(450, now);
+        lowpass.frequency.exponentialRampToValueAtTime(3200, now + 0.35);
+        lowpass.frequency.exponentialRampToValueAtTime(1200, now + 0.7);
+
+        chordGain.gain.setValueAtTime(0.001, now);
+        chordGain.gain.linearRampToValueAtTime(0.045, now + 0.08);
+        chordGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.75);
+
+        frequencies.forEach((freq, idx) => {
+          const osc = ctx.createOscillator();
+          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.detune.setValueAtTime(idx * 4 - 6, now);
+          osc.connect(lowpass);
+          osc.start(now);
+          osc.stop(now + 0.75);
+        });
+
+        lowpass.connect(chordGain);
+        chordGain.connect(ctx.destination);
         break;
       }
     }

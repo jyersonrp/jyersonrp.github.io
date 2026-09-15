@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { Language } from '../types';
+import { getPublicEmail } from '../utils/security';
 import { ArrowUp, MessageCircle, Mail, Terminal, Heart, Download } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 
@@ -92,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               <MessageCircle className="w-4 h-4" />
             </a>
             <a
-              href={`mailto:${PERSONAL_INFO.email}`}
+              href={`mailto:${getPublicEmail()}`}
               className="p-2.5 rounded-full bg-white/[0.03] border border-white/[0.08] hover:border-[#2EE6A0]/40 text-neutral-400 hover:text-[#2EE6A0] transition-colors"
               aria-label="Email"
             >
