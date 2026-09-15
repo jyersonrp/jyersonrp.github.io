@@ -84,9 +84,9 @@ export const CustomCursor: React.FC = () => {
         style={{
           width: isHovered ? '6px' : '4px',
           height: isHovered ? '6px' : '4px',
-          backgroundColor: '#00F0FF',
+          backgroundColor: 'var(--accent-secondary, #00F0FF)',
           borderRadius: '50%',
-          boxShadow: '0 0 10px #00F0FF',
+          boxShadow: '0 0 10px var(--accent-secondary, #00F0FF)',
           willChange: 'transform',
         }}
       />
@@ -98,9 +98,15 @@ export const CustomCursor: React.FC = () => {
           width: isHovered ? '48px' : '32px',
           height: isHovered ? '48px' : '32px',
           borderRadius: '50%',
-          border: isHovered ? '1.5px solid #2EE6A0' : '1px solid rgba(46, 230, 160, 0.4)',
-          backgroundColor: isHovered ? 'rgba(46, 230, 160, 0.08)' : 'transparent',
-          boxShadow: isHovered ? '0 0 20px rgba(46, 230, 160, 0.3)' : 'none',
+          border: isHovered
+            ? '1.5px solid var(--accent-primary, #2EE6A0)'
+            : '1px solid var(--accent-glow, rgba(46, 230, 160, 0.4))',
+          backgroundColor: isHovered
+            ? 'var(--accent-glow, rgba(46, 230, 160, 0.08))'
+            : 'transparent',
+          boxShadow: isHovered
+            ? '0 0 20px var(--accent-glow, rgba(46, 230, 160, 0.3))'
+            : 'none',
           willChange: 'transform',
         }}
       />

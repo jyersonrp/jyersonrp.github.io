@@ -18,17 +18,17 @@ export default {
           600: '#38384a',
         },
         emeraldNeon: {
-          DEFAULT: '#2EE6A0',
-          hover: '#26c589',
-          light: '#65f1ba',
-          dark: '#1ea672',
-          glow: 'rgba(46, 230, 160, 0.25)',
+          DEFAULT: 'var(--accent-primary, #2EE6A0)',
+          hover: 'var(--accent-hover, #26c589)',
+          light: 'var(--accent-primary, #65f1ba)',
+          dark: 'var(--accent-hover, #1ea672)',
+          glow: 'var(--accent-glow, rgba(46, 230, 160, 0.25))',
         },
         cyanNeon: {
-          DEFAULT: '#00F0FF',
-          hover: '#00cbe0',
-          light: '#64f6ff',
-          glow: 'rgba(0, 240, 255, 0.25)',
+          DEFAULT: 'var(--accent-secondary, #00F0FF)',
+          hover: 'var(--accent-secondary, #00cbe0)',
+          light: 'var(--accent-secondary, #64f6ff)',
+          glow: 'var(--accent-glow-secondary, rgba(0, 240, 255, 0.25))',
         }
       },
       fontFamily: {

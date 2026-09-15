@@ -210,10 +210,10 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-[11px] font-mono tracking-[0.25em] text-[#00F0FF] uppercase font-semibold">
+              <span className="text-[11px] font-mono tracking-[0.25em] text-cyanNeon uppercase font-semibold">
                 03 / {language === 'es' ? 'REPOSITORIOS GITHUB' : 'GITHUB REPOSITORIES'}
               </span>
-              <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#00F0FF]/40 to-transparent" />
+              <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-cyanNeon/40 to-transparent" />
             </div>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
@@ -239,7 +239,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-xs font-mono text-neutral-300">
               <span
                 className={`w-2 h-2 rounded-full ${
-                  isLiveApi ? 'bg-[#2EE6A0] animate-pulse shadow-[0_0_8px_#2EE6A0]' : 'bg-amber-400'
+                  isLiveApi ? 'bg-emeraldNeon animate-pulse shadow-[0_0_8px_var(--accent-glow)]' : 'bg-amber-400'
                 }`}
               />
               <span>
@@ -259,7 +259,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
               title={language === 'es' ? 'Sincronizar repositorios' : 'Sync repos'}
               className="p-2.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] text-neutral-300 hover:text-white transition-colors disabled:opacity-50"
             >
-              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#00F0FF]' : ''}`} />
+              <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-cyanNeon' : ''}`} />
             </button>
 
             <a
@@ -275,7 +275,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="bg-[#09090d]/80 backdrop-blur-xl p-4 sm:p-5 rounded-3xl border border-white/[0.08] mb-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+        <div className="glass-panel p-4 sm:p-5 rounded-3xl border border-white/[0.08] mb-10 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
           {/* Search Input */}
           <div className="relative flex-1">
             <Search className="w-4 h-4 text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -288,7 +288,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
               }
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-black/40 border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-[#00F0FF] transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 bg-black/40 border border-white/[0.08] rounded-xl text-xs sm:text-sm text-white placeholder-neutral-500 focus:outline-none focus:border-cyanNeon transition-colors"
             />
           </div>
 
@@ -327,7 +327,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 onClick={() => setSelectedLanguage('all')}
                 className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-colors ${
                   selectedLanguage === 'all'
-                    ? 'bg-[#00F0FF] text-black font-semibold'
+                    ? 'bg-cyanNeon text-black font-semibold'
                     : 'bg-white/[0.03] text-neutral-400 hover:text-white border border-white/[0.06]'
                 }`}
               >
@@ -339,7 +339,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                   onClick={() => setSelectedLanguage(lang)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                     selectedLanguage === lang
-                      ? 'bg-[#00F0FF] text-black font-semibold shadow-[0_0_15px_rgba(0,240,255,0.25)]'
+                      ? 'bg-cyanNeon text-black font-semibold shadow-[0_0_15px_var(--accent-glow-secondary)]'
                       : 'bg-white/[0.03] text-neutral-400 hover:text-white border border-white/[0.06]'
                   }`}
                 >
@@ -364,7 +364,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
             return (
               <div
                 key={repo.id}
-                className="group relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 overflow-hidden border border-white/[0.09] hover:border-[#00F0FF]/40 bg-gradient-to-br from-[#0c0d16]/90 via-[#0a0c14]/85 to-[#07080e]/95 backdrop-blur-2xl shadow-[0_15px_35px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-12px_rgba(0,240,255,0.18)] hover:-translate-y-1.5 h-full"
+                className="glass-panel-card group relative rounded-3xl p-6 sm:p-7 flex flex-col justify-between transition-all duration-300 overflow-hidden border border-white/[0.09] hover:border-cyanNeon/40 backdrop-blur-2xl shadow-[0_15px_35px_-12px_rgba(0,0,0,0.5)] hover:shadow-[0_20px_50px_-12px_var(--accent-glow-secondary)] hover:-translate-y-1.5 h-full"
               >
                 {/* Holographic light sweep sheen */}
                 <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/[0.06] to-transparent pointer-events-none -skew-x-12" />
@@ -404,7 +404,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
 
                       {/* Title & Full Slug */}
                       <div>
-                        <h3 className="text-base sm:text-lg font-sans font-bold text-white group-hover:text-[#00F0FF] transition-colors leading-snug">
+                        <h3 className="text-base sm:text-lg font-sans font-bold text-white group-hover:text-cyanNeon transition-colors leading-snug">
                           {getRepoTitle(repo)}
                         </h3>
                         <div className="flex items-center gap-1.5 text-xs font-mono text-neutral-400 mt-1">
@@ -441,7 +441,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                           key={topic}
                           className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-mono bg-white/[0.03] text-neutral-300 border border-white/[0.07] group-hover:border-white/[0.12] hover:bg-white/[0.06] transition-colors"
                         >
-                          <span className="w-1 h-1 rounded-full bg-[#00F0FF]" />
+                          <span className="w-1 h-1 rounded-full bg-cyanNeon" />
                           <span>{topic}</span>
                         </span>
                       ))}

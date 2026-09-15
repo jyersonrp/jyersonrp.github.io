@@ -118,13 +118,13 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
     >
       <div
         id="cv-modal-container"
-        className="relative w-full max-w-4xl bg-[#09090d] border border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-[#E2E8F0] my-auto sm:my-4"
+        className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-slate-800 dark:text-[#E2E8F0] my-auto sm:my-4"
       >
         {/* Top Control Bar */}
-        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-white/[0.06] bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
+        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#2EE6A0]" />
-            <span className="text-xs font-mono font-bold tracking-wider uppercase text-white truncate max-w-[170px] xs:max-w-[200px] sm:max-w-none">
+            <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-primary)]" />
+            <span className="text-xs font-mono font-bold tracking-wider uppercase text-slate-900 dark:text-white truncate max-w-[170px] xs:max-w-[200px] sm:max-w-none">
               CV // YERSON RODRÍGUEZ
             </span>
           </div>
@@ -135,7 +135,7 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
               href="./CV_Yerson_Rodriguez.pdf"
               download="CV_Yerson_Rodriguez.pdf"
               title={language === 'es' ? 'Descargar archivo PDF oficial de Yerson' : 'Download official PDF resume file'}
-              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg bg-[#2EE6A0] hover:bg-[#26c589] text-black font-bold text-xs font-mono shadow-[0_0_15px_rgba(46,230,160,0.3)] transition-all"
+              className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg bg-[var(--accent-primary)] hover:brightness-110 text-black font-bold text-xs font-mono shadow-[0_0_15px_var(--accent-glow)] transition-all"
             >
               <Download className="w-3.5 h-3.5" />
               <span>{language === 'es' ? 'Descargar PDF' : 'Download PDF'}</span>
@@ -144,24 +144,24 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
             <button
               onClick={handleDownloadMarkdown}
               title={language === 'es' ? 'Descargar archivo de CV en Markdown' : 'Download Markdown CV file'}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-mono text-neutral-200 hover:text-white transition-colors"
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200/70 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 border border-slate-300 dark:border-white/15 text-xs font-mono text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
-              <Download className="w-3.5 h-3.5 text-[#00F0FF]" />
+              <Download className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
               <span>.MD</span>
             </button>
 
             <button
               onClick={handlePrint}
               title={language === 'es' ? 'Imprimir o guardar como PDF' : 'Print or save as PDF'}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-xs font-mono text-neutral-300 hover:text-white transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-200/70 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 border border-slate-300 dark:border-white/15 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
-              <Printer className="w-3.5 h-3.5 text-neutral-400" />
+              <Printer className="w-3.5 h-3.5 text-slate-500 dark:text-neutral-400" />
               <span className="hidden sm:inline">{language === 'es' ? 'Imprimir' : 'Print'}</span>
             </button>
 
             <button
               onClick={onClose}
-              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/15 text-neutral-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-slate-200/70 dark:bg-white/5 hover:bg-slate-300 dark:hover:bg-white/10 border border-slate-300 dark:border-white/15 text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-colors"
               aria-label={language === 'es' ? 'Cerrar modal' : 'Close modal'}
             >
               <X className="w-4 h-4 sm:w-5 sm:h-5" />

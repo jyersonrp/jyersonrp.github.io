@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowDown, MessageCircle, FileText, Sparkles, Cpu, Eye, Download } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 import { PERSONAL_INFO } from '../data/portfolioData';
-import { Language } from '../types';
+import { Language, ThemeMode, ColorPalette } from '../types';
 import { Hero3DCore } from './Hero3DCore';
 import { MagneticButton } from './MagneticButton';
 import { smoothScrollTo } from '../utils/smoothScroll';
@@ -11,9 +11,11 @@ import { playSound } from '../utils/audioSystem';
 interface HeroProps {
   language: Language;
   onOpenCv: () => void;
+  themeMode?: ThemeMode;
+  palette?: ColorPalette;
 }
 
-export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
+export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palette }) => {
   const handleScrollToProjects = (e: React.MouseEvent) => {
     e.preventDefault();
     playSound('click');
@@ -163,24 +165,24 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv }) => {
 
           {/* Right Column: Three.js 3D Neural Vision Core */}
           <div className="lg:col-span-5 relative w-full flex justify-center mt-6 lg:mt-0">
-            <div className="relative w-full max-w-[480px] rounded-3xl bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] overflow-hidden group hover:border-[#2EE6A0]/30 transition-all duration-500">
+            <div className="relative w-full max-w-[480px] rounded-3xl bg-[#09090f]/75 dark:bg-[#09090f]/75 bg-white/90 border border-white/[0.08] dark:border-white/[0.08] border-slate-200/90 backdrop-blur-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] shadow-2xl overflow-hidden group hover:border-[var(--accent-primary)]/40 transition-all duration-500">
               {/* Subtle Corner Accents */}
-              <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-[#2EE6A0]/40 pointer-events-none" />
-              <div className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[#00F0FF]/40 pointer-events-none" />
-              <div className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[#00F0FF]/40 pointer-events-none" />
-              <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-[#2EE6A0]/40 pointer-events-none" />
+              <div className="absolute top-3 left-3 w-3 h-3 border-t border-l border-[var(--accent-primary)]/40 pointer-events-none" />
+              <div className="absolute top-3 right-3 w-3 h-3 border-t border-r border-[var(--accent-secondary)]/40 pointer-events-none" />
+              <div className="absolute bottom-3 left-3 w-3 h-3 border-b border-l border-[var(--accent-secondary)]/40 pointer-events-none" />
+              <div className="absolute bottom-3 right-3 w-3 h-3 border-b border-r border-[var(--accent-primary)]/40 pointer-events-none" />
 
               {/* Three.js Canvas Container */}
-              <Hero3DCore language={language} />
+              <Hero3DCore language={language} themeMode={themeMode} palette={palette} />
 
               {/* Bottom Specs Bar */}
-              <div className="px-4 py-2.5 bg-white/[0.02] border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-neutral-400">
-                <div className="flex items-center gap-1.5 text-[#2EE6A0]">
+              <div className="px-4 py-2.5 bg-white/[0.02] dark:bg-white/[0.02] bg-slate-50/90 border-t border-white/[0.06] dark:border-white/[0.06] border-slate-200/90 flex items-center justify-between text-[11px] font-mono text-neutral-400 dark:text-neutral-400 text-slate-600">
+                <div className="flex items-center gap-1.5 text-[var(--accent-primary)]">
                   <Eye className="w-3.5 h-3.5" />
                   <span>OPENCV + YOLOV8</span>
                 </div>
-                <div className="flex items-center gap-1 text-neutral-400">
-                  <Cpu className="w-3 h-3 text-[#00F0FF]" />
+                <div className="flex items-center gap-1 text-neutral-400 dark:text-neutral-400 text-slate-600">
+                  <Cpu className="w-3 h-3 text-[var(--accent-secondary)]" />
                   <span>{language === 'es' ? '60 FPS INTERACTIVO' : '60 FPS INTERACTIVE'}</span>
                 </div>
               </div>

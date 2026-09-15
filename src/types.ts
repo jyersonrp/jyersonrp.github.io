@@ -1,4 +1,18 @@
 export type Language = 'es' | 'en';
+export type ThemeMode = 'dark' | 'light';
+export type ColorPalette = 'emerald' | 'ultraviolet' | 'amber';
+
+export interface PaletteConfig {
+  id: ColorPalette;
+  name: { es: string; en: string };
+  primary: string;
+  secondary: string;
+  primaryHover: string;
+  glow: string;
+  gradient: string;
+  dotColorDark: string[];
+  dotColorLight: string[];
+}
 
 export interface ProjectMetric {
   label: { es: string; en: string };

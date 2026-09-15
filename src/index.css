@@ -7,14 +7,70 @@
     --bg-dark: #070709;
     --card-dark: #101015;
     --border-dark: rgba(255, 255, 255, 0.08);
-    --accent-emerald: #2EE6A0;
-    --accent-cyan: #00F0FF;
+
+    /* Dynamic Accent Palettes (Default: Cyber Emerald) */
+    --accent-primary: #2EE6A0;
+    --accent-secondary: #00F0FF;
+    --accent-hover: #26c589;
+    --accent-glow: rgba(46, 230, 160, 0.35);
+    --accent-glow-secondary: rgba(0, 240, 255, 0.35);
+    --accent-gradient: linear-gradient(135deg, #2EE6A0 0%, #00F0FF 100%);
+    --accent-gradient-primary: linear-gradient(to right, #2EE6A0, #5ef2ba, #00F0FF);
+    --accent-gradient-secondary: linear-gradient(to right, #00F0FF, #65f6ff, #2EE6A0);
+
+    /* Theme Base Variables (Dark: Deep Obsidian) */
+    --bg-primary: #070709;
+    --bg-secondary: #0b0b10;
+    --bg-card: rgba(9, 9, 15, 0.75);
+    --bg-card-hover: rgba(13, 13, 20, 0.85);
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --text-main: #FFFFFF;
+    --text-body: #E2E8F0;
+    --text-muted: #94A3B8;
+  }
+
+  /* Ultraviolet Pulse Palette */
+  [data-palette="ultraviolet"] {
+    --accent-primary: #A855F7;
+    --accent-secondary: #38BDF8;
+    --accent-hover: #9333ea;
+    --accent-glow: rgba(168, 85, 247, 0.35);
+    --accent-glow-secondary: rgba(56, 189, 248, 0.35);
+    --accent-gradient: linear-gradient(135deg, #A855F7 0%, #38BDF8 100%);
+    --accent-gradient-primary: linear-gradient(to right, #A855F7, #c084fc, #38BDF8);
+    --accent-gradient-secondary: linear-gradient(to right, #38BDF8, #818cf8, #A855F7);
+  }
+
+  /* Solar Amber Palette */
+  [data-palette="amber"] {
+    --accent-primary: #F59E0B;
+    --accent-secondary: #F97316;
+    --accent-hover: #d97706;
+    --accent-glow: rgba(245, 158, 11, 0.35);
+    --accent-glow-secondary: rgba(249, 115, 22, 0.35);
+    --accent-gradient: linear-gradient(135deg, #F59E0B 0%, #F97316 100%);
+    --accent-gradient-primary: linear-gradient(to right, #F59E0B, #fbbf24, #F97316);
+    --accent-gradient-secondary: linear-gradient(to right, #F97316, #fb923c, #F59E0B);
+  }
+
+  /* Luxury Studio Light Mode Base */
+  html.light,
+  html:not(.dark) {
+    --bg-primary: #F8FAFC;
+    --bg-secondary: #F1F5F9;
+    --bg-card: rgba(255, 255, 255, 0.88);
+    --bg-card-hover: rgba(255, 255, 255, 0.98);
+    --border-subtle: rgba(15, 23, 42, 0.08);
+    --text-main: #0F172A;
+    --text-body: #334155;
+    --text-muted: #64748B;
   }
 
   body {
-    background-color: var(--bg-dark);
-    color: #E2E8F0;
+    background-color: var(--bg-primary);
+    color: var(--text-body);
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    transition: background-color 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   /* Custom smooth scrollbar */
@@ -30,7 +86,21 @@
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #2EE6A0;
+    background: var(--accent-primary);
+  }
+
+  html.light ::-webkit-scrollbar-track,
+  html:not(.dark) ::-webkit-scrollbar-track {
+    background: #F1F5F9;
+  }
+  html.light ::-webkit-scrollbar-thumb,
+  html:not(.dark) ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  html.light ::-webkit-scrollbar-thumb:hover,
+  html:not(.dark) ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
   }
 }
 
@@ -51,44 +121,58 @@
 }
 
 .glass-panel-card:hover {
-  border-color: rgba(46, 230, 160, 0.4);
+  border-color: var(--accent-primary);
   background: rgba(13, 13, 20, 0.85);
-  box-shadow: 0 12px 35px -12px rgba(46, 230, 160, 0.15);
+  box-shadow: 0 12px 35px -12px var(--accent-glow);
 }
 
 .glass-panel-glow {
   background: rgba(12, 12, 18, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(46, 230, 160, 0.22);
-  box-shadow: 0 0 45px -12px rgba(46, 230, 160, 0.18);
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 45px -12px var(--accent-glow);
 }
 
 .glass-panel-cyan {
   background: rgba(12, 12, 18, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 240, 255, 0.22);
-  box-shadow: 0 0 45px -12px rgba(0, 240, 255, 0.18);
+  border: 1px solid var(--accent-secondary);
+  box-shadow: 0 0 45px -12px var(--accent-glow-secondary);
 }
 
-/* Milan Compain style glow text & accents */
-.glow-text-emerald {
-  text-shadow: 0 0 25px rgba(46, 230, 160, 0.4);
+/* Glow text & accents */
+.glow-text-emerald,
+.glow-text-primary {
+  text-shadow: 0 0 25px var(--accent-glow);
 }
 
-.glow-text-cyan {
-  text-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+.glow-text-cyan,
+.glow-text-secondary {
+  text-shadow: 0 0 25px var(--accent-glow-secondary);
+}
+
+.bg-accent-gradient {
+  background-image: var(--accent-gradient) !important;
+}
+
+.text-accent-gradient {
+  background-image: var(--accent-gradient) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
 }
 
 /* Editorial Serif Accent Utilities - Anti-clipping & Optical Kerning */
-.editorial-accent-emerald {
+.editorial-accent-emerald,
+.editorial-accent-primary {
   display: inline-block;
   vertical-align: baseline;
   font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  background-image: linear-gradient(to right, #2EE6A0, #5ef2ba, #00F0FF);
+  background-image: var(--accent-gradient-primary);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -100,17 +184,18 @@
   margin-bottom: -0.18em;
   margin-left: 0.04em;
   margin-right: 0.04em;
-  filter: drop-shadow(0 0 18px rgba(46, 230, 160, 0.3));
+  filter: drop-shadow(0 0 18px var(--accent-glow));
   overflow: visible;
 }
 
-.editorial-accent-cyan {
+.editorial-accent-cyan,
+.editorial-accent-secondary {
   display: inline-block;
   vertical-align: baseline;
   font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  background-image: linear-gradient(to right, #00F0FF, #65f6ff, #2EE6A0);
+  background-image: var(--accent-gradient-secondary);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -122,7 +207,7 @@
   margin-bottom: -0.18em;
   margin-left: 0.04em;
   margin-right: 0.04em;
-  filter: drop-shadow(0 0 18px rgba(0, 240, 255, 0.3));
+  filter: drop-shadow(0 0 18px var(--accent-glow-secondary));
   overflow: visible;
 }
 
@@ -131,6 +216,183 @@
   background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
   background-size: 32px 32px;
 }
+
+/* Luxury Studio Light Theme Overrides */
+html.light,
+html:not(.dark) {
+  color-scheme: light;
+}
+
+html.light body,
+html:not(.dark) body {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+html.light .bg-ambient-dots,
+html:not(.dark) .bg-ambient-dots {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 0);
+}
+
+/* Frosted glass cards in light mode */
+html.light .glass-panel,
+html:not(.dark) .glass-panel {
+  background: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.04) !important;
+}
+
+html.light .glass-panel-card,
+html:not(.dark) .glass-panel-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border-color: rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06) !important;
+}
+
+html.light .glass-panel-card:hover,
+html:not(.dark) .glass-panel-card:hover {
+  border-color: var(--accent-primary) !important;
+  background: #ffffff !important;
+  box-shadow: 0 20px 40px -12px var(--accent-glow) !important;
+}
+
+/* Overrides for hardcoded dark background panels in light mode */
+html.light .bg-\[\#09090f\]\/75,
+html:not(.dark) .bg-\[\#09090f\]\/75,
+html.light .bg-\[\#09090d\],
+html:not(.dark) .bg-\[\#09090d\],
+html.light .bg-\[\#0b0b10\]\/60,
+html:not(.dark) .bg-\[\#0b0b10\]\/60,
+html.light .bg-\[\#09090d\]\/85,
+html:not(.dark) .bg-\[\#09090d\]\/85 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Light mode soft slate borders */
+html.light .border-white\/\[0\.08\],
+html:not(.dark) .border-white\/\[0\.08\],
+html.light .border-white\/\[0\.09\],
+html:not(.dark) .border-white\/\[0\.09\],
+html.light .border-white\/\[0\.06\],
+html:not(.dark) .border-white\/\[0\.06\],
+html.light .border-white\/\[0\.05\],
+html:not(.dark) .border-white\/\[0\.05\],
+html.light .border-white\/10,
+html:not(.dark) .border-white\/10,
+html.light .border-white\/15,
+html:not(.dark) .border-white\/15 {
+  border-color: rgba(226, 232, 240, 0.9) !important;
+}
+
+/* Light mode pills */
+html.light .bg-white\/\[0\.03\],
+html:not(.dark) .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html:not(.dark) .bg-white\/\[0\.04\],
+html.light .bg-white\/5,
+html:not(.dark) .bg-white\/5 {
+  background-color: rgba(15, 23, 42, 0.04) !important;
+}
+
+html.light .bg-white\/\[0\.08\],
+html:not(.dark) .bg-white\/\[0\.08\],
+html.light .bg-white\/10,
+html:not(.dark) .bg-white\/10 {
+  background-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Headings in light mode */
+html.light h1:not([class*="editorial-accent"]):not([class*="text-black"]),
+html:not(.dark) h1:not([class*="editorial-accent"]):not([class*="text-black"]),
+html.light h2:not([class*="editorial-accent"]):not([class*="text-black"]),
+html:not(.dark) h2:not([class*="editorial-accent"]):not([class*="text-black"]),
+html.light h3:not([class*="editorial-accent"]):not([class*="text-black"]),
+html:not(.dark) h3:not([class*="editorial-accent"]):not([class*="text-black"]),
+html.light h4:not([class*="editorial-accent"]):not([class*="text-black"]),
+html:not(.dark) h4:not([class*="editorial-accent"]):not([class*="text-black"]) {
+  color: #0F172A !important;
+}
+
+html.light .text-white,
+html:not(.dark) .text-white {
+  color: #0F172A !important;
+}
+
+/* Preserve bright/white text inside solid accent buttons and dark terminals */
+html.light button[class*="bg-[#2EE6A0]"] .text-white,
+html:not(.dark) button[class*="bg-[#2EE6A0]"] .text-white,
+html.light a[class*="bg-[#2EE6A0]"] .text-white,
+html:not(.dark) a[class*="bg-[#2EE6A0]"] .text-white,
+html.light .bg-black .text-white,
+html:not(.dark) .bg-black .text-white,
+html.light .bg-slate-900 .text-white,
+html:not(.dark) .bg-slate-900 .text-white,
+html.light [class*="bg-accent"] .text-white,
+html:not(.dark) [class*="bg-accent"] .text-white,
+html.light pre .text-white,
+html:not(.dark) pre .text-white,
+html.light [class*="bg-[#0c0c12]"] .text-white,
+html:not(.dark) [class*="bg-[#0c0c12]"] .text-white {
+  color: #FFFFFF !important;
+}
+
+/* Body & neutral texts */
+html.light .text-neutral-200,
+html:not(.dark) .text-neutral-200,
+html.light .text-neutral-300,
+html:not(.dark) .text-neutral-300 {
+  color: #334155 !important;
+}
+
+html.light .text-neutral-400,
+html:not(.dark) .text-neutral-400,
+html.light .text-neutral-500,
+html:not(.dark) .text-neutral-500 {
+  color: #64748B !important;
+}
+
+/* Preserve high contrast dark styling for terminal & code pre blocks */
+html.light pre,
+html:not(.dark) pre,
+html.light [class*="bg-[#0c0c12]"],
+html:not(.dark) [class*="bg-[#0c0c12]"] {
+  background-color: #0F172A !important;
+  color: #F1F5F9 !important;
+  border-color: rgba(51, 65, 85, 0.4) !important;
+}
+
+html.light [class*="bg-[#0c0c12]"] .text-neutral-400,
+html:not(.dark) [class*="bg-[#0c0c12]"] .text-neutral-400,
+html.light [class*="bg-[#0c0c12]"] .text-neutral-300,
+html:not(.dark) [class*="bg-[#0c0c12]"] .text-neutral-300 {
+  color: #CBD5E1 !important;
+}
+
+/* Light mode form elements */
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+html.light textarea,
+html:not(.dark) textarea,
+html.light select,
+html:not(.dark) select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+html.light input::placeholder,
+html:not(.dark) input::placeholder,
+html.light textarea::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: #94A3B8 !important;
+}
+
+html.light select option,
+html:not(.dark) select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
 
 /* Flawless Clean Print Styles for CV / Resume Export */
 @media print {

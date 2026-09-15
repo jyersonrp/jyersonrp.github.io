@@ -233,7 +233,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             <div className="flex items-center gap-1.5">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-500/70" />
               <span className="w-2.5 h-2.5 rounded-full bg-amber-500/70" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#2EE6A0]/70" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emeraldNeon/70" />
             </div>
             <span className="text-neutral-400 font-mono text-[11px] font-medium hidden sm:inline">
               {project.type === 'nvr' ? 'nvr-vision://console' : project.type === 'odoo' ? 'odoo-meta://chatter' : 'fsm-bot://simulator'}
@@ -247,7 +247,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               onClick={() => setProjectTab(project.id, 'mockup')}
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'mockup'
-                  ? 'bg-gradient-to-r from-[#2EE6A0] to-[#00F0FF] text-black font-bold shadow-[0_0_15px_rgba(46,230,160,0.3)]'
+                  ? 'bg-accent-gradient text-black font-bold shadow-[0_0_15px_var(--accent-glow)]'
                   : 'text-neutral-300 hover:text-white'
               }`}
             >
@@ -260,7 +260,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               onClick={() => setProjectTab(project.id, 'overview')}
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'overview'
-                  ? 'bg-[#2EE6A0] text-black font-semibold shadow-sm'
+                  ? 'bg-emeraldNeon text-black font-semibold shadow-sm'
                   : 'text-neutral-400 hover:text-white'
               }`}
             >
@@ -273,7 +273,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               onClick={() => setProjectTab(project.id, 'flow')}
               className={`px-2.5 py-1 rounded-md text-[11px] font-mono transition-all flex items-center gap-1.5 ${
                 currentTab === 'flow'
-                  ? 'bg-[#00F0FF] text-black font-semibold shadow-sm'
+                  ? 'bg-cyanNeon text-black font-semibold shadow-sm'
                   : 'text-neutral-400 hover:text-white'
               }`}
             >
@@ -312,12 +312,12 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             <div className="font-mono text-xs">
               <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-white/[0.06] text-neutral-400">
                 <div className="flex items-center gap-2">
-                  <Code className="w-3.5 h-3.5 text-[#2EE6A0]" />
+                  <Code className="w-3.5 h-3.5 text-emeraldNeon" />
                   <span className="text-white text-[11px] font-semibold">{snippet.file}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2EE6A0]" />
-                  <span className="text-[10px] text-[#00F0FF] uppercase tracking-wider font-semibold">{snippet.lang}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emeraldNeon" />
+                  <span className="text-[10px] text-cyanNeon uppercase tracking-wider font-semibold">{snippet.lang}</span>
                 </div>
               </div>
               <CodeHighlighter code={snippet.code} />
@@ -331,13 +331,13 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 <span className="text-xs font-semibold text-white">
                   {language === 'es' ? 'Flujo de Ejecución Verificado' : 'Verified Execution Flow'}
                 </span>
-                <span className="text-[10px] text-[#2EE6A0] tracking-wider uppercase font-semibold">
+                <span className="text-[10px] text-emeraldNeon tracking-wider uppercase font-semibold">
                   100% Deterministic
                 </span>
               </div>
               {flow.map((node) => (
                 <div key={node.step} className="flex items-center gap-3 p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/[0.1] transition-colors">
-                  <span className="w-5 h-5 rounded-md bg-[#2EE6A0]/10 text-[#2EE6A0] font-mono font-bold text-[11px] flex items-center justify-center shrink-0">
+                  <span className="w-5 h-5 rounded-md bg-emeraldNeon/10 text-emeraldNeon font-mono font-bold text-[11px] flex items-center justify-center shrink-0">
                     {node.step}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -548,16 +548,16 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
   return (
     <section id="projects" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
       {/* Background ambient radial glow */}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[350px] bg-[#2EE6A0]/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/3 left-1/4 w-[500px] h-[350px] bg-emeraldNeon/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto">
         {/* Editorial Section Header */}
         <div className="mb-20">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-[11px] font-mono tracking-[0.25em] text-[#2EE6A0] uppercase font-semibold">
+            <span className="text-[11px] font-mono tracking-[0.25em] text-emeraldNeon uppercase font-semibold">
               01 / {language === 'es' ? 'PROYECTOS SELECCIONADOS' : 'SELECTED CASE STUDIES'}
             </span>
-            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#2EE6A0]/40 to-transparent" />
+            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emeraldNeon/40 to-transparent" />
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
@@ -583,19 +583,19 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
           {FEATURED_PROJECTS.map((project, idx) => (
             <div key={project.id} id={project.id} className="scroll-mt-28 sm:scroll-mt-32">
               <ProjectTiltCard maxTilt={5}>
-                <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#2EE6A0]/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
+                <div className="glass-panel-card border border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
                 {/* Subtle top card accent glow on hover */}
-                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 {/* Card Ambient Glow Accent */}
-                <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2EE6A0]/[0.03] rounded-full blur-3xl pointer-events-none -z-10" />
+                <div className="absolute top-0 right-1/4 w-96 h-96 bg-emeraldNeon/[0.03] rounded-full blur-3xl pointer-events-none -z-10" />
 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
                   {/* Left Column: Details */}
                   <div className="lg:col-span-6 space-y-6">
                     {/* Monospace Project Index */}
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono text-[#2EE6A0] uppercase tracking-[0.25em] font-semibold">
+                      <span className="text-xs font-mono text-emeraldNeon uppercase tracking-[0.25em] font-semibold">
                         {language === 'es' ? `0${idx + 1} // CASO DE ESTUDIO` : `0${idx + 1} // CASE STUDY`}
                       </span>
                       <span className="text-[11px] font-mono text-neutral-400 bg-white/[0.03] border border-white/[0.06] px-2.5 py-0.5 rounded-full">
@@ -625,8 +625,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-[#2EE6A0]/60 pl-4 py-1">
-                        <div className="flex items-center gap-1.5 text-[#2EE6A0] font-mono text-[11px] uppercase tracking-wider mb-1.5 font-semibold">
+                      <div className="border-l-2 border-emeraldNeon/60 pl-4 py-1">
+                        <div className="flex items-center gap-1.5 text-emeraldNeon font-mono text-[11px] uppercase tracking-wider mb-1.5 font-semibold">
                           <Lightbulb className="w-3.5 h-3.5 shrink-0" />
                           <span>{language === 'es' ? 'La Solución' : 'The Solution'}</span>
                         </div>
@@ -640,7 +640,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                     <div className="grid grid-cols-3 gap-2.5 sm:gap-4 py-4 border-y border-white/[0.06]">
                       {project.metrics.map((m, mIdx) => (
                         <div key={mIdx} className="text-left">
-                          <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#2EE6A0] font-sans tracking-tight leading-none mb-1">
+                          <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-emeraldNeon font-sans tracking-tight leading-none mb-1">
                             {m.value}
                           </div>
                           <div className="text-[10px] sm:text-[11px] text-neutral-400 font-mono tracking-tight leading-tight line-clamp-2">

@@ -17,10 +17,11 @@ import { CvModal } from './components/CvModal';
 import { ScrollProgress } from './components/ScrollProgress';
 import { EngineeringPhilosophy } from './components/EngineeringPhilosophy';
 import { CommandPalette } from './components/CommandPalette';
-import { Language } from './types';
+import { Language, ThemeMode, ColorPalette } from './types';
 
 import { setLenisInstance } from './utils/smoothScroll';
 import { initSoundPreference, setSoundEnabled as persistSoundEnabled, playSound } from './utils/audioSystem';
+import { getInitialThemeMode, getInitialColorPalette, applyTheme } from './utils/themeSystem';
 
 export function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -28,7 +29,24 @@ export function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('es');
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => initSoundPreference());
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => getInitialThemeMode());
+  const [colorPalette, setColorPalette] = useState<ColorPalette>(() => getInitialColorPalette());
   const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize and apply theme
+  useEffect(() => {
+    applyTheme(themeMode, colorPalette);
+  }, [themeMode, colorPalette]);
+
+  const handleSetThemeMode = (mode: ThemeMode) => {
+    setThemeMode(mode);
+    playSound('switch');
+  };
+
+  const handleSetColorPalette = (palette: ColorPalette) => {
+    setColorPalette(palette);
+    playSound('switch');
+  };
 
   // Initialize sound preferences
   useEffect(() => {
@@ -125,7 +143,7 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070709] text-[#E2E8F0] relative overflow-x-hidden selection:bg-[#2EE6A0] selection:text-black">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#070709] text-[#0F172A] dark:text-[#E2E8F0] relative overflow-x-hidden selection:bg-[var(--accent-primary)] selection:text-black transition-colors duration-300">
       {/* Minimalist Scroll Progress Indicator */}
       <ScrollProgress />
 
@@ -139,7 +157,7 @@ export function App() {
       )}
 
       {/* Interactive Constellation Canvas */}
-      <ConstellationCanvas />
+      <ConstellationCanvas themeMode={themeMode} palette={colorPalette} />
 
       {/* Subtle Glow Cursor */}
       <CustomCursor />
@@ -153,12 +171,18 @@ export function App() {
           onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
           soundEnabled={soundEnabled}
           onToggleSound={toggleSound}
+          themeMode={themeMode}
+          onSetThemeMode={handleSetThemeMode}
+          colorPalette={colorPalette}
+          onSetColorPalette={handleSetColorPalette}
         />
 
         <main>
           <Hero
             language={language}
             onOpenCv={() => setIsCvOpen(true)}
+            themeMode={themeMode}
+            palette={colorPalette}
           />
 
           <Metrics language={language} />
@@ -195,6 +219,10 @@ export function App() {
         onOpenCv={() => setIsCvOpen(true)}
         soundEnabled={soundEnabled}
         onToggleSound={toggleSound}
+        themeMode={themeMode}
+        onSetThemeMode={handleSetThemeMode}
+        colorPalette={colorPalette}
+        onSetColorPalette={handleSetColorPalette}
       />
     </div>
   );

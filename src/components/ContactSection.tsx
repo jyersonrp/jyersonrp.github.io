@@ -217,10 +217,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
         <div className="mb-16 text-center max-w-3xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="h-px w-10 sm:w-14 bg-gradient-to-l from-[#2EE6A0]/50 to-transparent" />
-            <span className="text-[11px] font-mono tracking-[0.25em] text-[#2EE6A0] uppercase font-semibold">
+            <span className="text-[11px] font-mono tracking-[0.25em] text-emeraldNeon uppercase font-semibold">
               06 / {language === 'es' ? 'CONTACTO & CONTRATACIÓN' : 'GET IN TOUCH & HIRE'}
             </span>
-            <div className="h-px w-10 sm:w-14 bg-gradient-to-r from-[#2EE6A0]/50 to-transparent" />
+            <div className="h-px w-10 sm:w-14 bg-gradient-to-r from-emeraldNeon/50 to-transparent" />
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
@@ -244,9 +244,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
         {/* Heroic Centered Email Copier & Direct Action Channels */}
         <div className="max-w-3xl mx-auto mb-14">
           {/* 1-Click Interactive Email Capsule */}
-          <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#2EE6A0]/40 transition-all duration-300 p-6 sm:p-9 rounded-3xl text-center relative overflow-hidden group">
+          <div className="glass-panel-card border border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 p-6 sm:p-9 rounded-3xl text-center relative overflow-hidden group">
             {/* Subtle top card accent glow on hover */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
             <div className="text-[11px] font-mono uppercase tracking-[0.25em] text-neutral-400 mb-3">
               {language === 'es' ? 'CANAL DIRECTO // CORREO OFICIAL' : 'DIRECT CHANNEL // OFFICIAL EMAIL'}
             </div>
@@ -257,7 +257,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
             <div className="flex flex-wrap items-center justify-center gap-3">
               <button
                 onClick={handleCopyEmail}
-                className="px-6 py-3 rounded-xl bg-[#2EE6A0] hover:bg-[#26c589] text-black font-semibold text-xs font-mono uppercase tracking-wider flex items-center gap-2 transition-all shadow-[0_0_25px_rgba(46,230,160,0.35)] active:scale-95"
+                className="px-6 py-3 rounded-xl bg-emeraldNeon hover:bg-emeraldNeon-hover text-black font-semibold text-xs font-mono uppercase tracking-wider flex items-center gap-2 transition-all shadow-[0_0_25px_var(--accent-glow)] active:scale-95"
               >
                 {copied ? (
                   <>
@@ -276,7 +276,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                 href={`mailto:${publicEmail}`}
                 className="px-5 py-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.1] hover:border-white/[0.2] text-white text-xs font-mono transition-all flex items-center gap-2"
               >
-                <Mail className="w-4 h-4 text-[#00F0FF]" />
+                <Mail className="w-4 h-4 text-cyanNeon" />
                 <span>{language === 'es' ? 'Abrir en Correo' : 'Open Email Client'}</span>
               </a>
             </div>
@@ -293,10 +293,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-panel-card p-4 rounded-2xl border border-white/[0.08] hover:border-[#2EE6A0]/40 transition-all flex items-center justify-between group"
+              className="glass-panel-card p-4 rounded-2xl border border-white/[0.08] hover:border-emeraldNeon/40 transition-all flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-[#2EE6A0]">
+                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-emeraldNeon">
                   <MessageCircle className="w-4 h-4" />
                 </div>
                 <div>
@@ -312,10 +312,10 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-panel-card p-4 rounded-2xl border border-white/[0.08] hover:border-[#00F0FF]/40 transition-all flex items-center justify-between group"
+              className="glass-panel-card p-4 rounded-2xl border border-white/[0.08] hover:border-cyanNeon/40 transition-all flex items-center justify-between group"
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-[#00F0FF]">
+                <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.08] text-cyanNeon">
                   <LinkedinIcon className="w-4 h-4" />
                 </div>
                 <div>
@@ -347,13 +347,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
           </div>
 
           {/* Location & Timezone info */}
-          <div className="mt-3.5 p-3.5 rounded-2xl bg-[#09090d] border border-white/[0.06] flex items-center justify-between text-xs font-mono text-neutral-400">
+          <div className="mt-3.5 p-3.5 rounded-2xl glass-panel border border-white/[0.06] flex items-center justify-between text-xs font-mono text-neutral-400">
             <div className="flex items-center gap-2">
-              <MapPin className="w-3.5 h-3.5 text-[#2EE6A0]" />
+              <MapPin className="w-3.5 h-3.5 text-emeraldNeon" />
               <span>Maturín, Venezuela</span>
             </div>
             <div className="flex items-center gap-2 text-neutral-300">
-              <Clock className="w-3.5 h-3.5 text-[#00F0FF]" />
+              <Clock className="w-3.5 h-3.5 text-cyanNeon" />
               <span>{language === 'es' ? 'Zona Horaria: UTC-4 (AST)' : 'Timezone: UTC-4 (AST)'}</span>
             </div>
           </div>
@@ -361,9 +361,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
         {/* Centered Direct Message Form */}
         <div className="max-w-2xl mx-auto">
-          <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#2EE6A0]/30 transition-all duration-300 p-8 sm:p-10 rounded-3xl relative overflow-hidden">
+          <div className="glass-panel-card border border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/30 transition-all duration-300 p-8 sm:p-10 rounded-3xl relative overflow-hidden">
             {/* Subtle top card accent */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0]/40 to-transparent opacity-50 pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-50 pointer-events-none" />
 
             <h3 className="text-xl sm:text-2xl font-sans font-bold text-white tracking-tight mb-2 text-center">
               {language === 'es' ? 'Enviar un Mensaje Directo' : 'Send a Direct Message'}
@@ -375,8 +375,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
             </p>
 
             {formSubmitted ? (
-              <div className="py-10 px-6 sm:px-8 text-center space-y-5 bg-[#2EE6A0]/[0.06] border border-[#2EE6A0]/25 rounded-2xl animate-in fade-in zoom-in-95 duration-200">
-                <div className="w-12 h-12 rounded-full bg-[#2EE6A0]/20 text-[#2EE6A0] flex items-center justify-center mx-auto shadow-[0_0_20px_rgba(46,230,160,0.3)]">
+              <div className="py-10 px-6 sm:px-8 text-center space-y-5 bg-emeraldNeon/[0.06] border border-emeraldNeon/25 rounded-2xl animate-in fade-in zoom-in-95 duration-200">
+                <div className="w-12 h-12 rounded-full bg-emeraldNeon/20 text-emeraldNeon flex items-center justify-center mx-auto shadow-[0_0_20px_var(--accent-glow)]">
                   <Check className="w-6 h-6" />
                 </div>
                 <div>
@@ -394,7 +394,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                   <a
                     href={getMailtoLink()}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2EE6A0] text-black font-semibold text-xs hover:bg-[#26c589] transition-all shadow-[0_0_20px_rgba(46,230,160,0.3)]"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emeraldNeon text-black font-semibold text-xs hover:bg-emeraldNeon-hover transition-all shadow-[0_0_20px_var(--accent-glow)]"
                   >
                     <Mail className="w-4 h-4" />
                     <span>{language === 'es' ? 'Abrir en Correo' : 'Open in Email'}</span>
@@ -404,9 +404,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                     href={getWhatsAppLink()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] hover:border-[#2EE6A0]/40 text-white text-xs font-medium transition-all"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.05] hover:bg-white/[0.1] border border-white/[0.1] hover:border-emeraldNeon/40 text-white text-xs font-medium transition-all"
                   >
-                    <MessageCircle className="w-4 h-4 text-[#2EE6A0]" />
+                    <MessageCircle className="w-4 h-4 text-emeraldNeon" />
                     <span>{language === 'es' ? 'Enviar por WhatsApp' : 'Send via WhatsApp'}</span>
                   </a>
 
@@ -416,12 +416,12 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                   >
                     {copiedMessage ? (
                       <>
-                        <Check className="w-3.5 h-3.5 text-[#2EE6A0]" />
-                        <span className="text-[#2EE6A0]">{language === 'es' ? '¡Copiado!' : 'Copied!'}</span>
+                        <Check className="w-3.5 h-3.5 text-emeraldNeon" />
+                        <span className="text-emeraldNeon">{language === 'es' ? '¡Copiado!' : 'Copied!'}</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-3.5 h-3.5 text-[#00F0FF]" />
+                        <Copy className="w-3.5 h-3.5 text-cyanNeon" />
                         <span>{language === 'es' ? 'Copiar Texto' : 'Copy Text'}</span>
                       </>
                     )}
@@ -477,7 +477,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                         setFormData({ ...formData, name: e.target.value });
                       }}
                       placeholder={language === 'es' ? 'Ej. Ana Gómez / TechCorp' : 'e.g. Jane Doe / TechCorp'}
-                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-[#2EE6A0] transition-colors font-sans"
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-emeraldNeon transition-colors font-sans"
                     />
                   </div>
                   <div>
@@ -494,7 +494,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                         setFormData({ ...formData, email: e.target.value });
                       }}
                       placeholder="ejemplo@empresa.com"
-                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-[#2EE6A0] transition-colors font-sans"
+                      className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-emeraldNeon transition-colors font-sans"
                     />
                   </div>
                 </div>
@@ -506,7 +506,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                   <select
                     value={formData.subject}
                     onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[#09090d] border border-white/[0.08] text-white focus:outline-none focus:border-[#2EE6A0] transition-colors font-sans"
+                    className="w-full px-4 py-3 rounded-xl bg-[#09090d] border border-white/[0.08] text-white focus:outline-none focus:border-emeraldNeon transition-colors font-sans"
                   >
                     <option value="opportunity" className="bg-[#09090d] text-white">
                       {language === 'es' ? 'Oferta de Empleo / Rol de Desarrollador' : 'Job Offer / Developer Role'}
@@ -541,13 +541,13 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                         ? 'Cuéntame sobre la posición, requerimientos técnicos o visión del proyecto...'
                         : 'Tell me about the open position, technical stack, or project vision...'
                     }
-                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-[#2EE6A0] transition-colors resize-none font-sans"
+                    className="w-full px-4 py-3 rounded-xl bg-black/40 border border-white/[0.08] text-white placeholder-neutral-500 focus:outline-none focus:border-emeraldNeon transition-colors resize-none font-sans"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-xl bg-[#2EE6A0] hover:bg-[#26c589] text-black font-semibold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:shadow-[0_0_30px_rgba(46,230,160,0.4)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                  className="w-full py-4 rounded-xl bg-emeraldNeon hover:bg-emeraldNeon-hover text-black font-semibold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:shadow-[0_0_30px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
                 >
                   <Send className="w-4 h-4" />
                   <span>{language === 'es' ? 'Enviar Mensaje Ahora' : 'Send Message Now'}</span>
@@ -555,7 +555,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
                 {/* Security trust badge */}
                 <div className="flex items-center justify-center gap-2 text-[10.5px] font-mono text-neutral-400 pt-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#2EE6A0]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-emeraldNeon" />
                   <span>
                     {language === 'es'
                       ? 'Sanitización estricta de inputs & protección anti-spam en cliente activa'

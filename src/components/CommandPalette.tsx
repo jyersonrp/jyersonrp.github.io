@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Language } from '../types';
+import { Language, ThemeMode, ColorPalette } from '../types';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { playSound } from '../utils/audioSystem';
@@ -28,7 +28,10 @@ import {
   Database,
   Server,
   ShieldCheck,
-  Award
+  Award,
+  Palette,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
 
@@ -40,9 +43,13 @@ interface CommandPaletteProps {
   onOpenCv: () => void;
   soundEnabled: boolean;
   onToggleSound: () => void;
+  themeMode?: ThemeMode;
+  onSetThemeMode: (mode: ThemeMode) => void;
+  colorPalette?: ColorPalette;
+  onSetColorPalette: (palette: ColorPalette) => void;
 }
 
-type CommandCategory = 'navigation' | 'projects' | 'repos' | 'skills' | 'actions' | 'social';
+type CommandCategory = 'navigation' | 'projects' | 'repos' | 'skills' | 'actions' | 'theme' | 'social';
 
 interface CommandItem {
   id: string;
@@ -62,6 +69,7 @@ const CATEGORY_META: Record<CommandCategory, { es: string; en: string; color: st
   repos: { es: 'Repositorios GitHub', en: 'GitHub Repositories', color: '#c084fc' },
   skills: { es: 'Stack Técnico & Habilidades', en: 'Tech Stack & Skills', color: '#38bdf8' },
   actions: { es: 'Acciones & Documentos', en: 'Actions & Documents', color: '#2EE6A0' },
+  theme: { es: 'Temas & Paletas Cromáticas', en: 'Themes & Color Palettes', color: '#f59e0b' },
   social: { es: 'Contacto & Redes', en: 'Contact & Social', color: '#fbbf24' }
 };
 
@@ -72,7 +80,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   onToggleLanguage,
   onOpenCv,
   soundEnabled,
-  onToggleSound
+  onToggleSound,
+  themeMode = 'dark',
+  onSetThemeMode,
+  colorPalette = 'emerald',
+  onSetColorPalette,
 }) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -544,7 +556,111 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     },
 
     // -------------------------------------------------------------
-    // 6. Social / Direct Contact
+    // 6. Themes & Color Palettes
+    // -------------------------------------------------------------
+    {
+      id: 'cmd-theme-dark',
+      category: 'theme',
+      title: {
+        es: 'Tema: Activar Modo Oscuro (Deep Obsidian)',
+        en: 'Theme: Switch to Dark Mode (Deep Obsidian)'
+      },
+      subtitle: {
+        es: 'Fondo negro obsidiana, contrastes cyber y neones vivos',
+        en: 'Deep Obsidian black background and vibrant cyber neons'
+      },
+      icon: <Moon className="w-4 h-4 text-sky-400" />,
+      badge: 'THEME',
+      keywords: ['theme dark', 'modo oscuro', 'dark mode', 'oscuro', 'deep obsidian', 'black', 'noche', 'tema dark'],
+      action: () => {
+        onSetThemeMode('dark');
+        onClose();
+        showToast(language === 'es' ? 'Modo Oscuro activado (Deep Obsidian)' : 'Switched to Dark Mode (Deep Obsidian)');
+      }
+    },
+    {
+      id: 'cmd-theme-light',
+      category: 'theme',
+      title: {
+        es: 'Tema: Activar Modo Claro (Luxury Studio)',
+        en: 'Theme: Switch to Light Mode (Luxury Studio)'
+      },
+      subtitle: {
+        es: 'Fondo marfil nieve, tarjetas de cristal esmerilado y grafito',
+        en: 'Luxury Studio snow white, frosted glass cards and graphite text'
+      },
+      icon: <Sun className="w-4 h-4 text-amber-500" />,
+      badge: 'THEME',
+      keywords: ['theme light', 'modo claro', 'light mode', 'claro', 'luxury studio', 'blanco', 'dia', 'tema light'],
+      action: () => {
+        onSetThemeMode('light');
+        onClose();
+        showToast(language === 'es' ? 'Modo Claro activado (Luxury Studio)' : 'Switched to Light Mode (Luxury Studio)');
+      }
+    },
+    {
+      id: 'cmd-palette-emerald',
+      category: 'theme',
+      title: {
+        es: 'Paleta: Cyber Emerald (Verde Esmeralda + Cian)',
+        en: 'Palette: Cyber Emerald (Emerald Green + Cyan)'
+      },
+      subtitle: {
+        es: 'Verde esmeralda #2EE6A0 y cian neón #00F0FF',
+        en: 'Emerald green #2EE6A0 and neon cyan #00F0FF'
+      },
+      icon: <Palette className="w-4 h-4 text-[#2EE6A0]" />,
+      badge: 'PALETTE',
+      keywords: ['palette emerald', 'cyber emerald', 'verde', 'esmeralda', 'cian', 'paleta emerald', 'color emerald'],
+      action: () => {
+        onSetColorPalette('emerald');
+        onClose();
+        showToast(language === 'es' ? 'Paleta Cyber Emerald aplicada' : 'Cyber Emerald palette applied');
+      }
+    },
+    {
+      id: 'cmd-palette-ultraviolet',
+      category: 'theme',
+      title: {
+        es: 'Paleta: Ultraviolet Pulse (Azul Eléctrico + Morado Neón)',
+        en: 'Palette: Ultraviolet Pulse (Electric Blue + Neon Violet)'
+      },
+      subtitle: {
+        es: 'Morado neón #A855F7 y azul eléctrico #38BDF8',
+        en: 'Neon violet #A855F7 and electric blue #38BDF8'
+      },
+      icon: <Palette className="w-4 h-4 text-[#A855F7]" />,
+      badge: 'PALETTE',
+      keywords: ['palette ultraviolet', 'ultraviolet pulse', 'morado', 'violeta', 'azul', 'paleta ultraviolet', 'color ultraviolet', 'purple'],
+      action: () => {
+        onSetColorPalette('ultraviolet');
+        onClose();
+        showToast(language === 'es' ? 'Paleta Ultraviolet Pulse aplicada' : 'Ultraviolet Pulse palette applied');
+      }
+    },
+    {
+      id: 'cmd-palette-amber',
+      category: 'theme',
+      title: {
+        es: 'Paleta: Solar Amber (Ámbar Dorado + Fuego Cálido)',
+        en: 'Palette: Solar Amber (Golden Amber + Warm Fire)'
+      },
+      subtitle: {
+        es: 'Ámbar dorado #F59E0B y fuego cálido #F97316',
+        en: 'Golden amber #F59E0B and warm orange fire #F97316'
+      },
+      icon: <Palette className="w-4 h-4 text-[#F59E0B]" />,
+      badge: 'PALETTE',
+      keywords: ['palette amber', 'solar amber', 'ambar', 'naranja', 'dorado', 'fuego', 'paleta amber', 'color amber', 'gold'],
+      action: () => {
+        onSetColorPalette('amber');
+        onClose();
+        showToast(language === 'es' ? 'Paleta Solar Amber aplicada' : 'Solar Amber palette applied');
+      }
+    },
+
+    // -------------------------------------------------------------
+    // 7. Social / Direct Contact
     // -------------------------------------------------------------
     {
       id: 'soc-whatsapp',
@@ -634,11 +750,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       <div
         onKeyDown={handleKeyDown}
         tabIndex={-1}
-        className="w-full max-w-2xl bg-[#0b0b12] border border-white/[0.12] rounded-2xl sm:rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.95)] overflow-hidden flex flex-col max-h-[85vh] outline-none"
+        className="w-full max-w-2xl bg-white dark:bg-[#0b0b12] border border-slate-200 dark:border-white/[0.12] rounded-2xl sm:rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.18)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.95)] overflow-hidden flex flex-col max-h-[85vh] outline-none"
       >
         {/* Search Header Input */}
-        <div className="flex items-center gap-3 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-white/[0.08] bg-[#0f0f18]/70">
-          <Search className="w-5 h-5 text-[#2EE6A0] shrink-0" />
+        <div className="flex items-center gap-3 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.08] bg-slate-50/90 dark:bg-[#0f0f18]/70">
+          <Search className="w-5 h-5 text-[var(--accent-primary)] shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -653,7 +769,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 ? 'Escribe para buscar proyectos, repos, habilidades, CV...'
                 : 'Type to search projects, repos, skills, resume...'
             }
-            className="flex-1 bg-transparent text-white placeholder-neutral-500 text-sm sm:text-base outline-none font-sans"
+            className="flex-1 bg-transparent text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-500 text-sm sm:text-base outline-none font-sans"
           />
 
           {query && (
@@ -663,7 +779,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 setSelectedIndex(0);
                 inputRef.current?.focus();
               }}
-              className="p-1 rounded-md text-neutral-400 hover:text-white"
+              className="p-1 rounded-md text-slate-400 dark:text-neutral-400 hover:text-slate-700 dark:hover:text-white"
               aria-label="Clear query"
             >
               <X className="w-4 h-4" />
@@ -671,7 +787,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           )}
 
           <div className="flex items-center gap-1.5 shrink-0">
-            <kbd className="hidden sm:inline-flex items-center px-2 py-0.5 rounded bg-white/[0.06] border border-white/10 text-[10px] font-mono text-neutral-400">
+            <kbd className="hidden sm:inline-flex items-center px-2 py-0.5 rounded bg-slate-200 dark:bg-white/[0.06] border border-slate-300 dark:border-white/10 text-[10px] font-mono text-slate-600 dark:text-neutral-400">
               ESC
             </kbd>
             <button
@@ -679,7 +795,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 playSound('close');
                 onClose();
               }}
-              className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-neutral-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-slate-200/70 hover:bg-slate-300 dark:bg-white/5 dark:hover:bg-white/10 border border-slate-300 dark:border-white/10 text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-colors"
               aria-label="Close"
             >
               <X className="w-4 h-4" />
@@ -690,11 +806,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         {/* Results List */}
         <div
           ref={listRef}
-          className="overflow-y-auto p-2 sm:p-3 space-y-1 divide-y divide-white/[0.03] scrollbar-thin"
+          className="overflow-y-auto p-2 sm:p-3 space-y-1 divide-y divide-slate-100 dark:divide-white/[0.03] scrollbar-thin"
         >
           {filteredCommands.length === 0 ? (
-            <div className="py-12 text-center text-neutral-500 space-y-2">
-              <Command className="w-8 h-8 mx-auto opacity-40 text-neutral-400" />
+            <div className="py-12 text-center text-slate-400 dark:text-neutral-500 space-y-2">
+              <Command className="w-8 h-8 mx-auto opacity-40 text-slate-400 dark:text-neutral-400" />
               <p className="text-sm font-mono">
                 {language === 'es' ? 'No se encontraron resultados para su búsqueda.' : 'No commands matched your query.'}
               </p>
@@ -714,14 +830,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                   onMouseEnter={() => setSelectedIndex(idx)}
                   className={`flex items-center justify-between p-3 sm:px-4 rounded-xl cursor-pointer transition-all ${
                     isSelected
-                      ? 'bg-white/[0.09] text-white border border-white/[0.12] shadow-md'
-                      : 'text-neutral-300 hover:bg-white/[0.04]'
+                      ? 'bg-slate-100 dark:bg-white/[0.09] text-slate-900 dark:text-white border border-slate-300 dark:border-white/[0.12] shadow-sm'
+                      : 'text-slate-700 dark:text-neutral-300 hover:bg-slate-50 dark:hover:bg-white/[0.04]'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div
                       className={`p-2 rounded-lg transition-colors shrink-0 ${
-                        isSelected ? 'bg-white/15' : 'bg-white/5'
+                        isSelected
+                          ? 'bg-slate-200 dark:bg-white/15'
+                          : 'bg-slate-100 dark:bg-white/5'
                       }`}
                     >
                       {item.icon}
@@ -746,16 +864,16 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                         )}
                       </div>
                       {item.subtitle && (
-                        <p className="text-[11px] text-neutral-400 truncate mt-0.5 font-light">
+                        <p className="text-[11px] text-slate-500 dark:text-neutral-400 truncate mt-0.5 font-light">
                           {item.subtitle[language]}
                         </p>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 text-neutral-500 shrink-0 ml-3">
+                  <div className="flex items-center gap-2 text-slate-400 dark:text-neutral-500 shrink-0 ml-3">
                     {isSelected && (
-                      <span className="flex items-center gap-1 text-[11px] font-mono text-[#2EE6A0] bg-[#2EE6A0]/10 px-2 py-0.5 rounded border border-[#2EE6A0]/30">
+                      <span className="flex items-center gap-1 text-[11px] font-mono text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 px-2 py-0.5 rounded border border-[var(--accent-primary)]/30">
                         <CornerDownLeft className="w-3 h-3" />
                         <span className="hidden sm:inline">{language === 'es' ? 'Ejecutar' : 'Select'}</span>
                       </span>
@@ -768,24 +886,24 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         </div>
 
         {/* Footer Bar with Keyboard Cheatsheet */}
-        <div className="px-4 py-2.5 sm:py-3 bg-[#08080d] border-t border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-neutral-400">
+        <div className="px-4 py-2.5 sm:py-3 bg-slate-50 dark:bg-[#08080d] border-t border-slate-200 dark:border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-500 dark:text-neutral-400">
           <div className="flex items-center gap-3 sm:gap-4">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-[10px]">↑↓</kbd>
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-white/10 text-[10px] text-slate-700 dark:text-neutral-300">↑↓</kbd>
               <span className="hidden sm:inline">{language === 'es' ? 'Navegar' : 'Navigate'}</span>
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-[10px]">↵</kbd>
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-white/10 text-[10px] text-slate-700 dark:text-neutral-300">↵</kbd>
               <span className="hidden sm:inline">{language === 'es' ? 'Seleccionar' : 'Select'}</span>
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 rounded bg-white/10 text-[10px]">esc</kbd>
+              <kbd className="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-white/10 text-[10px] text-slate-700 dark:text-neutral-300">esc</kbd>
               <span className="hidden sm:inline">{language === 'es' ? 'Cerrar' : 'Close'}</span>
             </span>
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="text-[#2EE6A0] font-semibold">{filteredCommands.length}</span>
+            <span className="text-[var(--accent-primary)] font-semibold">{filteredCommands.length}</span>
             <span>{language === 'es' ? 'opciones' : 'commands'}</span>
           </div>
         </div>
@@ -793,7 +911,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] bg-[#2EE6A0] text-black font-semibold px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 text-xs animate-in fade-in slide-in-from-bottom-3 duration-200">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] bg-[var(--accent-primary)] text-black font-semibold px-4 py-2 rounded-full shadow-2xl flex items-center gap-2 text-xs animate-in fade-in slide-in-from-bottom-3 duration-200">
           <Check className="w-4 h-4" />
           <span>{toastMessage}</span>
         </div>

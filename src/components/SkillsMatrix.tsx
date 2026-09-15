@@ -35,17 +35,17 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
         borderColor: isHovered
           ? meta.brandColor
           : skill.highlight
-          ? 'rgba(46, 230, 160, 0.25)'
-          : 'rgba(255, 255, 255, 0.07)',
+          ? 'var(--accent-primary)'
+          : 'var(--border-subtle)',
         backgroundColor: isHovered
-          ? 'rgba(18, 20, 29, 0.85)'
+          ? 'var(--bg-card-hover)'
           : skill.highlight
-          ? 'rgba(255, 255, 255, 0.025)'
-          : 'rgba(10, 10, 15, 0.45)',
+          ? 'var(--bg-card)'
+          : 'var(--bg-card)',
         boxShadow: isHovered
           ? `0 12px 30px -10px ${meta.glowColor}, inset 0 1px 0 0 rgba(255, 255, 255, 0.1)`
           : skill.highlight
-          ? '0 0 20px rgba(46, 230, 160, 0.05)'
+          ? '0 0 20px var(--accent-glow)'
           : 'none',
         transform: isHovered ? 'translateY(-3px)' : 'translateY(0px)',
       }}
@@ -116,25 +116,25 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
   const [activeCategory, setActiveCategory] = useState<number>(0);
 
   const icons = [
-    <Database className="w-4 h-4 text-[#2EE6A0]" />,
-    <Cpu className="w-4 h-4 text-[#00F0FF]" />,
-    <Layout className="w-4 h-4 text-[#2EE6A0]" />,
-    <ShieldCheck className="w-4 h-4 text-[#00F0FF]" />
+    <Database className="w-4 h-4 text-emeraldNeon" />,
+    <Cpu className="w-4 h-4 text-cyanNeon" />,
+    <Layout className="w-4 h-4 text-emeraldNeon" />,
+    <ShieldCheck className="w-4 h-4 text-cyanNeon" />
   ];
 
   return (
     <section id="skills" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
       {/* Background ambient radial glow */}
-      <div className="absolute top-1/2 right-1/4 w-[500px] h-[350px] bg-[#00F0FF]/[0.035] rounded-full blur-[140px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 right-1/4 w-[500px] h-[350px] bg-cyanNeon/[0.035] rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto">
         {/* Editorial Section Header */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-[11px] font-mono tracking-[0.25em] text-[#2EE6A0] uppercase font-semibold">
+            <span className="text-[11px] font-mono tracking-[0.25em] text-emeraldNeon uppercase font-semibold">
               04 / {language === 'es' ? 'STACK TÉCNICO & IA' : 'TECH STACK & AI'}
             </span>
-            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-[#2EE6A0]/40 to-transparent" />
+            <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emeraldNeon/40 to-transparent" />
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-white tracking-tight leading-[1.18] sm:leading-[1.15]">
@@ -177,9 +177,9 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
         </div>
 
         {/* Active Category Display */}
-        <div className="glass-panel-card bg-[#09090f]/75 border border-white/[0.08] backdrop-blur-xl hover:border-[#2EE6A0]/40 transition-all duration-300 p-6 sm:p-10 rounded-3xl relative overflow-hidden">
+        <div className="glass-panel-card border border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 p-6 sm:p-10 rounded-3xl relative overflow-hidden">
           {/* Subtle top card accent glow */}
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#2EE6A0]/40 to-transparent opacity-70 pointer-events-none" />
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-70 pointer-events-none" />
 
           <div className="mb-8 pb-6 border-b border-white/[0.06] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
@@ -190,7 +190,7 @@ export const SkillsMatrix: React.FC<SkillsMatrixProps> = ({ language }) => {
                 {SKILL_CATEGORIES[activeCategory].description[language]}
               </p>
             </div>
-            <div className="text-xs font-mono text-[#2EE6A0] bg-[#2EE6A0]/[0.08] border border-[#2EE6A0]/20 px-3.5 py-1.5 rounded-full self-start sm:self-auto tracking-wider">
+            <div className="text-xs font-mono text-emeraldNeon bg-emeraldNeon/[0.08] border border-emeraldNeon/20 px-3.5 py-1.5 rounded-full self-start sm:self-auto tracking-wider">
               {language === 'es' ? 'Especialidad Verificada' : 'Verified Proficiency'}
             </div>
           </div>

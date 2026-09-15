@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Eye, Cpu, RotateCcw } from 'lucide-react';
-import { Language } from '../types';
+import { Cpu } from 'lucide-react';
+import { Language, ThemeMode, ColorPalette } from '../types';
+import { PALETTES } from '../utils/themeSystem';
 
 interface Point3D {
   x: number;
@@ -29,12 +30,72 @@ interface Satellite3D {
 
 interface Hero3DCoreProps {
   language: Language;
+  themeMode?: ThemeMode;
+  palette?: ColorPalette;
 }
 
-export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
+export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
+  language,
+  themeMode = 'dark',
+  palette = 'emerald',
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isInteracting, setIsInteracting] = useState(false);
+
+  const themeRef = useRef(themeMode);
+  const paletteRef = useRef(palette);
+  const nodesRef = useRef<Node3D[]>([]);
+  const satellitesRef = useRef<Satellite3D[]>([]);
+  const particlesRef = useRef<(Point3D & { speed: number; phase: number; color: string; size: number })[]>([]);
+
+  // Update refs and refresh dynamic color assignments when theme or palette changes
+  useEffect(() => {
+    themeRef.current = themeMode;
+    paletteRef.current = palette;
+
+    const curPal = PALETTES[palette] || PALETTES.emerald;
+    const isDark = themeMode === 'dark';
+    const primary = isDark
+      ? curPal.primary
+      : palette === 'emerald'
+      ? '#059669'
+      : palette === 'ultraviolet'
+      ? '#7E22CE'
+      : '#D97706';
+    const secondary = isDark
+      ? curPal.secondary
+      : palette === 'emerald'
+      ? '#0284C7'
+      : palette === 'ultraviolet'
+      ? '#0284C7'
+      : '#EA580C';
+    const tertiary = isDark
+      ? palette === 'emerald'
+        ? '#5ef2ba'
+        : palette === 'ultraviolet'
+        ? '#c084fc'
+        : '#fbbf24'
+      : palette === 'emerald'
+      ? '#10b981'
+      : palette === 'ultraviolet'
+      ? '#a855f7'
+      : '#f59e0b';
+
+    nodesRef.current.forEach((n, i) => {
+      n.color = i % 3 === 0 ? secondary : primary;
+    });
+
+    if (satellitesRef.current.length >= 3) {
+      satellitesRef.current[0].color = primary;
+      satellitesRef.current[1].color = secondary;
+      satellitesRef.current[2].color = tertiary;
+    }
+
+    particlesRef.current.forEach((p) => {
+      p.color = Math.random() > 0.4 ? primary : secondary;
+    });
+  }, [themeMode, palette]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -69,10 +130,14 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
     const sphereRadius = Math.min(width, height) * 0.28;
     const nodes: Node3D[] = [];
 
+    const curPal = PALETTES[paletteRef.current] || PALETTES.emerald;
+    const initPrimary = themeRef.current === 'dark' ? curPal.primary : '#059669';
+    const initSecondary = themeRef.current === 'dark' ? curPal.secondary : '#0284C7';
+
     const goldenRatio = (1 + Math.sqrt(5)) / 2;
     for (let i = 0; i < nodeCount; i++) {
-      const theta = 2 * Math.PI * i / goldenRatio;
-      const phi = Math.acos(1 - 2 * (i + 0.5) / nodeCount);
+      const theta = (2 * Math.PI * i) / goldenRatio;
+      const phi = Math.acos(1 - (2 * (i + 0.5)) / nodeCount);
 
       const x = sphereRadius * Math.sin(phi) * Math.cos(theta);
       const y = sphereRadius * Math.sin(phi) * Math.sin(theta);
@@ -80,28 +145,63 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
 
       const isCyan = i % 3 === 0;
       nodes.push({
-        x, y, z,
-        baseX: x, baseY: y, baseZ: z,
+        x,
+        y,
+        z,
+        baseX: x,
+        baseY: y,
+        baseZ: z,
         pulsePhase: Math.random() * Math.PI * 2,
-        color: isCyan ? '#00F0FF' : '#2EE6A0',
-        size: isCyan ? 3.2 : 2.5
+        color: isCyan ? initSecondary : initPrimary,
+        size: isCyan ? 3.2 : 2.5,
       });
     }
+    nodesRef.current = nodes;
 
     // -------------------------------------------------------------
     // 2. Satellites along 3D Orbital Rings
     // -------------------------------------------------------------
     const satellites: Satellite3D[] = [
-      { radius: sphereRadius * 1.45, tiltX: 0.65, tiltY: 0.35, speed: 1.8, angle: 0, color: '#2EE6A0', size: 4.5 },
-      { radius: sphereRadius * 1.75, tiltX: -0.55, tiltY: 0.85, speed: -1.3, angle: Math.PI / 2, color: '#00F0FF', size: 4.0 },
-      { radius: sphereRadius * 2.05, tiltX: 0.85, tiltY: -0.65, speed: 1.0, angle: Math.PI, color: '#5ef2ba', size: 3.5 }
+      {
+        radius: sphereRadius * 1.45,
+        tiltX: 0.65,
+        tiltY: 0.35,
+        speed: 1.8,
+        angle: 0,
+        color: initPrimary,
+        size: 4.5,
+      },
+      {
+        radius: sphereRadius * 1.75,
+        tiltX: -0.55,
+        tiltY: 0.85,
+        speed: -1.3,
+        angle: Math.PI / 2,
+        color: initSecondary,
+        size: 4.0,
+      },
+      {
+        radius: sphereRadius * 2.05,
+        tiltX: 0.85,
+        tiltY: -0.65,
+        speed: 1.0,
+        angle: Math.PI,
+        color: '#5ef2ba',
+        size: 3.5,
+      },
     ];
+    satellitesRef.current = satellites;
 
     // -------------------------------------------------------------
     // 3. Floating 3D Particulate Cloud
     // -------------------------------------------------------------
     const cloudCount = isMobile ? 26 : 75;
-    const particles: (Point3D & { speed: number; phase: number; color: string; size: number })[] = [];
+    const particles: (Point3D & {
+      speed: number;
+      phase: number;
+      color: string;
+      size: number;
+    })[] = [];
     for (let i = 0; i < cloudCount; i++) {
       const r = sphereRadius * (0.9 + Math.random() * 1.4);
       const u = Math.random();
@@ -114,10 +214,11 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
         z: r * Math.cos(phi),
         speed: 0.4 + Math.random() * 0.8,
         phase: Math.random() * Math.PI * 2,
-        color: Math.random() > 0.4 ? '#2EE6A0' : '#00F0FF',
-        size: 1 + Math.random() * 1.8
+        color: Math.random() > 0.4 ? initPrimary : initSecondary,
+        size: 1 + Math.random() * 1.8,
       });
     }
+    particlesRef.current = particles;
 
     // -------------------------------------------------------------
     // 4. 3D Rotation Physics, Interaction & Inertia
@@ -195,21 +296,23 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
     let startTime = performance.now();
     const fov = 420;
 
-    // Helper: Rotate Point around X and Y
-    const project3D = (x: number, y: number, z: number, rx: number, ry: number): { px: number; py: number; pz: number; scale: number; alpha: number } => {
-      // Rotate around Y
+    const project3D = (
+      x: number,
+      y: number,
+      z: number,
+      rx: number,
+      ry: number
+    ): { px: number; py: number; pz: number; scale: number; alpha: number } => {
       const cosY = Math.cos(ry);
       const sinY = Math.sin(ry);
       const x1 = x * cosY - z * sinY;
       const z1 = x * sinY + z * cosY;
 
-      // Rotate around X
       const cosX = Math.cos(rx);
       const sinX = Math.sin(rx);
       const y2 = y * cosX - z1 * sinX;
       const z2 = y * sinX + z1 * cosX;
 
-      // Perspective divide
       const scale = fov / (fov + z2 + sphereRadius * 1.5);
       const px = width / 2 + x1 * scale;
       const py = height / 2 + y2 * scale;
@@ -222,16 +325,14 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
       const now = performance.now();
       const elapsed = (now - startTime) * 0.001;
 
-      // Inertia & Idle spin
       if (!isDragging) {
         velY *= 0.94;
         velX *= 0.94;
-        if (Math.abs(velY) < 0.004) velY = 0.004; // Baseline idle rotation
+        if (Math.abs(velY) < 0.004) velY = 0.004;
         rotY += velY;
         rotX += velX;
       }
 
-      // Smooth tilt lerp
       tiltX += (targetTiltX - tiltX) * 0.08;
       tiltY += (targetTiltY - tiltY) * 0.08;
 
@@ -245,10 +346,40 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
       const centerX = width / 2;
       const centerY = height / 2;
 
+      const isDark = themeRef.current === 'dark';
+      const activePal = PALETTES[paletteRef.current] || PALETTES.emerald;
+      const primary = isDark
+        ? activePal.primary
+        : paletteRef.current === 'emerald'
+        ? '#059669'
+        : paletteRef.current === 'ultraviolet'
+        ? '#7E22CE'
+        : '#D97706';
+      const secondary = isDark
+        ? activePal.secondary
+        : paletteRef.current === 'emerald'
+        ? '#0284C7'
+        : paletteRef.current === 'ultraviolet'
+        ? '#0284C7'
+        : '#EA580C';
+
       // Background Volumetric Glow
-      const bgGrad = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, sphereRadius * 1.8);
-      bgGrad.addColorStop(0, 'rgba(46, 230, 160, 0.12)');
-      bgGrad.addColorStop(0.4, 'rgba(0, 240, 255, 0.05)');
+      const bgGrad = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        10,
+        centerX,
+        centerY,
+        sphereRadius * 1.8
+      );
+      bgGrad.addColorStop(
+        0,
+        isDark ? activePal.glow : 'rgba(15, 23, 42, 0.04)'
+      );
+      bgGrad.addColorStop(
+        0.4,
+        isDark ? 'rgba(0, 240, 255, 0.05)' : 'rgba(2, 132, 199, 0.03)'
+      );
       bgGrad.addColorStop(1, 'transparent');
       ctx.fillStyle = bgGrad;
       ctx.beginPath();
@@ -257,19 +388,31 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
 
       // Pulsing Central Compute Core
       const corePulse = 1 + Math.sin(elapsed * 3) * 0.15;
-      const coreGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, sphereRadius * 0.38 * corePulse);
-      coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-      coreGrad.addColorStop(0.25, 'rgba(46, 230, 160, 0.85)');
-      coreGrad.addColorStop(0.6, 'rgba(0, 240, 255, 0.35)');
+      const coreGrad = ctx.createRadialGradient(
+        centerX,
+        centerY,
+        0,
+        centerX,
+        centerY,
+        sphereRadius * 0.38 * corePulse
+      );
+      if (isDark) {
+        coreGrad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+        coreGrad.addColorStop(0.25, primary);
+        coreGrad.addColorStop(0.6, secondary);
+      } else {
+        coreGrad.addColorStop(0, '#FFFFFF');
+        coreGrad.addColorStop(0.3, primary);
+        coreGrad.addColorStop(0.7, secondary);
+      }
       coreGrad.addColorStop(1, 'transparent');
       ctx.fillStyle = coreGrad;
       ctx.beginPath();
       ctx.arc(centerX, centerY, sphereRadius * 0.38 * corePulse, 0, Math.PI * 2);
       ctx.fill();
 
-      // Project all nodes
-      const projectedNodes = nodes.map((node) => {
-        // Micro oscillation of nodes
+      const activeNodes = nodesRef.current;
+      const projectedNodes = activeNodes.map((node) => {
         const osc = Math.sin(elapsed * 2 + node.pulsePhase) * 6;
         const scaleDist = (sphereRadius + osc) / sphereRadius;
         const curX = node.baseX * scaleDist;
@@ -280,10 +423,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
         return { ...node, ...proj };
       });
 
-      // Sort nodes and draw back connections/nodes first
-      // -------------------------------------------------------------
-      // Draw Synaptic Connection Lines
-      // -------------------------------------------------------------
+      // Synaptic Connection Lines
       const maxConnectDist = sphereRadius * 0.72;
       ctx.lineWidth = 1;
       for (let i = 0; i < projectedNodes.length; i++) {
@@ -296,33 +436,35 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
           const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
           if (dist < maxConnectDist) {
-            const lineAlpha = (1 - dist / maxConnectDist) * Math.min(n1.alpha, n2.alpha) * 0.45;
-            ctx.strokeStyle = `rgba(46, 230, 160, ${lineAlpha})`;
+            const lineAlpha =
+              (1 - dist / maxConnectDist) *
+              Math.min(n1.alpha, n2.alpha) *
+              (isDark ? 0.45 : 0.65);
+            ctx.save();
+            ctx.strokeStyle = primary;
+            ctx.globalAlpha = lineAlpha;
             ctx.beginPath();
             ctx.moveTo(n1.px, n1.py);
             ctx.lineTo(n2.px, n2.py);
             ctx.stroke();
+            ctx.restore();
           }
         }
       }
 
-      // -------------------------------------------------------------
-      // Draw 3D Orbital Rings with Perspective Projection
-      // -------------------------------------------------------------
+      // Orbital Rings
       const ringSteps = isMobile ? 36 : 72;
-      satellites.forEach((sat, sIdx) => {
+      satellitesRef.current.forEach((sat, sIdx) => {
         ctx.beginPath();
         let firstX = 0;
         let firstY = 0;
 
         for (let s = 0; s <= ringSteps; s++) {
           const a = (s / ringSteps) * Math.PI * 2;
-          // Unrotated ring in X-Y plane
           let rx = sat.radius * Math.cos(a);
           let ry = sat.radius * Math.sin(a);
           let rz = 0;
 
-          // Apply ring specific tilt
           const cosTx = Math.cos(sat.tiltX);
           const sinTx = Math.sin(sat.tiltX);
           const ry1 = ry * cosTx - rz * sinTx;
@@ -333,7 +475,6 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
           const rx2 = rx * cosTy + rz1 * sinTy;
           const rz2 = -rx * sinTy + rz1 * cosTy;
 
-          // Project with main rotation
           const proj = project3D(rx2, ry1, rz2, currentRotX, currentRotY);
 
           if (s === 0) {
@@ -345,13 +486,14 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
           }
         }
         ctx.closePath();
-        ctx.strokeStyle = sIdx === 1 ? 'rgba(0, 240, 255, 0.45)' : 'rgba(46, 230, 160, 0.45)';
+        ctx.save();
+        ctx.strokeStyle = sIdx === 1 ? secondary : primary;
+        ctx.globalAlpha = isDark ? 0.45 : 0.6;
         ctx.lineWidth = 1.2;
         ctx.stroke();
+        ctx.restore();
 
-        // -----------------------------------------------------------
-        // Satellite Bead along this ring
-        // -----------------------------------------------------------
+        // Glowing Satellite Bead
         const currentAngle = sat.angle + elapsed * sat.speed;
         let sx = sat.radius * Math.cos(currentAngle);
         let sy = sat.radius * Math.sin(currentAngle);
@@ -369,57 +511,86 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
 
         const satProj = project3D(sx2, sy1, sz2, currentRotX, currentRotY);
 
-        // Draw glowing satellite
-        const satGlow = ctx.createRadialGradient(satProj.px, satProj.py, 0, satProj.px, satProj.py, sat.size * 3 * satProj.scale);
+        const satGlow = ctx.createRadialGradient(
+          satProj.px,
+          satProj.py,
+          0,
+          satProj.px,
+          satProj.py,
+          sat.size * 3 * satProj.scale
+        );
         satGlow.addColorStop(0, sat.color);
         satGlow.addColorStop(0.4, sat.color);
         satGlow.addColorStop(1, 'transparent');
 
         ctx.fillStyle = satGlow;
         ctx.beginPath();
-        ctx.arc(satProj.px, satProj.py, sat.size * 3 * satProj.scale, 0, Math.PI * 2);
+        ctx.arc(
+          satProj.px,
+          satProj.py,
+          sat.size * 3 * satProj.scale,
+          0,
+          Math.PI * 2
+        );
         ctx.fill();
 
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.arc(satProj.px, satProj.py, sat.size * 0.9 * satProj.scale, 0, Math.PI * 2);
+        ctx.arc(
+          satProj.px,
+          satProj.py,
+          sat.size * 0.9 * satProj.scale,
+          0,
+          Math.PI * 2
+        );
         ctx.fill();
       });
 
-      // -------------------------------------------------------------
-      // Draw 3D Neural Nodes with Depth Sorting
-      // -------------------------------------------------------------
+      // Neural Nodes with Depth Sorting
       projectedNodes.sort((a, b) => a.pz - b.pz);
 
       projectedNodes.forEach((node) => {
         const r = node.size * node.scale;
-        // Node outer glow
         ctx.beginPath();
-        const grad = ctx.createRadialGradient(node.px, node.py, 0, node.px, node.py, r * 2.8);
+        const grad = ctx.createRadialGradient(
+          node.px,
+          node.py,
+          0,
+          node.px,
+          node.py,
+          r * 2.8
+        );
         grad.addColorStop(0, node.color);
-        grad.addColorStop(0.5, `rgba(${node.color === '#00F0FF' ? '0, 240, 255' : '46, 230, 160'}, ${node.alpha * 0.6})`);
+        grad.addColorStop(0.5, node.color);
         grad.addColorStop(1, 'transparent');
+        ctx.save();
+        ctx.globalAlpha = isDark ? node.alpha * 0.6 : node.alpha * 0.8;
         ctx.fillStyle = grad;
         ctx.arc(node.px, node.py, r * 2.8, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
 
-        // Node center
         ctx.beginPath();
-        ctx.fillStyle = node.alpha > 0.6 ? '#ffffff' : node.color;
+        ctx.fillStyle = isDark
+          ? node.alpha > 0.6
+            ? '#ffffff'
+            : node.color
+          : node.color;
         ctx.arc(node.px, node.py, r, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // -------------------------------------------------------------
       // Floating 3D Star Particles
-      // -------------------------------------------------------------
-      particles.forEach((p) => {
+      particlesRef.current.forEach((p) => {
         const dynamicZ = p.z + Math.sin(elapsed * p.speed + p.phase) * 12;
         const proj = project3D(p.x, p.y, dynamicZ, currentRotX, currentRotY);
-        ctx.fillStyle = `rgba(${p.color === '#00F0FF' ? '0, 240, 255' : '46, 230, 160'}, ${proj.alpha * 0.7})`;
+        ctx.save();
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = isDark ? proj.alpha * 0.7 : proj.alpha * 0.85;
         ctx.beginPath();
         ctx.arc(proj.px, proj.py, p.size * proj.scale, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
       });
 
       ctx.restore();
@@ -439,43 +610,89 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({ language }) => {
     };
   }, []);
 
+  const curPal = PALETTES[palette] || PALETTES.emerald;
+  const isDark = themeMode === 'dark';
+  const primaryColor = isDark
+    ? curPal.primary
+    : palette === 'emerald'
+    ? '#059669'
+    : palette === 'ultraviolet'
+    ? '#7E22CE'
+    : '#D97706';
+  const secondaryColor = isDark
+    ? curPal.secondary
+    : palette === 'emerald'
+    ? '#0284C7'
+    : palette === 'ultraviolet'
+    ? '#0284C7'
+    : '#EA580C';
+
   return (
     <div
       ref={containerRef}
       className="relative w-full h-[300px] sm:h-[400px] lg:h-[460px] flex items-center justify-center select-none"
     >
       {/* Background Volumetric Aura */}
-      <div className="absolute inset-0 bg-radial from-[#2EE6A0]/[0.08] via-[#00F0FF]/[0.04] to-transparent rounded-3xl pointer-events-none blur-2xl" />
+      <div
+        className="absolute inset-0 rounded-3xl pointer-events-none blur-2xl opacity-70 transition-colors duration-500"
+        style={{
+          background: `radial-gradient(circle at center, ${primaryColor}18, ${secondaryColor}10, transparent 70%)`,
+        }}
+      />
 
       {/* 3D Mathematical Canvas Engine */}
       <canvas
         ref={canvasRef}
-        aria-label={language === 'es' ? 'Núcleo neuronal interactivo en 3D' : 'Interactive 3D neural core'}
-        className={`w-full h-full touch-none ${isInteracting ? 'cursor-grabbing' : 'cursor-grab'}`}
+        aria-label={
+          language === 'es'
+            ? 'Núcleo neuronal interactivo en 3D'
+            : 'Interactive 3D neural core'
+        }
+        className={`w-full h-full touch-none ${
+          isInteracting ? 'cursor-grabbing' : 'cursor-grab'
+        }`}
       />
 
       {/* Floating HUD Telemetry Overlay */}
       <div className="absolute top-3 left-4 right-4 flex items-center justify-between pointer-events-none text-[10px] font-mono">
-        <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/[0.08]">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#2EE6A0] animate-pulse" />
-          <span className="text-neutral-300 tracking-wider">
+        <div className="flex items-center gap-2 bg-black/60 dark:bg-black/60 bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/[0.08] dark:border-white/[0.08] border-slate-200/90 shadow-sm">
+          <span
+            className="w-1.5 h-1.5 rounded-full animate-pulse"
+            style={{
+              backgroundColor: primaryColor,
+              boxShadow: `0 0 8px ${primaryColor}`,
+            }}
+          />
+          <span className="text-neutral-300 dark:text-neutral-300 text-slate-700 tracking-wider">
             {language === 'es' ? 'NÚCLEO NEURONAL // 3D' : 'NEURAL CORE // 3D'}
           </span>
         </div>
-        <div className="hidden sm:flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/[0.08] text-[#00F0FF]">
-          <Cpu className="w-3 h-3 text-[#00F0FF]" />
-          <span>{language === 'es' ? 'ACELERACIÓN ONNX' : 'ONNX ACCELERATED'}</span>
+        <div
+          className="hidden sm:flex items-center gap-1.5 bg-black/60 dark:bg-black/60 bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/[0.08] dark:border-white/[0.08] border-slate-200/90 shadow-sm"
+          style={{ color: secondaryColor }}
+        >
+          <Cpu className="w-3 h-3" style={{ color: secondaryColor }} />
+          <span>
+            {language === 'es' ? 'ACELERACIÓN ONNX' : 'ONNX ACCELERATED'}
+          </span>
         </div>
       </div>
 
       {/* Bottom Interaction Guide Pill */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
-        <div className="flex items-center gap-2 bg-black/70 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/[0.1] text-[10px] font-mono text-neutral-300 shadow-xl whitespace-nowrap">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF]" />
+        <div className="flex items-center gap-2 bg-black/70 dark:bg-black/70 bg-white/90 backdrop-blur-md px-3.5 py-1 rounded-full border border-white/[0.1] dark:border-white/[0.1] border-slate-200/90 text-[10px] font-mono text-neutral-300 dark:text-neutral-300 text-slate-700 shadow-xl whitespace-nowrap">
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ backgroundColor: secondaryColor }}
+          />
           <span>
             {language === 'es'
-              ? (isInteracting ? 'ROTANDO NÚCLEO 3D' : 'ARRASTRA PARA ROTAR EN 3D')
-              : (isInteracting ? 'ROTATING 3D CORE' : 'DRAG TO ROTATE IN 3D')}
+              ? isInteracting
+                ? 'ROTANDO NÚCLEO 3D'
+                : 'ARRASTRA PARA ROTAR EN 3D'
+              : isInteracting
+              ? 'ROTATING 3D CORE'
+              : 'DRAG TO ROTATE IN 3D'}
           </span>
         </div>
       </div>
