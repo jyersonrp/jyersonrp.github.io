@@ -80,7 +80,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
   return (
     <div className="space-y-3 font-mono">
       {/* CCTV Top Status Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-xl bg-slate-900 dark:bg-black/60 border border-slate-800 dark:border-white/[0.08] text-[10.5px]">
+      <div data-dark-mockup="true" className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 rounded-xl bg-slate-900 dark:bg-black/60 border border-slate-800 dark:border-white/[0.08] text-[10.5px]">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 relative">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-500 opacity-75" />
@@ -108,7 +108,7 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
       </div>
 
       {/* CCTV Live Viewport */}
-      <div className="relative h-56 sm:h-64 bg-[#07070b] rounded-2xl overflow-hidden border border-white/[0.08] shadow-inner flex flex-col justify-between p-3.5 group">
+      <div data-dark-mockup="true" className="relative h-56 sm:h-64 bg-[#07070b] rounded-2xl overflow-hidden border border-white/[0.08] shadow-inner flex flex-col justify-between p-3.5 group">
         {/* Subtle camera scanlines & surveillance grid */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.4)_50%)] bg-[length:100%_4px] pointer-events-none opacity-40" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.85)_100%)] pointer-events-none" />
@@ -130,10 +130,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
           <>
             {/* Dynamic Bounding Box 1: Verified Target */}
             <div className="absolute top-8 left-10 sm:left-16 w-32 sm:w-40 h-36 sm:h-44 border-2 border-[var(--accent-primary)] bg-[var(--accent-primary)]/15 shadow-[0_0_20px_var(--accent-glow)] rounded-lg p-1.5 transition-all duration-300">
-              <div className="inline-flex items-center gap-1 bg-[var(--accent-primary)] text-black font-extrabold text-[8.5px] px-1.5 py-0.5 rounded tracking-wider shadow">
+              <div className="inline-flex items-center gap-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-extrabold text-[8.5px] px-2 py-0.5 rounded tracking-wider shadow">
                 <span>{currentCam.objectType}</span>
               </div>
-              <div className="mt-1 flex flex-col gap-0.5 text-[8px] text-[var(--accent-primary)] font-mono">
+              <div className="mt-1 flex flex-col gap-0.5 text-[8px] text-[var(--accent-primary)] font-mono font-semibold">
                 <span>TRACK: [x:320, y:180]</span>
                 <span>YOLOv8 ONNX RUNTIME</span>
               </div>
@@ -227,9 +227,9 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
             playSound('simulation');
             setIsAlarmMode(!isAlarmMode);
           }}
-          className={`px-3 py-1.5 rounded-lg text-[10.5px] font-bold transition-all flex items-center gap-2 shadow-sm ${
+          className={`px-3.5 py-1.5 rounded-lg text-[10.5px] font-bold transition-all flex items-center gap-2 shadow-sm ${
             isAlarmMode
-              ? 'bg-[var(--accent-primary)] text-black hover:brightness-110'
+              ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white shadow-md hover:brightness-110'
               : 'bg-slate-900 dark:bg-white/[0.08] text-white dark:text-white hover:bg-slate-800 dark:hover:bg-white/[0.15] border border-slate-800 dark:border-white/[0.1]'
           }`}
         >
@@ -361,7 +361,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
 
       {/* In-RAM PDF Interactive Preview Drawer */}
       {showPdfModal && (
-        <div className="p-4 rounded-2xl bg-[#0c0d14] border border-[var(--accent-primary)]/30 shadow-2xl space-y-3 font-sans animate-in fade-in duration-200">
+        <div data-dark-mockup="true" className="p-4 rounded-2xl bg-[#0c0d14] border border-[var(--accent-primary)]/30 shadow-2xl space-y-3 font-sans animate-in fade-in duration-200">
           <div className="flex items-center justify-between pb-2 border-b border-white/10">
             <div className="flex items-center gap-2">
               <FileText className="w-4 h-4 text-rose-400" />
@@ -444,7 +444,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
   return (
     <div className="space-y-3 font-sans">
       {/* Smartphone Housing Frame */}
-      <div className="max-w-[370px] mx-auto bg-[#101017] rounded-[2.25rem] p-3 border-2 border-white/[0.12] shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative">
+      <div data-dark-mockup="true" className="max-w-[370px] mx-auto bg-[#101017] rounded-[2.25rem] p-3 border-2 border-white/[0.12] shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative">
         {/* Dynamic Island / Speaker Pill */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-20 flex items-center justify-center">
           <div className="w-2.5 h-2.5 rounded-full bg-[#181822] mr-2" />
@@ -577,7 +577,7 @@ export const WhatsBotMockupView: React.FC<MockupProps> = ({ language }) => {
 
       {/* Concurrency Simulation Interactive Dual-Thread Visualizer */}
       {concurrencySimulated && (
-        <div className="p-3 rounded-xl bg-black/80 border border-amber-500/30 text-xs font-mono space-y-2 animate-in fade-in duration-300">
+        <div data-dark-mockup="true" className="p-3 rounded-xl bg-black/80 border border-amber-500/30 text-xs font-mono space-y-2 animate-in fade-in duration-300">
           <div className="flex items-center gap-2 text-amber-300 font-semibold text-[11px]">
             <Server className="w-4 h-4 text-amber-400 shrink-0" />
             <span>{language === 'es' ? 'Simulación de Carrera en Tiempo Real (Mismo Milisegundo)' : 'Real-Time Race Condition Simulation (Same Millisecond)'}</span>

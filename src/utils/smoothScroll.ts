@@ -42,7 +42,7 @@ export const smoothScrollTo = (target: string | HTMLElement | number) => {
   if (lenisInstance) {
     lenisInstance.scrollTo(target, {
       duration: 1.2,
-      offset: typeof target === 'number' ? 0 : -88,
+      offset: typeof target === 'number' ? 0 : -120,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
     });
     return;
@@ -53,9 +53,11 @@ export const smoothScrollTo = (target: string | HTMLElement | number) => {
   } else if (typeof target === 'string') {
     const el = document.querySelector(target);
     if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+      const y = el.getBoundingClientRect().top + window.pageYOffset - 120;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
     }
   } else if (target instanceof HTMLElement) {
-    target.scrollIntoView({ behavior: 'smooth' });
+    const y = target.getBoundingClientRect().top + window.pageYOffset - 120;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
   }
 };

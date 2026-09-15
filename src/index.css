@@ -438,43 +438,91 @@ html:not(.dark) [class*="bg-[#202c33]"] .text-white {
 }
 
 /* Body & neutral texts with AAA Contrast */
-html.light .text-neutral-100:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-100:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-200:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-300:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-200/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-200/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-300/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-300/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-neutral-100:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-100:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-200:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-200:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-300:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-300:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-200/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-200/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-300/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-300/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #1E293B !important;
 }
 
-html.light .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-400/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-400/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-neutral-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html.light [class*="text-neutral-500/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) [class*="text-neutral-500/"]:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-neutral-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-400/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-400/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light .text-neutral-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-neutral-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html.light [class*="text-neutral-500/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) [class*="text-neutral-500/"]:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #334155 !important;
 }
 
-html.light .text-slate-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-slate-400:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-slate-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-400:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #475569 !important;
 }
 
-html.light .text-slate-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-slate-500:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-slate-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-500:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #334155 !important;
 }
 
-html.light .text-slate-600:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
-html:not(.dark) .text-slate-600:not([data-preloader] *):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
+html.light .text-slate-600:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *),
+html:not(.dark) .text-slate-600:not([data-preloader] *):not([data-dark-mockup] *):not([data-dark-mockup]):not([class*="bg-[#050508]"] *):not(pre *):not([class*="bg-[#0c0c12]"] *):not([class*="bg-[#0c0d14]"] *):not([class*="bg-[#202c33]"] *) {
   color: #1E293B !important;
+}
+
+/* Dedicated High-Contrast Rules for Dark Interactive Mockups (CCTV feed, Smartphone frame, Terminals) */
+[data-dark-mockup],
+[data-dark-mockup] * {
+  color-scheme: dark;
+}
+
+html.light [data-dark-mockup] .text-white,
+html:not(.dark) [data-dark-mockup] .text-white,
+html.light [data-dark-mockup] [class*="text-white"],
+html:not(.dark) [data-dark-mockup] [class*="text-white"] {
+  color: #FFFFFF !important;
+}
+
+html.light [data-dark-mockup] .text-neutral-100,
+html:not(.dark) [data-dark-mockup] .text-neutral-100 {
+  color: #F8FAFC !important;
+}
+
+html.light [data-dark-mockup] .text-neutral-200,
+html:not(.dark) [data-dark-mockup] .text-neutral-200 {
+  color: #E2E8F0 !important;
+}
+
+html.light [data-dark-mockup] .text-neutral-300,
+html:not(.dark) [data-dark-mockup] .text-neutral-300 {
+  color: #CBD5E1 !important;
+}
+
+html.light [data-dark-mockup] .text-neutral-400,
+html:not(.dark) [data-dark-mockup] .text-neutral-400 {
+  color: #94A3B8 !important;
+}
+
+html.light [data-dark-mockup] .text-slate-200,
+html:not(.dark) [data-dark-mockup] .text-slate-200 {
+  color: #E2E8F0 !important;
+}
+
+html.light [data-dark-mockup] .text-slate-300,
+html:not(.dark) [data-dark-mockup] .text-slate-300 {
+  color: #CBD5E1 !important;
+}
+
+html.light [data-dark-mockup] .text-slate-400,
+html:not(.dark) [data-dark-mockup] .text-slate-400 {
+  color: #94A3B8 !important;
 }
 
 /* Preserve high contrast dark styling for terminal & code pre blocks */

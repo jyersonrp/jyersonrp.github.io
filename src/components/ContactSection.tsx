@@ -212,7 +212,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
   };
 
   return (
-    <section id="contact" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="contact" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-12 sm:pb-16 px-4 sm:px-6 lg:px-8 relative z-10">
       {/* Background ambient radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[var(--accent-primary)]/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
 
@@ -551,9 +551,9 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-xl bg-emeraldNeon hover:bg-emeraldNeon-hover text-black font-semibold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:shadow-[0_0_30px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-bold text-xs uppercase tracking-widest flex items-center justify-center gap-2 hover:shadow-[0_0_30px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg"
                 >
-                  <Send className="w-4 h-4" />
+                  <Send className="w-4 h-4 text-white" />
                   <span>{language === 'es' ? 'Enviar Mensaje Ahora' : 'Send Message Now'}</span>
                 </button>
 
