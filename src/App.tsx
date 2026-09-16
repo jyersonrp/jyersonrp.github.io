@@ -72,6 +72,11 @@ export function App() {
     return () => clearTimeout(timer);
   }, [isLoaded]);
 
+  const isCvOpenRef = useRef(isCvOpen);
+  isCvOpenRef.current = isCvOpen;
+  const isCommandPaletteOpenRef = useRef(isCommandPaletteOpen);
+  isCommandPaletteOpenRef.current = isCommandPaletteOpen;
+
   // Initialize Lenis Cinematic Smooth Scroll safely
   useEffect(() => {
     let lenis: Lenis | null = null;
@@ -82,10 +87,39 @@ export function App() {
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        virtualScroll: (data) => {
+          // When CV modal or Command Palette is open, bypass Lenis completely:
+          // never call preventDefault(), allowing 100% natural native trackpad/touch/wheel scroll
+          if (
+            isCvOpenRef.current ||
+            isCommandPaletteOpenRef.current ||
+            Boolean(document.getElementById('cv-modal-overlay')) ||
+            Boolean(document.getElementById('command-palette-modal'))
+          ) {
+            return false;
+          }
+          const target = (data.event?.target || null) as HTMLElement | null;
+          if (
+            target?.closest?.(
+              '#cv-modal-overlay, #cv-modal-container, #command-palette-modal, [data-lenis-prevent]'
+            )
+          ) {
+            return false;
+          }
+          return true;
+        },
         prevent: (node) => {
+          if (
+            isCvOpenRef.current ||
+            isCommandPaletteOpenRef.current ||
+            Boolean(document.getElementById('cv-modal-overlay')) ||
+            Boolean(document.getElementById('command-palette-modal'))
+          ) {
+            return true;
+          }
           return Boolean(
             node?.closest?.(
-              '#cv-modal-overlay, #cv-modal-container, #command-palette-modal, [data-lenis-prevent], [data-lenis-prevent="true"], [data-lenis-prevent-wheel]'
+              '#cv-modal-overlay, #cv-modal-container, #command-palette-modal, [data-lenis-prevent]'
             )
           );
         },

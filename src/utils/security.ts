@@ -41,9 +41,13 @@ export function sanitizeInput(
       .replace(/<\s*iframe[^>]*>[\s\S]*?<\s*\/\s*iframe\s*>/gi, '')
       .replace(/<\s*object[^>]*>[\s\S]*?<\s*\/\s*object\s*>/gi, '')
       .replace(/<\s*embed[^>]*>[\s\S]*?<\s*\/\s*embed\s*>/gi, '')
-      .replace(/<\/?(?:[a-z][a-z0-9]*)\b[^>]*>/gi, '');
+      .replace(/<\/?(?:[a-z][a-z0-9]*)\b[^>]*>/gi, '')
+      .replace(/<[a-z][a-z0-9]*[^>]*$/gi, '');
     iterations++;
   } while (sanitized !== previous && iterations < 5);
+
+  // Neutralize inline event handlers (e.g. onerror=, onload=, onclick=)
+  sanitized = sanitized.replace(/\bon[a-z]{3,}\s*=/gi, 'blocked-handler=');
 
   // Neutralize dangerous pseudo-protocol URI schemes
   sanitized = sanitized
@@ -140,26 +144,54 @@ export function resetRateLimit(actionKey?: string): void {
 }
 
 /**
- * Opens an external URL safely with noopener and noreferrer to neutralize reverse tabnabbing.
- * Validates protocol to prevent pseudo-protocol exploitation.
+ * Validates whether a URL is safe to open externally.
+ * Neutralizes pseudo-protocols (javascript, vbscript, data, file) and control character vectors.
  */
-export function safeOpenUrl(url: string): void {
-  if (!url || typeof url !== 'string') return;
+export function isValidSafeUrl(url: string): boolean {
+  if (!url || typeof url !== 'string') return false;
   const trimmed = url.trim();
 
-  // Allow only secure http, https, mailto, tel, or wa.me
-  const isAllowedScheme =
+  // Reject control characters, null bytes, and newlines
+  if (/[\u0000-\u001F\u007F]/.test(trimmed)) return false;
+
+  // Enforce known safe schemes
+  const hasValidPrefix =
     trimmed.startsWith('https://') ||
     trimmed.startsWith('http://') ||
     trimmed.startsWith('mailto:') ||
     trimmed.startsWith('tel:');
 
-  if (!isAllowedScheme) {
-    console.warn('Blocked unsafe URL navigation attempt:', trimmed);
+  if (!hasValidPrefix) return false;
+
+  try {
+    const parsed = new URL(trimmed);
+    const validProtocols = ['https:', 'http:', 'mailto:', 'tel:'];
+    if (!validProtocols.includes(parsed.protocol)) return false;
+
+    // For web addresses, verify that a non-empty hostname is present
+    if (parsed.protocol === 'https:' || parsed.protocol === 'http:') {
+      if (!parsed.hostname || parsed.hostname.length < 3) return false;
+    }
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Opens an external URL safely with noopener and noreferrer to neutralize reverse tabnabbing.
+ * Validates protocol to prevent pseudo-protocol exploitation.
+ */
+export function safeOpenUrl(url: string, target = '_blank'): void {
+  if (!isValidSafeUrl(url)) {
+    console.warn('Blocked unsafe or invalid URL navigation attempt:', url);
     return;
   }
 
-  window.open(trimmed, '_blank', 'noopener,noreferrer');
+  if (typeof window !== 'undefined' && typeof window.open === 'function') {
+    window.open(url.trim(), target, 'noopener,noreferrer');
+  }
 }
 
 /**

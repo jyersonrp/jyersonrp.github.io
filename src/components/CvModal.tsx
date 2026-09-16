@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PERSONAL_INFO, FEATURED_PROJECTS, EDUCATION_ITEMS, CERTIFICATIONS, SKILL_CATEGORIES } from '../data/portfolioData';
 import { Language } from '../types';
 import { getPublicEmail } from '../utils/security';
@@ -12,21 +12,54 @@ interface CvModalProps {
 }
 
 export const CvModal: React.FC<CvModalProps> = ({ isOpen, onClose, language }) => {
-  // Handle escape key and body scroll lock
+  const overlayRef = useRef<HTMLDivElement | null>(null);
+
+  // Handle escape key, keyboard navigation and body scroll lock
   useEffect(() => {
     if (!isOpen) return;
     const originalOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.documentElement.classList.add('cv-modal-open');
+
+    // Auto-focus the overlay so trackpad gestures and keyboard scroll work immediately
+    const timer = setTimeout(() => {
+      overlayRef.current?.focus();
+    }, 50);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        e.preventDefault();
         onClose();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        overlayRef.current?.scrollBy({ top: 90, behavior: 'smooth' });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        overlayRef.current?.scrollBy({ top: -90, behavior: 'smooth' });
+      } else if (e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
+        e.preventDefault();
+        overlayRef.current?.scrollBy({ top: window.innerHeight * 0.75, behavior: 'smooth' });
+      } else if (e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
+        e.preventDefault();
+        overlayRef.current?.scrollBy({ top: -window.innerHeight * 0.75, behavior: 'smooth' });
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        overlayRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        if (overlayRef.current) {
+          overlayRef.current.scrollTo({ top: overlayRef.current.scrollHeight, behavior: 'smooth' });
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
+      clearTimeout(timer);
       document.body.style.overflow = originalOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.documentElement.classList.remove('cv-modal-open');
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isOpen, onClose]);
@@ -110,34 +143,32 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
 
   return (
     <div
+      ref={overlayRef}
       id="cv-modal-overlay"
+      tabIndex={-1}
+      role="dialog"
+      aria-modal="true"
+      aria-label={language === 'es' ? 'Currículum Vitae de Yerson Rodríguez' : 'Yerson Rodríguez Resume'}
       data-lenis-prevent="true"
-      data-lenis-prevent-wheel="true"
-      data-lenis-prevent-touch="true"
-      onWheel={(e) => e.stopPropagation()}
-      onTouchMove={(e) => e.stopPropagation()}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-md flex items-start justify-center p-2.5 xs:p-4 sm:p-6 lg:p-10 pt-3 xs:pt-4 sm:pt-8 pb-12 animate-fade-in"
+      className="fixed inset-0 z-[60] overflow-y-auto overscroll-y-contain bg-black/85 backdrop-blur-md flex items-start justify-center p-2.5 xs:p-4 sm:p-6 lg:p-10 pt-3 xs:pt-4 sm:pt-8 pb-12 animate-fade-in outline-none"
       style={{
-        overscrollBehavior: 'contain',
+        overscrollBehaviorY: 'contain',
         WebkitOverflowScrolling: 'touch',
+        touchAction: 'pan-y',
       }}
     >
       <div
         id="cv-modal-container"
-        data-lenis-prevent="true"
-        data-lenis-prevent-wheel="true"
-        data-lenis-prevent-touch="true"
-        onWheel={(e) => e.stopPropagation()}
-        className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-slate-800 dark:text-[#E2E8F0] my-2 sm:my-4"
+        className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl text-slate-800 dark:text-[#E2E8F0] my-2 sm:my-4"
         style={{
-          overscrollBehavior: 'contain',
+          touchAction: 'pan-y',
         }}
       >
         {/* Top Control Bar */}
-        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
+        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2 rounded-t-2xl sm:rounded-t-3xl">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-primary)]" />
             <span className="text-xs font-mono font-bold tracking-wider uppercase text-slate-900 dark:text-white truncate max-w-[170px] xs:max-w-[200px] sm:max-w-none">

@@ -9,7 +9,8 @@ import {
   validateEmail,
   checkRateLimit,
   resetRateLimit,
-  getPublicEmail
+  getPublicEmail,
+  isValidSafeUrl
 } from '../src/utils/security.ts';
 
 console.log('--- Starting Rigorous Portfolio Security & Hardening Test Suite ---');
@@ -123,4 +124,98 @@ assert.ok(
 );
 console.log('✓ Email assembly and source obfuscation confirmed');
 
-console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (10/10) ---');
+// 11. Test URL Protocol Validation & Safe URL Opener
+console.log('[Test 11] Testing URL protocol validation and safe external navigation...');
+assert.strictEqual(isValidSafeUrl('https://github.com/jyersonrp'), true, 'HTTPS URL should be allowed');
+assert.strictEqual(isValidSafeUrl('http://localhost:3000'), true, 'HTTP URL should be allowed');
+assert.strictEqual(isValidSafeUrl('mailto:jyerson@gmail.com'), true, 'Mailto URL should be allowed');
+assert.strictEqual(isValidSafeUrl('tel:+1234567890'), true, 'Tel URL should be allowed');
+assert.strictEqual(isValidSafeUrl('javascript:alert(1)'), false, 'javascript: must be rejected');
+assert.strictEqual(isValidSafeUrl('data:text/html;base64,evil'), false, 'data: must be rejected');
+assert.strictEqual(isValidSafeUrl('vbscript:msgbox(1)'), false, 'vbscript: must be rejected');
+assert.strictEqual(isValidSafeUrl('https://evil.com\u0000admin'), false, 'Null byte injection must be rejected');
+assert.strictEqual(isValidSafeUrl('https://evil.com\r\nX-Injected: 1'), false, 'CRLF injection in URL must be rejected');
+assert.strictEqual(isValidSafeUrl('/local/path'), false, 'Relative path without scheme must be rejected');
+assert.strictEqual(isValidSafeUrl(''), false, 'Empty URL must be rejected');
+console.log('✓ Safe URL protocol validation confirmed');
+
+// 12. Test Inline Event Handler & Unclosed Tag Neutralization
+console.log('[Test 12] Testing inline event handler & unclosed tag neutralization...');
+const handlerPayload = 'test onclick=alert(1) onmouseover="evil()" onload=pwn()';
+const cleanHandler = sanitizeInput(handlerPayload);
+assert.ok(!cleanHandler.includes('onclick='), 'onclick must be neutralized');
+assert.ok(!cleanHandler.includes('onmouseover='), 'onmouseover must be neutralized');
+assert.ok(!cleanHandler.includes('onload='), 'onload must be neutralized');
+
+const unclosedTagPayload = '<img src=x onerror=alert(1)';
+const cleanUnclosed = sanitizeInput(unclosedTagPayload);
+assert.ok(!cleanUnclosed.includes('onerror='), 'onerror must be neutralized');
+assert.ok(!cleanUnclosed.includes('<img'), 'Dangling unclosed tag must be stripped');
+console.log('✓ Event handler & unclosed tag neutralization confirmed');
+
+// 13. Test Static Scan: All target="_blank" links must include rel="noopener noreferrer"
+console.log('[Test 13] Scanning codebase for external link tabnabbing vulnerabilities...');
+function findFiles(dir, ext) {
+  let results = [];
+  const list = fs.readdirSync(dir);
+  for (const file of list) {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    if (stat.isDirectory()) {
+      if (file !== 'node_modules' && file !== 'dist' && file !== '.git') {
+        results = results.concat(findFiles(filePath, ext));
+      }
+    } else if (file.endsWith(ext)) {
+      results.push(filePath);
+    }
+  }
+  return results;
+}
+
+const tsxFiles = findFiles(path.resolve('src'), '.tsx');
+const allCheckedFiles = [...tsxFiles, path.resolve('index.html')];
+let auditedLinksCount = 0;
+
+for (const filePath of allCheckedFiles) {
+  const content = fs.readFileSync(filePath, 'utf8');
+  // Match any anchor tag with target="_blank"
+  const anchorRegex = /<a\b[^>]*target=["']_blank["'][^>]*>/gi;
+  let match;
+  while ((match = anchorRegex.exec(content)) !== null) {
+    auditedLinksCount++;
+    const tag = match[0];
+    assert.ok(
+      tag.includes('rel="noopener noreferrer"') || tag.includes("rel='noopener noreferrer'"),
+      `Link in ${path.relative('.', filePath)} must have rel="noopener noreferrer": ${tag}`
+    );
+  }
+}
+assert.ok(auditedLinksCount > 0, 'Should audit at least 1 external target="_blank" link');
+console.log(`✓ External link security scan passed: ${auditedLinksCount} links verified secure (no tabnabbing)`);
+
+// 14. Test Content Security Policy (CSP) Directives in index.html
+console.log('[Test 14] Verifying Content Security Policy directives in index.html...');
+const indexHtml = fs.readFileSync(path.resolve('index.html'), 'utf8');
+const cspMatch = indexHtml.match(/<meta\s+http-equiv=["']Content-Security-Policy["']\s+content="([^"]*)"/i);
+assert.ok(cspMatch, 'index.html must define Content-Security-Policy meta tag');
+const csp = cspMatch[1];
+assert.ok(csp.includes("default-src 'self'"), "CSP must include default-src 'self'");
+assert.ok(csp.includes("object-src 'none'"), "CSP must include object-src 'none'");
+assert.ok(csp.includes("base-uri 'self'"), "CSP must include base-uri 'self'");
+assert.ok(csp.includes("worker-src 'self' blob:"), "CSP must include worker-src 'self' blob:");
+assert.ok(csp.includes("form-action 'self' mailto:"), "CSP must include form-action restriction");
+console.log('✓ Content Security Policy directives verified');
+
+// 15. Test Permissions Policy in index.html
+console.log('[Test 15] Verifying Permissions-Policy directives in index.html...');
+const permMatch = indexHtml.match(/<meta\s+http-equiv=["']Permissions-Policy["']\s+content=["'](.*?)["']/i);
+assert.ok(permMatch, 'index.html must define Permissions-Policy meta tag');
+const perm = permMatch[1];
+assert.ok(perm.includes('camera=()'), 'Permissions-Policy must disable camera');
+assert.ok(perm.includes('microphone=()'), 'Permissions-Policy must disable microphone');
+assert.ok(perm.includes('geolocation=()'), 'Permissions-Policy must disable geolocation');
+assert.ok(perm.includes('display-capture=()'), 'Permissions-Policy must disable display-capture');
+console.log('✓ Permissions-Policy directives verified');
+
+console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (15/15) ---');
+

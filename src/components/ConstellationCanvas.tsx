@@ -136,10 +136,27 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animationFrameId: number;
+    let animationFrameId: number | null = null;
+    let isTabVisible = !document.hidden;
+    let isCanvasVisible = true;
+    let isDestroyed = false;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
     let width = window.innerWidth;
     let height = window.innerHeight;
+
+    const startLoop = () => {
+      if (isDestroyed || !isTabVisible || !isCanvasVisible) return;
+      if (animationFrameId === null) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    };
 
     const setupCanvasSize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -203,20 +220,33 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       }
     };
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!mouse.isActive || mouse.x < 0) {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-      }
-      mouse.targetX = e.clientX;
-      mouse.targetY = e.clientY;
-      mouse.isActive = true;
+    let pendingMouseRaf = false;
+    let latestClientX = -1000;
+    let latestClientY = -1000;
 
-      // Emit stardust trail on move
-      const now = performance.now();
-      if (now - mouse.lastEmitted > 35) {
-        mouse.lastEmitted = now;
-        addStardust(e.clientX, e.clientY);
+    const handleMouseMove = (e: MouseEvent) => {
+      latestClientX = e.clientX;
+      latestClientY = e.clientY;
+      if (!pendingMouseRaf) {
+        pendingMouseRaf = true;
+        requestAnimationFrame(() => {
+          pendingMouseRaf = false;
+          if (isDestroyed) return;
+          if (!mouse.isActive || mouse.x < 0) {
+            mouse.x = latestClientX;
+            mouse.y = latestClientY;
+          }
+          mouse.targetX = latestClientX;
+          mouse.targetY = latestClientY;
+          mouse.isActive = true;
+
+          // Emit stardust trail on move
+          const now = performance.now();
+          if (now - mouse.lastEmitted > 40) {
+            mouse.lastEmitted = now;
+            addStardust(latestClientX, latestClientY);
+          }
+        });
       }
     };
 
@@ -239,21 +269,34 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       }
     };
 
+    let pendingTouchRaf = false;
+    let latestTouchX = -1000;
+    let latestTouchY = -1000;
+
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
-        if (!mouse.isActive || mouse.x < 0) {
-          mouse.x = touch.clientX;
-          mouse.y = touch.clientY;
-        }
-        mouse.targetX = touch.clientX;
-        mouse.targetY = touch.clientY;
-        mouse.isActive = true;
+        latestTouchX = touch.clientX;
+        latestTouchY = touch.clientY;
+        if (!pendingTouchRaf) {
+          pendingTouchRaf = true;
+          requestAnimationFrame(() => {
+            pendingTouchRaf = false;
+            if (isDestroyed) return;
+            if (!mouse.isActive || mouse.x < 0) {
+              mouse.x = latestTouchX;
+              mouse.y = latestTouchY;
+            }
+            mouse.targetX = latestTouchX;
+            mouse.targetY = latestTouchY;
+            mouse.isActive = true;
 
-        const now = performance.now();
-        if (now - mouse.lastEmitted > 45) {
-          mouse.lastEmitted = now;
-          addStardust(touch.clientX, touch.clientY);
+            const now = performance.now();
+            if (now - mouse.lastEmitted > 50) {
+              mouse.lastEmitted = now;
+              addStardust(latestTouchX, latestTouchY);
+            }
+          });
         }
       }
     };
@@ -270,6 +313,30 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
       initParticles();
     };
 
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+
+    // Use IntersectionObserver to pause loop if canvas is ever hidden or scrolled away
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isCanvasVisible = entry.isIntersecting;
+        if (isCanvasVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('click', handleClick);
     document.addEventListener('mouseleave', handleMouseLeave);
@@ -375,6 +442,9 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
 
     // Render loop
     const render = () => {
+      animationFrameId = null;
+      if (isDestroyed || !isTabVisible || !isCanvasVisible) return;
+
       ctx.clearRect(0, 0, width, height);
 
       const isDark = themeRef.current === 'dark';
@@ -885,13 +955,18 @@ export const ConstellationCanvas: React.FC<ConstellationCanvasProps> = ({
         }
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      if (!isDestroyed && isTabVisible && isCanvasVisible) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      isDestroyed = true;
+      stopLoop();
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('click', handleClick);
       document.removeEventListener('mouseleave', handleMouseLeave);

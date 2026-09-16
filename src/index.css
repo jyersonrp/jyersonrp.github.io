@@ -561,6 +561,16 @@ html:not(.dark) select option {
   color: #0F172A !important;
 }
 
+/* Ensure modal scroll is never blocked by lenis-stopped clip on documentElement */
+html.cv-modal-open,
+html.cv-modal-open.lenis-stopped {
+  overflow: hidden !important;
+}
+
+#cv-modal-overlay {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
 
 /* Flawless Clean Print Styles for CV / Resume Export */
 @media print {
