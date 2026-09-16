@@ -176,7 +176,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
               <Hero3DCore language={language} themeMode={themeMode} palette={palette} />
 
               {/* Bottom Specs Bar */}
-              <div className="px-4 py-2.5 bg-slate-50/90 dark:bg-white/[0.02] border-t border-slate-200/90 dark:border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-600 dark:text-neutral-400">
+              <div className="px-8 py-2.5 bg-slate-50/90 dark:bg-white/[0.02] border-t border-slate-200/90 dark:border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-slate-600 dark:text-neutral-400">
                 <div className="flex items-center gap-1.5 text-[var(--accent-primary)]">
                   <Eye className="w-3.5 h-3.5" />
                   <span>OPENCV + YOLOV8</span>

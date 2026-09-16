@@ -747,7 +747,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
       />
 
       {/* Floating HUD Telemetry Overlay */}
-      <div className="absolute top-3 left-4 right-4 flex items-center justify-between pointer-events-none text-[10px] font-mono">
+      <div className="absolute top-3 left-7 right-7 sm:left-8 sm:right-8 flex items-center justify-between pointer-events-none text-[10px] font-mono">
         <div className="flex items-center gap-2 bg-white/85 dark:bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.08] shadow-sm">
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse"
@@ -772,8 +772,8 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
       </div>
 
       {/* Bottom Interaction Guide Pill */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none">
-        <div className="flex items-center gap-2 bg-white/90 dark:bg-black/70 backdrop-blur-md px-3.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.1] text-[10px] font-mono text-slate-700 dark:text-neutral-300 shadow-xl whitespace-nowrap">
+      <div className="absolute bottom-3.5 sm:bottom-4 left-1/2 -translate-x-1/2 pointer-events-none z-10">
+        <div className="flex items-center gap-2 bg-white/95 dark:bg-[#09090f]/95 backdrop-blur-md px-3.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.12] text-[10px] font-mono text-slate-700 dark:text-neutral-300 shadow-xl whitespace-nowrap">
           <span
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: secondaryColor }}
