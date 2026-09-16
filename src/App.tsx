@@ -89,10 +89,13 @@ export function App() {
         smoothWheel: true,
         virtualScroll: (data) => {
           // When CV modal or Command Palette is open, bypass Lenis completely:
-          // never call preventDefault(), allowing 100% natural native trackpad/touch/wheel scroll
+          // Lenis will never touch or call preventDefault() on wheel/touch/trackpad events,
+          // allowing 100% natural native trackpad/touch/wheel scroll
           if (
             isCvOpenRef.current ||
             isCommandPaletteOpenRef.current ||
+            document.body.classList.contains('modal-open') ||
+            document.documentElement.classList.contains('cv-modal-open') ||
             Boolean(document.getElementById('cv-modal-overlay')) ||
             Boolean(document.getElementById('command-palette-modal'))
           ) {
@@ -112,6 +115,8 @@ export function App() {
           if (
             isCvOpenRef.current ||
             isCommandPaletteOpenRef.current ||
+            document.body.classList.contains('modal-open') ||
+            document.documentElement.classList.contains('cv-modal-open') ||
             Boolean(document.getElementById('cv-modal-overlay')) ||
             Boolean(document.getElementById('command-palette-modal'))
           ) {
@@ -148,14 +153,11 @@ export function App() {
     };
   }, []);
 
-  // Lock smooth scroll when CV modal or Command Palette is active
-  useEffect(() => {
-    if (isCvOpen || isCommandPaletteOpen) {
-      lenisRef.current?.stop();
-    } else {
-      lenisRef.current?.start();
-    }
-  }, [isCvOpen, isCommandPaletteOpen]);
+  // Note: We intentionally avoid calling lenis.stop() here because lenis.stop()
+  // injects 'overflow: clip' via .lenis-stopped onto documentElement and calls
+  // event.preventDefault() globally. Background scroll is already 100% locked
+  // by document.body.style.overflow = 'hidden' in the modals, while virtualScroll
+  // above completely disables Lenis smooth scrolling during open modals.
 
   // Global keyboard shortcut for Command Palette (Ctrl+K / Cmd+K)
   useEffect(() => {

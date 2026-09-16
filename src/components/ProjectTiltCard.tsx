@@ -120,9 +120,9 @@ export const ProjectTiltCard: React.FC<ProjectTiltCardProps> = ({
       startAnimation();
     };
 
-    card.addEventListener('mouseenter', handleMouseEnter);
-    card.addEventListener('mousemove', handleMouseMove);
-    card.addEventListener('mouseleave', handleMouseLeave);
+    card.addEventListener('mouseenter', handleMouseEnter, { passive: true });
+    card.addEventListener('mousemove', handleMouseMove, { passive: true });
+    card.addEventListener('mouseleave', handleMouseLeave, { passive: true });
 
     return () => {
       card.removeEventListener('mouseenter', handleMouseEnter);

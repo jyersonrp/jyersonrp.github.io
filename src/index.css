@@ -563,13 +563,28 @@ html:not(.dark) select option {
 
 /* Ensure modal scroll is never blocked by lenis-stopped clip on documentElement */
 html.cv-modal-open,
-html.cv-modal-open.lenis-stopped {
+html.cv-modal-open.lenis-stopped,
+html.lenis-stopped,
+.lenis:not(.lenis-autoToggle).lenis-stopped {
   overflow: hidden !important;
 }
 
 #cv-modal-overlay {
   scrollbar-width: thin;
   scrollbar-color: var(--accent-primary) transparent;
+}
+#cv-modal-overlay::-webkit-scrollbar {
+  width: 10px;
+}
+#cv-modal-overlay::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+#cv-modal-overlay::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 5px;
+}
+#cv-modal-overlay::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover, #26c589);
 }
 
 /* Flawless Clean Print Styles for CV / Resume Export */

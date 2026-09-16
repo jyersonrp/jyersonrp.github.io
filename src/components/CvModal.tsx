@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { PERSONAL_INFO, FEATURED_PROJECTS, EDUCATION_ITEMS, CERTIFICATIONS, SKILL_CATEGORIES } from '../data/portfolioData';
 import { Language } from '../types';
 import { getPublicEmail } from '../utils/security';
@@ -28,6 +29,15 @@ export const CvModal: React.FC<CvModalProps> = ({ isOpen, onClose, language }) =
     }, 50);
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Do not hijack keys if user is typing or interacting with a button/input
+      const target = e.target as HTMLElement | null;
+      const isInteractive =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        (e.key === ' ' && target instanceof HTMLButtonElement);
+
+      if (isInteractive && e.key !== 'Escape') return;
+
       if (e.key === 'Escape') {
         e.preventDefault();
         onClose();
@@ -141,7 +151,7 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
     URL.revokeObjectURL(url);
   };
 
-  return (
+  const modalContent = (
     <div
       ref={overlayRef}
       id="cv-modal-overlay"
@@ -153,9 +163,8 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[60] overflow-y-auto overscroll-y-contain bg-black/85 backdrop-blur-md flex items-start justify-center p-2.5 xs:p-4 sm:p-6 lg:p-10 pt-3 xs:pt-4 sm:pt-8 pb-12 animate-fade-in outline-none"
+      className="fixed inset-0 z-[60] overflow-y-auto bg-black/85 backdrop-blur-md flex items-start justify-center p-2.5 xs:p-4 sm:p-6 lg:p-10 pt-3 xs:pt-4 sm:pt-8 pb-12 animate-fade-in outline-none"
       style={{
-        overscrollBehaviorY: 'contain',
         WebkitOverflowScrolling: 'touch',
         touchAction: 'pan-y',
       }}
@@ -163,9 +172,6 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
       <div
         id="cv-modal-container"
         className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl text-slate-800 dark:text-[#E2E8F0] my-2 sm:my-4"
-        style={{
-          touchAction: 'pan-y',
-        }}
       >
         {/* Top Control Bar */}
         <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2 rounded-t-2xl sm:rounded-t-3xl">
@@ -359,4 +365,9 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
       </div>
     </div>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body);
+  }
+  return modalContent;
 };

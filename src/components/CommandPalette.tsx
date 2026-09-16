@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Language, ThemeMode, ColorPalette } from '../types';
 import { PERSONAL_INFO } from '../data/portfolioData';
 import { smoothScrollTo } from '../utils/smoothScroll';
@@ -737,7 +738,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
       id="command-palette-modal"
       data-lenis-prevent="true"
@@ -747,8 +748,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           onClose();
         }
       }}
-      className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-xl flex items-start justify-center p-3 sm:p-6 pt-14 sm:pt-20 animate-in fade-in duration-200 overscroll-contain"
-      style={{ overscrollBehavior: 'contain', touchAction: 'pan-y' }}
+      className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-xl flex items-start justify-center p-3 sm:p-6 pt-14 sm:pt-20 animate-in fade-in duration-200"
+      style={{ touchAction: 'pan-y' }}
     >
       <div
         onKeyDown={handleKeyDown}
@@ -929,6 +930,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       )}
     </div>
   );
+
+  if (typeof document !== 'undefined') {
+    return createPortal(modalContent, document.body);
+  }
+  return modalContent;
 };
 
 export default CommandPalette;

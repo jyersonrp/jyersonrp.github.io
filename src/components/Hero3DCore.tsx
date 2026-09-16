@@ -105,7 +105,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let animId: number;
+    let animId = 0;
     let width = container.clientWidth || 440;
     let height = container.clientHeight || 440;
     let dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -259,6 +259,13 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
     let targetTiltY = 0;
     let tiltX = 0;
     let tiltY = 0;
+    let isDestroyed = false;
+    let isTabVisible = !document.hidden;
+    let isComponentVisible = true;
+
+    let pendingPointerRaf = false;
+    let latestClientX = 0;
+    let latestClientY = 0;
 
     const handlePointerDown = (e: PointerEvent) => {
       isDragging = true;
@@ -271,22 +278,33 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
     };
 
     const handlePointerMove = (e: PointerEvent) => {
-      if (isDragging) {
-        const deltaX = e.clientX - prevPointerX;
-        const deltaY = e.clientY - prevPointerY;
-        prevPointerX = e.clientX;
-        prevPointerY = e.clientY;
+      latestClientX = e.clientX;
+      latestClientY = e.clientY;
 
-        velY = deltaX * 0.006;
-        velX = -deltaY * 0.006;
-        rotY += velY;
-        rotX += velX;
-      } else {
-        const rect = container.getBoundingClientRect();
-        const nx = (e.clientX - rect.left) / rect.width - 0.5;
-        const ny = (e.clientY - rect.top) / rect.height - 0.5;
-        targetTiltX = ny * 0.35;
-        targetTiltY = nx * 0.35;
+      if (!pendingPointerRaf) {
+        pendingPointerRaf = true;
+        requestAnimationFrame(() => {
+          pendingPointerRaf = false;
+          if (isDestroyed) return;
+
+          if (isDragging) {
+            const deltaX = latestClientX - prevPointerX;
+            const deltaY = latestClientY - prevPointerY;
+            prevPointerX = latestClientX;
+            prevPointerY = latestClientY;
+
+            velY = deltaX * 0.006;
+            velX = -deltaY * 0.006;
+            rotY += velY;
+            rotX += velX;
+          } else if (isComponentVisible) {
+            const rect = container.getBoundingClientRect();
+            const nx = (latestClientX - rect.left) / rect.width - 0.5;
+            const ny = (latestClientY - rect.top) / rect.height - 0.5;
+            targetTiltX = ny * 0.35;
+            targetTiltY = nx * 0.35;
+          }
+        });
       }
     };
 
@@ -306,13 +324,49 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
     };
 
     canvas.addEventListener('pointerdown', handlePointerDown);
-    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointermove', handlePointerMove, { passive: true });
     window.addEventListener('pointerup', handlePointerUp);
     canvas.addEventListener('pointercancel', handlePointerUp);
     container.addEventListener('pointerleave', handlePointerLeave);
 
     const resizeObserver = new ResizeObserver(resizeCanvas);
     resizeObserver.observe(container);
+
+    const startLoop = () => {
+      if (!isDestroyed && isTabVisible && isComponentVisible && !animId) {
+        animId = requestAnimationFrame(render);
+      }
+    };
+
+    const stopLoop = () => {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      isTabVisible = !document.hidden;
+      if (isTabVisible) {
+        startLoop();
+      } else {
+        stopLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    const intersectionObserver = new IntersectionObserver(
+      ([entry]) => {
+        isComponentVisible = entry.isIntersecting;
+        if (isComponentVisible) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      },
+      { threshold: 0.05 }
+    );
+    intersectionObserver.observe(container);
 
     // -------------------------------------------------------------
     // 5. 3D Projection Engine & Render Loop
@@ -626,14 +680,21 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
       });
 
       ctx.restore();
-      animId = requestAnimationFrame(render);
+      if (!isDestroyed && isTabVisible && isComponentVisible) {
+        animId = requestAnimationFrame(render);
+      } else {
+        animId = 0;
+      }
     };
 
-    animId = requestAnimationFrame(render);
+    startLoop();
 
     return () => {
-      cancelAnimationFrame(animId);
+      isDestroyed = true;
+      stopLoop();
       resizeObserver.disconnect();
+      intersectionObserver.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       canvas.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', handlePointerUp);
