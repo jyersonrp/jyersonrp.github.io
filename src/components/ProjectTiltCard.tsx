@@ -14,13 +14,25 @@ export const ProjectTiltCard: React.FC<ProjectTiltCardProps> = ({
   const cardRef = useRef<HTMLDivElement | null>(null);
   const glareRef = useRef<HTMLDivElement | null>(null);
 
+  const isTouchDevice =
+    typeof window !== 'undefined' &&
+    (window.matchMedia('(pointer: coarse)').matches ||
+      window.innerWidth < 768 ||
+      'ontouchstart' in window ||
+      (navigator.maxTouchPoints && navigator.maxTouchPoints > 0));
+
   useEffect(() => {
     const card = cardRef.current;
     const glare = glareRef.current;
     if (!card || !glare) return;
 
-    // Disable entirely on touch devices
-    if (window.matchMedia('(pointer: coarse)').matches) return;
+    // Disable entirely on mobile and touch devices to prevent stacking context overlaps
+    if (isTouchDevice) {
+      card.style.transform = 'none';
+      card.style.transformStyle = 'flat';
+      card.style.willChange = 'auto';
+      return;
+    }
 
     let rafId: number | null = null;
     let isHovered = false;
@@ -126,17 +138,19 @@ export const ProjectTiltCard: React.FC<ProjectTiltCardProps> = ({
     <div
       ref={cardRef}
       style={{
-        transformStyle: 'preserve-3d',
-        willChange: 'transform',
+        transformStyle: isTouchDevice ? 'flat' : 'preserve-3d',
+        willChange: isTouchDevice ? 'auto' : 'transform',
       }}
       className={`relative ${className}`}
     >
       {/* Specular glare dynamic reflection overlay (Zero re-render RAF driven) */}
-      <div
-        ref={glareRef}
-        className="absolute inset-0 rounded-3xl pointer-events-none z-30 transition-none"
-        style={{ opacity: 0 }}
-      />
+      {!isTouchDevice && (
+        <div
+          ref={glareRef}
+          className="absolute inset-0 rounded-3xl pointer-events-none z-30 transition-none"
+          style={{ opacity: 0 }}
+        />
+      )}
       {children}
     </div>
   );

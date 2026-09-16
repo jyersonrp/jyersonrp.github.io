@@ -739,15 +739,25 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   return (
     <div
+      id="command-palette-modal"
+      data-lenis-prevent="true"
+      data-lenis-prevent-wheel="true"
+      data-lenis-prevent-touch="true"
+      onWheel={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           playSound('close');
           onClose();
         }
       }}
-      className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-xl flex items-start justify-center p-3 sm:p-6 pt-14 sm:pt-20 animate-in fade-in duration-200"
+      className="fixed inset-0 z-[70] bg-black/80 backdrop-blur-xl flex items-start justify-center p-3 sm:p-6 pt-14 sm:pt-20 animate-in fade-in duration-200 overscroll-contain"
+      style={{ overscrollBehavior: 'contain' }}
     >
       <div
+        data-lenis-prevent="true"
+        data-lenis-prevent-wheel="true"
+        data-lenis-prevent-touch="true"
         onKeyDown={handleKeyDown}
         tabIndex={-1}
         className="w-full max-w-2xl bg-white dark:bg-[#0b0b12] border border-slate-200 dark:border-white/[0.12] rounded-2xl sm:rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.18)] dark:shadow-[0_25px_70px_rgba(0,0,0,0.95)] overflow-hidden flex flex-col max-h-[85vh] outline-none"
@@ -806,7 +816,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         {/* Results List */}
         <div
           ref={listRef}
+          data-lenis-prevent="true"
+          data-lenis-prevent-wheel="true"
+          data-lenis-prevent-touch="true"
           className="overflow-y-auto p-2 sm:p-3 space-y-1 divide-y divide-slate-100 dark:divide-white/[0.03] scrollbar-thin"
+          style={{ overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}
         >
           {filteredCommands.length === 0 ? (
             <div className="py-12 text-center text-slate-400 dark:text-neutral-500 space-y-2">

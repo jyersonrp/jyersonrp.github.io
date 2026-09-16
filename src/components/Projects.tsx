@@ -241,56 +241,65 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
           </div>
 
           {/* Integrated Navigation Tabs: UI Mockup (Default), Telemetry, Pipeline, Code */}
-          <div className="flex flex-wrap items-center gap-1 p-0.5 bg-slate-200/90 dark:bg-black/70 rounded-xl border border-slate-300 dark:border-white/[0.08]">
+          <div className="flex items-center gap-1 p-0.5 bg-slate-200/90 dark:bg-black/70 rounded-xl border border-slate-300 dark:border-white/[0.08] overflow-x-auto scrollbar-none w-full sm:w-auto">
             {/* Primary Tab: Vista de Producto (UI Mockup) */}
             <button
               onClick={() => setProjectTab(project.id, 'mockup')}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all flex items-center gap-1.5 ${
+              className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 currentTab === 'mockup'
                   ? 'bg-accent-gradient text-black font-extrabold shadow-sm'
                   : 'text-slate-800 dark:text-neutral-300 font-semibold hover:text-black dark:hover:text-white hover:bg-slate-300/80 dark:hover:bg-white/[0.08]'
               }`}
             >
-              <Monitor className="w-3 h-3" />
-              <span>{language === 'es' ? 'Vista de Producto' : 'UI Mockup'}</span>
+              <Monitor className="w-3 h-3 shrink-0" />
+              <span>
+                {language === 'es' ? (
+                  <>
+                    <span className="xs:hidden">Mockup</span>
+                    <span className="hidden xs:inline">Vista de Producto</span>
+                  </>
+                ) : (
+                  'UI Mockup'
+                )}
+              </span>
             </button>
 
             {/* Secondary Tab: Telemetría */}
             <button
               onClick={() => setProjectTab(project.id, 'overview')}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all flex items-center gap-1.5 ${
+              className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 currentTab === 'overview'
                   ? 'bg-emerald-600 dark:bg-emeraldNeon text-white dark:text-black font-bold shadow-sm'
                   : 'text-slate-800 dark:text-neutral-300 font-semibold hover:text-black dark:hover:text-white hover:bg-slate-300/80 dark:hover:bg-white/[0.08]'
               }`}
             >
-              <Activity className="w-3 h-3" />
+              <Activity className="w-3 h-3 shrink-0" />
               <span>{language === 'es' ? 'Telemetría' : 'Telemetry'}</span>
             </button>
 
             {/* Tertiary Tab: Pipeline */}
             <button
               onClick={() => setProjectTab(project.id, 'flow')}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all flex items-center gap-1.5 ${
+              className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 currentTab === 'flow'
                   ? 'bg-sky-600 dark:bg-cyanNeon text-white dark:text-black font-bold shadow-sm'
                   : 'text-slate-800 dark:text-neutral-300 font-semibold hover:text-black dark:hover:text-white hover:bg-slate-300/80 dark:hover:bg-white/[0.08]'
               }`}
             >
-              <Workflow className="w-3 h-3" />
+              <Workflow className="w-3 h-3 shrink-0" />
               <span>Pipeline</span>
             </button>
 
             {/* Quaternary Tab: Código */}
             <button
               onClick={() => setProjectTab(project.id, 'code')}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all flex items-center gap-1.5 ${
+              className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 currentTab === 'code'
                   ? 'bg-slate-900 dark:bg-white text-white dark:text-black font-bold shadow-sm'
                   : 'text-slate-800 dark:text-neutral-300 font-semibold hover:text-black dark:hover:text-white hover:bg-slate-300/80 dark:hover:bg-white/[0.08]'
               }`}
             >
-              <Code className="w-3 h-3" />
+              <Code className="w-3 h-3 shrink-0" />
               <span>{language === 'es' ? 'Código' : 'Snippet'}</span>
             </button>
           </div>
@@ -509,7 +518,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
         </div>
 
         {/* Integrated Terminal Footer with Architecture Chips & Discreet GitHub Link */}
-        <div className="px-4 sm:px-5 py-3.5 bg-slate-100 dark:bg-white/[0.015] border-t border-slate-300 dark:border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
+        <div className="px-3.5 sm:px-5 py-3 sm:py-3.5 bg-slate-100 dark:bg-white/[0.015] border-t border-slate-300 dark:border-white/[0.06] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3">
           {/* Architecture Components chips */}
           <div className="flex flex-wrap items-center gap-1.5">
             {project.architecture.slice(0, 3).map((item, aIdx) => (
@@ -534,7 +543,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => playSound('click')}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-200 dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/[0.18] text-xs font-mono text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-all group"
+            className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-200 dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/[0.18] text-xs font-mono text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-all group w-full sm:w-auto"
           >
             <GithubIcon className="w-3.5 h-3.5 text-slate-700 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white" />
             <span className="font-semibold">{language === 'es' ? 'Ver en GitHub' : 'View on GitHub'}</span>
@@ -546,13 +555,13 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
   };
 
   return (
-    <section id="projects" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="projects" className="scroll-mt-28 sm:scroll-mt-32 pt-28 sm:pt-36 pb-24 sm:pb-32 px-3 sm:px-6 lg:px-8 relative z-10">
       {/* Background ambient radial glow */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[350px] bg-emeraldNeon/[0.04] rounded-full blur-[140px] pointer-events-none -z-10" />
 
       <div className="max-w-6xl mx-auto">
         {/* Editorial Section Header */}
-        <div className="mb-20">
+        <div className="mb-14 sm:mb-20">
           <div className="flex items-center gap-3 mb-4">
             <span className="text-[11px] font-mono tracking-[0.25em] text-emerald-700 dark:text-emeraldNeon uppercase font-bold">
               01 / {language === 'es' ? 'PROYECTOS SELECCIONADOS' : 'SELECTED CASE STUDIES'}
@@ -579,20 +588,20 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
         </div>
 
         {/* Projects List with 3D Tilt Physical Cards */}
-        <div className="space-y-20 sm:space-y-24">
+        <div className="space-y-16 sm:space-y-24">
           {FEATURED_PROJECTS.map((project, idx) => (
             <div key={project.id} id={project.id} className="scroll-mt-28 sm:scroll-mt-32">
               <ProjectTiltCard maxTilt={5}>
-                <div className="glass-panel-card border border-slate-200 dark:border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 rounded-3xl p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
+                <div className="glass-panel-card border border-slate-200 dark:border-white/[0.08] backdrop-blur-xl hover:border-emeraldNeon/40 transition-all duration-300 rounded-2xl sm:rounded-3xl p-3.5 xs:p-6 sm:p-10 lg:p-12 relative overflow-hidden group">
                 {/* Subtle top card accent glow on hover */}
                 <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-emeraldNeon/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                 {/* Card Ambient Glow Accent */}
                 <div className="absolute top-0 right-1/4 w-96 h-96 bg-emeraldNeon/[0.03] rounded-full blur-3xl pointer-events-none -z-10" />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start">
                   {/* Left Column: Details */}
-                  <div className="lg:col-span-6 space-y-6">
+                  <div className="lg:col-span-6 space-y-5 sm:space-y-6">
                     {/* Monospace Project Index */}
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-mono text-emerald-700 dark:text-emeraldNeon uppercase tracking-[0.25em] font-bold">
@@ -605,18 +614,18 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
 
                     {/* Title & Tagline */}
                     <div>
-                      <h3 className="text-2xl sm:text-3xl font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-snug">
+                      <h3 className="text-xl xs:text-2xl sm:text-3xl font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-snug">
                         {project.title[language]}
                       </h3>
-                      <p className="mt-3 text-slate-800 dark:text-neutral-200 text-sm sm:text-base leading-relaxed font-normal">
+                      <p className="mt-2.5 sm:mt-3 text-slate-800 dark:text-neutral-200 text-sm sm:text-base leading-relaxed font-normal">
                         {project.tagline[language]}
                       </p>
                     </div>
 
                     {/* Problem & Solution: Editorial Callout Format */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-1">
-                      <div className="border-l-2 border-rose-500 dark:border-rose-400/50 pl-4 py-1">
-                        <div className="flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-mono text-[11px] uppercase tracking-wider mb-1.5 font-bold">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-5 pt-1">
+                      <div className="border-l-2 border-rose-500 dark:border-rose-400/50 pl-3.5 sm:pl-4 py-1">
+                        <div className="flex items-center gap-1.5 text-rose-600 dark:text-rose-400 font-mono text-[10.5px] sm:text-[11px] uppercase tracking-wider mb-1.5 font-bold">
                           <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
                           <span>{language === 'es' ? 'El Desafío' : 'The Challenge'}</span>
                         </div>
@@ -625,8 +634,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-emerald-600 dark:border-emeraldNeon/70 pl-4 py-1">
-                        <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emeraldNeon font-mono text-[11px] uppercase tracking-wider mb-1.5 font-bold">
+                      <div className="border-l-2 border-emerald-600 dark:border-emeraldNeon/70 pl-3.5 sm:pl-4 py-1">
+                        <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emeraldNeon font-mono text-[10.5px] sm:text-[11px] uppercase tracking-wider mb-1.5 font-bold">
                           <Lightbulb className="w-3.5 h-3.5 shrink-0" />
                           <span>{language === 'es' ? 'La Solución' : 'The Solution'}</span>
                         </div>
@@ -637,13 +646,13 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                     </div>
 
                     {/* Metrics Row */}
-                    <div className="grid grid-cols-3 gap-2.5 sm:gap-4 py-4 border-y border-slate-200 dark:border-white/[0.06]">
+                    <div className="grid grid-cols-3 gap-1.5 xs:gap-2.5 sm:gap-4 py-3 sm:py-4 border-y border-slate-200 dark:border-white/[0.06]">
                       {project.metrics.map((m, mIdx) => (
-                        <div key={mIdx} className="text-left">
-                          <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-emerald-700 dark:text-emeraldNeon font-sans tracking-tight leading-none mb-1">
+                        <div key={mIdx} className="text-left min-w-0">
+                          <div className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-emerald-700 dark:text-emeraldNeon font-sans tracking-tight leading-none mb-1 truncate">
                             {m.value}
                           </div>
-                          <div className="text-[10px] sm:text-[11px] text-slate-700 dark:text-neutral-400 font-mono tracking-tight leading-tight line-clamp-2 font-medium">
+                          <div className="text-[9px] xs:text-[10px] sm:text-[11px] text-slate-700 dark:text-neutral-400 font-mono tracking-tight leading-tight line-clamp-2 font-medium">
                             {m.label[language]}
                           </div>
                         </div>
@@ -651,11 +660,11 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                     </div>
 
                     {/* Tech Tags */}
-                    <div className="flex flex-wrap gap-2 pt-1">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2 pt-1">
                       {project.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] text-[11px] font-mono text-slate-800 dark:text-neutral-200 font-medium hover:text-black dark:hover:text-white hover:border-slate-400 dark:hover:border-white/20 transition-colors"
+                          className="px-2.5 sm:px-3 py-1 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] text-[10px] sm:text-[11px] font-mono text-slate-800 dark:text-neutral-200 font-medium hover:text-black dark:hover:text-white hover:border-slate-400 dark:hover:border-white/20 transition-colors"
                         >
                           #{tag}
                         </span>

@@ -82,6 +82,13 @@ export function App() {
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
+        prevent: (node) => {
+          return Boolean(
+            node?.closest?.(
+              '#cv-modal-overlay, #cv-modal-container, #command-palette-modal, [data-lenis-prevent], [data-lenis-prevent="true"], [data-lenis-prevent-wheel]'
+            )
+          );
+        },
       });
       lenisRef.current = lenis;
       setLenisInstance(lenis);

@@ -111,14 +111,30 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
   return (
     <div
       id="cv-modal-overlay"
+      data-lenis-prevent="true"
+      data-lenis-prevent-wheel="true"
+      data-lenis-prevent-touch="true"
+      onWheel={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-[60] overflow-y-auto bg-black/85 backdrop-blur-md flex items-start justify-center p-3 sm:p-6 lg:p-10 pt-4 sm:pt-8 pb-12 animate-fade-in"
+      className="fixed inset-0 z-[60] overflow-y-auto overscroll-contain bg-black/85 backdrop-blur-md flex items-start justify-center p-2.5 xs:p-4 sm:p-6 lg:p-10 pt-3 xs:pt-4 sm:pt-8 pb-12 animate-fade-in"
+      style={{
+        overscrollBehavior: 'contain',
+        WebkitOverflowScrolling: 'touch',
+      }}
     >
       <div
         id="cv-modal-container"
-        className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-slate-800 dark:text-[#E2E8F0] my-auto sm:my-4"
+        data-lenis-prevent="true"
+        data-lenis-prevent-wheel="true"
+        data-lenis-prevent-touch="true"
+        onWheel={(e) => e.stopPropagation()}
+        className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden text-slate-800 dark:text-[#E2E8F0] my-2 sm:my-4"
+        style={{
+          overscrollBehavior: 'contain',
+        }}
       >
         {/* Top Control Bar */}
         <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2">
@@ -170,11 +186,11 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
         </div>
 
         {/* Printable CV Content */}
-        <div id="cv-printable-content" className="p-4 sm:p-8 lg:p-12 space-y-8 print:p-0">
+        <div id="cv-printable-content" className="p-3.5 xs:p-6 sm:p-8 lg:p-12 space-y-8 print:p-0">
           {/* Header */}
           <div className="border-b border-slate-200 dark:border-white/10 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-sans font-extrabold text-slate-900 dark:text-white tracking-tight">
+              <h1 className="text-2xl xs:text-3xl sm:text-4xl font-sans font-extrabold text-slate-900 dark:text-white tracking-tight">
                 {PERSONAL_INFO.fullName}
               </h1>
               <p className="text-sm sm:text-base text-[var(--accent-primary)] font-mono mt-1 font-semibold">
@@ -186,32 +202,32 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
             </div>
 
             {/* Contact details */}
-            <div className="space-y-1.5 text-xs font-mono text-slate-700 dark:text-neutral-300 shrink-0">
+            <div className="space-y-1.5 text-xs font-mono text-slate-700 dark:text-neutral-300 min-w-0">
               <div className="flex items-center gap-2">
-                <MapPin className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+                <MapPin className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
                 <span>{PERSONAL_INFO.location}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
-                <a href={`mailto:${getPublicEmail()}`} className="hover:underline text-slate-900 dark:text-white">
+                <Mail className="w-3.5 h-3.5 text-[var(--accent-secondary)] shrink-0" />
+                <a href={`mailto:${getPublicEmail()}`} className="hover:underline text-slate-900 dark:text-white break-all">
                   {getPublicEmail()}
                 </a>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
+                <Phone className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
                 <a href={`tel:${PERSONAL_INFO.phoneClean}`} className="hover:underline text-slate-900 dark:text-white">
                   {PERSONAL_INFO.phone}
                 </a>
               </div>
-              <div className="flex items-center gap-2">
-                <GithubIcon className="w-3.5 h-3.5 text-neutral-400" />
-                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)]">
+              <div className="flex items-center gap-2 min-w-0">
+                <GithubIcon className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)] break-all">
                   github.com/jyersonrp
                 </a>
               </div>
-              <div className="flex items-center gap-2">
-                <LinkedinIcon className="w-3.5 h-3.5 text-neutral-400" />
-                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)]">
+              <div className="flex items-center gap-2 min-w-0">
+                <LinkedinIcon className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
+                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)] break-all">
                   linkedin.com/in/yerson-jose-rodriguez-perez
                 </a>
               </div>
@@ -265,9 +281,9 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
             <div className="space-y-4">
               {FEATURED_PROJECTS.map((proj) => (
                 <div key={proj.id} className="p-4 rounded-xl bg-slate-100/75 dark:bg-white/5 border border-slate-200/80 dark:border-white/5 space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <span className="font-bold text-sm text-slate-900 dark:text-white">{proj.title[language]}</span>
-                    <span className="text-[11px] font-mono text-[var(--accent-primary)]">{proj.tags.slice(0, 3).join(' • ')}</span>
+                    <span className="text-[11px] font-mono text-[var(--accent-primary)] shrink-0">{proj.tags.slice(0, 3).join(' • ')}</span>
                   </div>
                   <p className="text-xs text-slate-600 dark:text-neutral-300 leading-relaxed">
                     {proj.solution[language]}
