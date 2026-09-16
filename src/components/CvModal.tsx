@@ -174,7 +174,7 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
         className="relative w-full max-w-4xl bg-white dark:bg-[#09090d] border border-slate-200 dark:border-white/[0.08] rounded-2xl sm:rounded-3xl shadow-2xl text-slate-800 dark:text-[#E2E8F0] my-2 sm:my-4"
       >
         {/* Top Control Bar */}
-        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] sticky top-0 z-20 print:hidden gap-2 rounded-t-2xl sm:rounded-t-3xl">
+        <div className="flex flex-wrap items-center justify-between px-3.5 sm:px-6 py-2.5 sm:py-4 border-b border-slate-200 dark:border-white/[0.06] bg-slate-50 dark:bg-[#0e0e14] relative z-10 print:hidden gap-2 rounded-t-2xl sm:rounded-t-3xl">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-primary)]" />
             <span className="text-xs font-mono font-bold tracking-wider uppercase text-slate-900 dark:text-white truncate max-w-[170px] xs:max-w-[200px] sm:max-w-none">
