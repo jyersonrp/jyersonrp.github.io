@@ -747,7 +747,7 @@ export const Hero3DCore: React.FC<Hero3DCoreProps> = ({
       />
 
       {/* Floating HUD Telemetry Overlay */}
-      <div className="absolute top-3 left-7 right-7 sm:left-8 sm:right-8 flex items-center justify-between pointer-events-none text-[10px] font-mono">
+      <div className="absolute top-3 left-4 right-4 sm:left-5 sm:right-5 flex items-center justify-between pointer-events-none text-[10px] font-mono">
         <div className="flex items-center gap-2 bg-white/85 dark:bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-200/90 dark:border-white/[0.08] shadow-sm">
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse"
