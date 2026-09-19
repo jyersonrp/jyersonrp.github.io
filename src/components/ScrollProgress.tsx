@@ -43,7 +43,7 @@ export const ScrollProgress: React.FC = () => {
       }
     });
 
-    // 3. Fallback calculation for native scroll jumps / initial page offset
+    // 3. Fallback calculation for initial page offset on mount/refresh
     const calculateProgress = () => {
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (docHeight > 0) {
@@ -53,31 +53,33 @@ export const ScrollProgress: React.FC = () => {
     };
 
     calculateProgress();
-    window.addEventListener('scroll', calculateProgress, { passive: true });
     window.addEventListener('resize', calculateProgress, { passive: true });
 
     return () => {
       unsubscribeFm();
       unsubscribeLenisInit();
       if (activeLenisOff) activeLenisOff();
-      window.removeEventListener('scroll', calculateProgress);
       window.removeEventListener('resize', calculateProgress);
     };
   }, [scrollYProgress, rawProgress]);
 
-  // Spring physics for buttery-smooth 60/120 FPS interpolation without jitter
+  // Critically damped spring physics (zeta ~ 1.06) for responsive, silky-smooth 60/120 FPS
+  // tracking without notch stutter or sluggish lag
   const smoothProgress = useSpring(rawProgress, {
-    stiffness: 140,
-    damping: 26,
-    mass: 0.15,
-    restDelta: 0.0001,
+    stiffness: 200,
+    damping: 30,
+    restDelta: 0.0005,
   });
 
-  // Dynamic transforms derived from smoothProgress
-  const barOpacity = useTransform(smoothProgress, (v) => (v > 0.001 ? 1 : 0));
-  const sparkOpacity = useTransform(smoothProgress, (v) => (v > 0.004 ? 1 : 0));
-  // Keep the micro-spark within the screen boundaries at 0% and 100%
-  const sparkLeft = useTransform(smoothProgress, (v) => `clamp(6px, ${v * 100}%, calc(100% - 6px))`);
+  // Smooth, continuous fade transitions instead of binary ternary jumps
+  const barOpacity = useTransform(smoothProgress, [0, 0.002, 0.008], [0, 0.7, 1]);
+  const sparkOpacity = useTransform(smoothProgress, [0, 0.004, 0.012], [0, 0.5, 1]);
+
+  // Micro-spark accurately tracks the leading edge throughout the entire 0% - 100% range
+  const sparkLeft = useTransform(
+    smoothProgress,
+    (v) => `${Math.min(100, Math.max(0, v * 100))}%`
+  );
 
   return (
     <div

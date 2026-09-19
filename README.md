@@ -8,6 +8,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.17-06B6D4?style=flat&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![Three.js](https://img.shields.io/badge/Three.js-r186-000000?style=flat&logo=threedotjs&logoColor=white)](https://threejs.org/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12.4.7-0055FF?style=flat&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![Lucide Icons](https://img.shields.io/badge/Lucide_React-1.16.0-F56565?style=flat&logo=lucide&logoColor=white)](https://lucide.dev/)
 [![Lenis](https://img.shields.io/badge/Lenis-Smooth_Scroll-black?style=flat)](https://github.com/darkroomengineering/lenis)
 [![Security Suite](https://img.shields.io/badge/Security_Suite-15%2F15_Passed-10B981?style=flat&logo=shield&logoColor=white)](scripts/test-security.js)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
