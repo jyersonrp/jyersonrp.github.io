@@ -11,7 +11,7 @@
 [![Lucide Icons](https://img.shields.io/badge/Lucide_React-1.16.0-F56565?style=flat&logo=lucide&logoColor=white)](https://lucide.dev/)
 [![Lenis](https://img.shields.io/badge/Lenis-Smooth_Scroll-black?style=flat)](https://github.com/darkroomengineering/lenis)
 [![Security Suite](https://img.shields.io/badge/Security_Suite-15%2F15_Passed-10B981?style=flat&logo=shield&logoColor=white)](scripts/test-security.js)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat)](LICENSE)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC_BY--NC--ND_4.0-lightgrey.svg?style=flat&logo=creativecommons&logoColor=white)](LICENSE)
 
 > **Sitio Web en Producción**: [https://jyersonrp.github.io/](https://jyersonrp.github.io/)
 
@@ -196,6 +196,12 @@ npm run preview
 
 ---
 
-## 📄 Licencia
+## 📄 Licencia & Propiedad Intelectual
 
-Este proyecto se encuentra licenciado bajo los términos de la Licencia **MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+Este repositorio y su contenido se encuentran protegidos bajo la licencia **Creative Commons Atribución-NoComercial-SinDerivadas 4.0 Internacional (CC BY-NC-ND 4.0)**.
+
+- ❌ **No Comercial**: Queda estrictamente prohibido el uso de este código, diseño o proyectos para fines comerciales o lucro directo/indirecto.
+- ❌ **Sin Obras Derivadas**: No está permitida la distribución de versiones modificadas, alteraciones o venta de este portafolio como plantilla.
+- ✔️ **Uso Permitido**: Eres libre de explorar el código fuente, clonarlo localmente con fines educativos, de aprendizaje personal o para evaluar el perfil profesional del desarrollador.
+
+Para más detalles, consulta el archivo [LICENSE](LICENSE) o el [texto legal oficial de Creative Commons](https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode).
