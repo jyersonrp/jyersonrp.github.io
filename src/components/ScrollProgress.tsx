@@ -1,40 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { motion, useScroll, useSpring, useTransform, useMotionValue } from 'framer-motion';
 import { subscribeLenis } from '../utils/smoothScroll';
 
+/**
+ * Ultra-modern, high-fidelity scroll progress indicator.
+ * Combines Lenis smooth scrolling with Framer Motion spring physics (60/120 FPS),
+ * dynamic CSS theme palette gradients, atmospheric glow, and a photon micro-spark tip.
+ */
 export const ScrollProgress: React.FC = () => {
-  const [progress, setProgress] = useState(0);
+  const { scrollYProgress } = useScroll();
+  const rawProgress = useMotionValue(0);
 
   useEffect(() => {
-    let ticking = false;
+    // 1. Reactive binding to Framer Motion's viewport scroll tracker
+    const unsubscribeFm = scrollYProgress.on('change', (latest) => {
+      rawProgress.set(latest);
+    });
 
-    const calculateProgress = () => {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (docHeight <= 0) {
-        setProgress(0);
-        return;
-      }
-      const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-      const calculated = Math.min(1, Math.max(0, currentScroll / docHeight));
-      setProgress(calculated);
-      ticking = false;
-    };
-
-    const onScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(calculateProgress);
-        ticking = true;
-      }
-    };
-
-    // Calculate initial value
-    calculateProgress();
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    // Synchronous, reactive connection to Lenis via subscribeLenis
+    // 2. Direct reactive subscription to Lenis virtual scroll engine
     let activeLenisOff: (() => void) | null = null;
-
     const unsubscribeLenisInit = subscribeLenis((lenis) => {
       if (activeLenisOff) {
         activeLenisOff();
@@ -44,9 +28,7 @@ export const ScrollProgress: React.FC = () => {
       if (lenis) {
         const handleLenisScroll = (e: any) => {
           if (typeof e?.progress === 'number') {
-            setProgress(Math.min(1, Math.max(0, e.progress)));
-          } else {
-            onScroll();
+            rawProgress.set(Math.min(1, Math.max(0, e.progress)));
           }
         };
 
@@ -61,42 +43,93 @@ export const ScrollProgress: React.FC = () => {
       }
     });
 
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (activeLenisOff) activeLenisOff();
-      unsubscribeLenisInit();
+    // 3. Fallback calculation for native scroll jumps / initial page offset
+    const calculateProgress = () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (docHeight > 0) {
+        const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+        rawProgress.set(Math.min(1, Math.max(0, currentScroll / docHeight)));
+      }
     };
-  }, []);
+
+    calculateProgress();
+    window.addEventListener('scroll', calculateProgress, { passive: true });
+    window.addEventListener('resize', calculateProgress, { passive: true });
+
+    return () => {
+      unsubscribeFm();
+      unsubscribeLenisInit();
+      if (activeLenisOff) activeLenisOff();
+      window.removeEventListener('scroll', calculateProgress);
+      window.removeEventListener('resize', calculateProgress);
+    };
+  }, [scrollYProgress, rawProgress]);
+
+  // Spring physics for buttery-smooth 60/120 FPS interpolation without jitter
+  const smoothProgress = useSpring(rawProgress, {
+    stiffness: 140,
+    damping: 26,
+    mass: 0.15,
+    restDelta: 0.0001,
+  });
+
+  // Dynamic transforms derived from smoothProgress
+  const barOpacity = useTransform(smoothProgress, (v) => (v > 0.001 ? 1 : 0));
+  const sparkOpacity = useTransform(smoothProgress, (v) => (v > 0.004 ? 1 : 0));
+  // Keep the micro-spark within the screen boundaries at 0% and 100%
+  const sparkLeft = useTransform(smoothProgress, (v) => `clamp(6px, ${v * 100}%, calc(100% - 6px))`);
 
   return (
     <div
       aria-hidden="true"
-      className="fixed top-0 left-0 right-0 z-50 h-[2px] pointer-events-none print:hidden bg-transparent"
+      className="fixed top-0 left-0 right-0 z-50 h-[2.5px] sm:h-[3px] pointer-events-none select-none print:hidden"
     >
-      {/* Minimalist Progress Track with Dynamic Palette Gradient */}
-      <div
-        className="h-full origin-left will-change-transform"
+      {/* Subtle translucent ambient background track */}
+      <div className="absolute inset-0 bg-black/[0.04] dark:bg-white/[0.05] backdrop-blur-[0.5px]" />
+
+      {/* Reactive High-Fidelity Gradient Progress Bar */}
+      <motion.div
+        className="h-full w-full origin-left rounded-r-full will-change-transform"
         style={{
-          transform: `scaleX(${progress})`,
-          opacity: progress > 0.001 ? 1 : 0,
-          transition: 'opacity 150ms ease-out',
-          background: 'var(--accent-gradient)',
-          boxShadow: '0 0 12px var(--accent-glow)',
+          scaleX: smoothProgress,
+          opacity: barOpacity,
+          background: 'var(--accent-gradient-primary, var(--accent-gradient))',
+          boxShadow:
+            '0 0 10px var(--accent-glow), 0 0 20px var(--accent-glow-secondary, var(--accent-glow))',
         }}
       />
 
-      {/* Leading Photon Tracer Pulse Dot */}
-      {progress > 0.005 && (
-        <div
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-2 h-2 rounded-full pointer-events-none"
+      {/* Leading Photon / Micro-Spark Glow Tip */}
+      <motion.div
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none flex items-center justify-center will-change-transform"
+        style={{
+          left: sparkLeft,
+          opacity: sparkOpacity,
+        }}
+      >
+        {/* Soft radial glow flare that leads the track */}
+        <span
+          className="absolute w-7 h-7 rounded-full blur-[4px] pointer-events-none"
           style={{
-            left: `clamp(4px, ${progress * 100}%, calc(100% - 4px))`,
-            backgroundColor: 'var(--accent-secondary)',
-            boxShadow: '0 0 8px var(--accent-secondary), 0 0 16px var(--accent-primary)',
+            background:
+              'radial-gradient(circle, var(--accent-secondary) 0%, var(--accent-primary) 50%, transparent 75%)',
+            opacity: 0.85,
           }}
         />
-      )}
+
+        {/* Pulsing aura ring */}
+        <span
+          className="absolute w-3.5 h-3.5 rounded-full animate-ping pointer-events-none opacity-40"
+          style={{
+            backgroundColor: 'var(--accent-primary)',
+          }}
+        />
+
+        {/* High-intensity micro-crystal light spark */}
+        <span
+          className="relative w-2 h-2 rounded-full bg-white dark:bg-white shadow-[0_0_6px_#ffffff,0_0_12px_var(--accent-primary),0_0_18px_var(--accent-secondary)]"
+        />
+      </motion.div>
     </div>
   );
 };
