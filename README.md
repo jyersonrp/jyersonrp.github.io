@@ -1,6 +1,6 @@
 # 🌌 Yerson Rodríguez — Portfolio Profesional de Ingeniería de Software & Inteligencia Artificial
 
-[![Deploy Portfolio to GitHub Pages](https://github.com/jyersonrp/jyersonrp.github.io/actions/workflows/deploy.yml/badge.svg)](https://github.com/jyersonrp/jyersonrp.github.io/actions/workflows/deploy.yml)
+[![Deploy Portfolio to GitHub Pages](https://github.com/jyersonrp/jyersonrp.github.io/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/jyersonrp/jyersonrp.github.io/actions/workflows/deploy.yml)
 [![Live Site](https://img.shields.io/badge/Production-jyersonrp.github.io-00F0FF?style=flat&logo=googlechrome&logoColor=black)](https://jyersonrp.github.io/)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=flat&logo=react&logoColor=black)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7.3-3178C6?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
