@@ -349,10 +349,34 @@ export const FALLBACK_REPOS = [
     html_url: "https://github.com/jyersonrp/WhatsBot-GlamNails",
     description: "Bot automatizado de citas y atención al cliente para salón Glam Nails Maturín vía WhatsApp con TypeScript, FSM y persistencia en base de datos.",
     language: "TypeScript",
-    stargazers_count: 0,
+    stargazers_count: 1,
     forks_count: 0,
     updated_at: "2026-08-10T14:59:10Z",
-    topics: ["typescript", "fsm", "whatsapp", "postgresql", "crm"]
+    topics: ["typescript", "fsm", "whatsapp", "postgresql", "crm", "hono"]
+  },
+  {
+    id: 104,
+    name: "docaudit-ai",
+    full_name: "jyersonrp/docaudit-ai",
+    html_url: "https://github.com/jyersonrp/docaudit-ai",
+    description: "Motor RAG asíncrono para extracción de riesgos legales y financieros con esquemas estrictos Pydantic v2, factoría Multi-Provider LLM y reportes ReportLab PDF.",
+    language: "Python",
+    stargazers_count: 1,
+    forks_count: 0,
+    updated_at: "2026-09-19T23:50:00Z",
+    topics: ["fastapi", "rag", "pydantic", "llm", "document-intelligence", "python"]
+  },
+  {
+    id: 105,
+    name: "jyersonrp.github.io",
+    full_name: "jyersonrp/jyersonrp.github.io",
+    html_url: "https://github.com/jyersonrp/jyersonrp.github.io",
+    description: "Portafolio profesional de ingeniería de software con React 18, TypeScript, Tailwind CSS, animaciones interactivas, paleta de comandos y diseño editorial obsidian.",
+    language: "TypeScript",
+    stargazers_count: 1,
+    forks_count: 0,
+    updated_at: "2026-09-19T23:50:00Z",
+    topics: ["react", "typescript", "tailwindcss", "vite", "portfolio"]
   }
 ];
 

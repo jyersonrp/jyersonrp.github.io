@@ -43,6 +43,16 @@ const REPO_TITLES: Record<string, { es: string; en: string; primaryTech: string 
     es: 'WhatsBot CRM — FSM & Concurrencia',
     en: 'WhatsBot CRM — FSM & Concurrency',
     primaryTech: 'TypeScript'
+  },
+  'docaudit-ai': {
+    es: 'DocAudit AI — Auditoría Inteligente & RAG',
+    en: 'DocAudit AI — Enterprise RAG & Risk Engine',
+    primaryTech: 'FastAPI'
+  },
+  'jyersonrp.github.io': {
+    es: 'Portafolio de Ingeniería & Experiencia Interactiva',
+    en: 'Engineering Portfolio — Interactive 3D & UI/UX',
+    primaryTech: 'React'
   }
 };
 
@@ -58,7 +68,67 @@ const REPO_DESCRIPTIONS: Record<string, { es: string; en: string }> = {
   'WhatsBot-GlamNails': {
     es: 'Bot automatizado de citas y atención al cliente para salón Glam Nails Maturín vía WhatsApp con TypeScript, FSM y persistencia en base de datos.',
     en: 'Automated booking & customer service WhatsApp bot for Glam Nails Maturín salon with TypeScript, FSM architecture, and PostgreSQL persistence.'
+  },
+  'docaudit-ai': {
+    es: 'Motor RAG asíncrono para extracción de riesgos legales y normativos con esquemas estrictos Pydantic v2, factoría Multi-Provider LLM y reportes ReportLab PDF.',
+    en: 'Enterprise asynchronous document intelligence and risk audit engine built with FastAPI, Pydantic v2, React, and hybrid RAG retrieval.'
+  },
+  'jyersonrp.github.io': {
+    es: 'Portafolio profesional de alto impacto con React 18, TypeScript, Tailwind CSS, animaciones interactivas, paleta de comandos y diseño editorial obsidian.',
+    en: 'Official engineering portfolio of Yerson Rodríguez — Full-Stack & Python Developer specializing in Odoo ERP, FastAPI backends, AI & Computer Vision.'
   }
+};
+
+const TOPIC_DISPLAY_NAMES: Record<string, string> = {
+  fastapi: 'FastAPI',
+  opencv: 'OpenCV',
+  yolov8: 'YOLOv8',
+  onnx: 'ONNX',
+  nvr: 'Smart NVR',
+  'computer-vision': 'Computer Vision',
+  odoo: 'Odoo ERP',
+  'whatsapp-cloud-api': 'WhatsApp API',
+  meta: 'Meta Cloud',
+  hmac: 'HMAC-SHA256',
+  erp: 'ERP Suite',
+  python: 'Python',
+  typescript: 'TypeScript',
+  fsm: 'FSM Machine',
+  whatsapp: 'WhatsApp Bot',
+  postgresql: 'PostgreSQL',
+  crm: 'CRM Engine',
+  hono: 'Hono API',
+  rag: 'Hybrid RAG',
+  pydantic: 'Pydantic v2',
+  llm: 'LLM Factory',
+  'document-intelligence': 'Doc Intelligence',
+  reportlab: 'ReportLab PDF',
+  react: 'React 18',
+  tailwindcss: 'Tailwind CSS',
+  vite: 'Vite',
+  portfolio: 'Portfolio'
+};
+
+const formatTopicTag = (topic: string): string => {
+  const lower = topic.toLowerCase();
+  if (TOPIC_DISPLAY_NAMES[lower]) {
+    return TOPIC_DISPLAY_NAMES[lower];
+  }
+  return topic
+    .split(/[-_]/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+};
+
+const formatLanguage = (lang: string | null | undefined): string => {
+  if (!lang) return 'Python';
+  const lower = lang.toLowerCase();
+  if (lower === 'typescript') return 'TypeScript';
+  if (lower === 'javascript') return 'JavaScript';
+  if (lower === 'python') return 'Python';
+  if (lower === 'html') return 'HTML';
+  if (lower === 'css') return 'CSS';
+  return lang.charAt(0).toUpperCase() + lang.slice(1);
 };
 
 export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
@@ -94,6 +164,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
           );
           return {
             ...repo,
+            language: formatLanguage(repo.language || fallbackMatch?.language || 'Python'),
             description: repo.description || fallbackMatch?.description || '',
             topics:
               repo.topics && repo.topics.length > 0
@@ -403,13 +474,13 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                       </div>
 
                       {/* Title & Full Slug */}
-                      <div>
+                      <div className="min-w-0 flex-1">
                         <h3 className="text-base sm:text-lg font-sans font-bold text-slate-900 dark:text-white group-hover:text-cyanNeon transition-colors leading-snug">
                           {getRepoTitle(repo)}
                         </h3>
                         <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-neutral-400 mt-1">
                           <FolderGit2 className="w-3.5 h-3.5 text-slate-400 dark:text-neutral-500 shrink-0" />
-                          <span className="text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-neutral-200 transition-colors line-clamp-1">
+                          <span className="text-slate-600 dark:text-neutral-400 group-hover:text-slate-900 dark:group-hover:text-neutral-200 transition-colors truncate">
                             {repo.full_name || `jyersonrp/${repo.name}`}
                           </span>
                         </div>
@@ -433,16 +504,16 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                     {getRepoDescription(repo)}
                   </p>
 
-                  {/* Topics Tags without hash, with glowing cyan micro-dot */}
+                  {/* Topics Tags */}
                   {repo.topics && repo.topics.length > 0 && (
-                    <div className="relative z-10 flex flex-wrap gap-1.5 mb-5">
+                    <div className="relative z-10 flex flex-wrap gap-1.5 mb-5 min-h-[30px]">
                       {repo.topics.slice(0, 5).map((topic) => (
                         <span
                           key={topic}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[10px] font-mono bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.07] group-hover:border-slate-300 dark:group-hover:border-white/[0.12] hover:bg-slate-200 dark:hover:bg-white/[0.06] transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-sans font-medium bg-slate-100 dark:bg-white/[0.04] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.08] group-hover:border-cyanNeon/30 hover:border-cyanNeon/50 hover:bg-cyanNeon/10 hover:text-cyanNeon transition-colors"
                         >
-                          <span className="w-1 h-1 rounded-full bg-cyanNeon" />
-                          <span>{topic}</span>
+                          <span className="w-1.5 h-1.5 rounded-full bg-cyanNeon/80 shrink-0" />
+                          <span>{formatTopicTag(topic)}</span>
                         </span>
                       ))}
                     </div>
@@ -454,15 +525,15 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                   <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
                     {/* Language Badge */}
                     {repo.language && (
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-[11px] font-mono text-slate-700 dark:text-neutral-300">
+                      <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/[0.04] border border-slate-200 dark:border-white/[0.08] text-xs font-sans font-semibold text-slate-700 dark:text-neutral-200">
                         <span
-                          className="w-2 h-2 rounded-full"
+                          className="w-2 h-2 rounded-full shrink-0"
                           style={{
                             backgroundColor: getLanguageColor(repo.language),
                             boxShadow: `0 0 6px ${getLanguageColor(repo.language)}`
                           }}
                         />
-                        <span>{repo.language}</span>
+                        <span>{formatLanguage(repo.language)}</span>
                       </span>
                     )}
 
