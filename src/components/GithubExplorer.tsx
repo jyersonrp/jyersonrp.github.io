@@ -84,26 +84,26 @@ const TOPIC_DISPLAY_NAMES: Record<string, string> = {
   opencv: 'OpenCV',
   yolov8: 'YOLOv8',
   onnx: 'ONNX',
-  nvr: 'Smart NVR',
-  'computer-vision': 'Computer Vision',
+  nvr: 'NVR',
+  'computer-vision': 'Vision',
   odoo: 'Odoo ERP',
   'whatsapp-cloud-api': 'WhatsApp API',
-  meta: 'Meta Cloud',
-  hmac: 'HMAC-SHA256',
-  erp: 'ERP Suite',
+  meta: 'Meta',
+  hmac: 'HMAC',
+  erp: 'ERP',
   python: 'Python',
   typescript: 'TypeScript',
-  fsm: 'FSM Machine',
-  whatsapp: 'WhatsApp Bot',
+  fsm: 'FSM',
+  whatsapp: 'WhatsApp',
   postgresql: 'PostgreSQL',
-  crm: 'CRM Engine',
-  hono: 'Hono API',
-  rag: 'Hybrid RAG',
-  pydantic: 'Pydantic v2',
-  llm: 'LLM Factory',
-  'document-intelligence': 'Doc Intelligence',
-  reportlab: 'ReportLab PDF',
-  react: 'React 18',
+  crm: 'CRM',
+  hono: 'Hono',
+  rag: 'RAG',
+  pydantic: 'Pydantic',
+  llm: 'LLM',
+  'document-intelligence': 'DocAI',
+  reportlab: 'ReportLab',
+  react: 'React',
   tailwindcss: 'Tailwind CSS',
   vite: 'Vite',
   portfolio: 'Portfolio'
@@ -460,7 +460,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                 <div>
                   {/* Card Header: Tech Icon Tile + Title & Slug + External Link */}
                   <div className="relative z-10 flex items-start justify-between gap-3 mb-3.5">
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-start gap-3 min-w-0 flex-1">
                       {/* Tech Icon Tile */}
                       <div
                         className="w-11 h-11 rounded-2xl flex items-center justify-center border transition-all duration-300 shrink-0"
@@ -475,7 +475,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
 
                       {/* Title & Full Slug */}
                       <div className="min-w-0 flex-1">
-                        <h3 className="text-base sm:text-lg font-sans font-bold text-slate-900 dark:text-white group-hover:text-cyanNeon transition-colors leading-snug">
+                        <h3 className="text-base sm:text-lg font-sans font-bold text-slate-900 dark:text-white group-hover:text-cyanNeon transition-colors leading-snug line-clamp-2">
                           {getRepoTitle(repo)}
                         </h3>
                         <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500 dark:text-neutral-400 mt-1">
@@ -504,15 +504,21 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                     {getRepoDescription(repo)}
                   </p>
 
-                  {/* Topics Tags */}
+                  {/* Topics Tags with glowing cyan micro-dot */}
                   {repo.topics && repo.topics.length > 0 && (
-                    <div className="relative z-10 flex flex-wrap gap-1.5 mb-5 min-h-[30px]">
+                    <div className="relative z-10 flex flex-wrap gap-1.5 mb-5 min-h-[28px]">
                       {repo.topics.slice(0, 5).map((topic) => (
                         <span
                           key={topic}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-sans font-medium bg-slate-100 dark:bg-white/[0.04] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.08] group-hover:border-cyanNeon/30 hover:border-cyanNeon/50 hover:bg-cyanNeon/10 hover:text-cyanNeon transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-mono bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.07] group-hover:border-slate-300 dark:group-hover:border-white/[0.12] hover:border-[#00F0FF]/50 hover:text-[#00F0FF] hover:bg-[#00F0FF]/[0.04] transition-all"
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-cyanNeon/80 shrink-0" />
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{
+                              backgroundColor: '#00F0FF',
+                              boxShadow: '0 0 6px rgba(0, 240, 255, 0.7)'
+                            }}
+                          />
                           <span>{formatTopicTag(topic)}</span>
                         </span>
                       ))}
