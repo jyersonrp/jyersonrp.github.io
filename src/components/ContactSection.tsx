@@ -9,6 +9,7 @@ import {
   checkRateLimit,
   getPublicEmail
 } from '../utils/security';
+import { trackContactInteraction, trackEvent } from '../utils/analytics';
 import {
   Mail,
   Copy,
@@ -48,6 +49,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
     playSound('success');
     navigator.clipboard.writeText(publicEmail);
     setCopied(true);
+    trackContactInteraction('email_copy');
 
     // Trigger subtle confetti celebration
     try {
@@ -139,6 +141,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
     playSound('success');
     setFormSubmitted(true);
+    trackEvent('contact_form_submit', { subject: sanitizedSubject });
 
     // Trigger subtle celebratory confetti
     try {
@@ -297,6 +300,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               )}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactInteraction('whatsapp')}
               className="glass-panel-card p-4 rounded-2xl border border-slate-200 dark:border-white/[0.08] hover:border-emeraldNeon/40 transition-all flex items-center justify-between group shadow-[0_4px_15px_-3px_rgba(0,0,0,0.04)] dark:shadow-none"
             >
               <div className="flex items-center gap-3">
@@ -316,6 +320,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactInteraction('linkedin')}
               className="glass-panel-card p-4 rounded-2xl border border-slate-200 dark:border-white/[0.08] hover:border-cyanNeon/40 transition-all flex items-center justify-between group shadow-[0_4px_15px_-3px_rgba(0,0,0,0.04)] dark:shadow-none"
             >
               <div className="flex items-center gap-3">
@@ -335,6 +340,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               href={PERSONAL_INFO.github}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactInteraction('github')}
               className="glass-panel-card p-4 rounded-2xl border border-slate-200 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/[0.2] transition-all flex items-center justify-between group shadow-[0_4px_15px_-3px_rgba(0,0,0,0.04)] dark:shadow-none"
             >
               <div className="flex items-center gap-3">

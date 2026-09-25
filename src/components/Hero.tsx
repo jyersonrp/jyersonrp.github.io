@@ -7,6 +7,7 @@ import { Hero3DCore } from './Hero3DCore';
 import { MagneticButton } from './MagneticButton';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { playSound } from '../utils/audioSystem';
+import { trackCvDownload, trackContactInteraction, trackEvent } from '../utils/analytics';
 
 interface HeroProps {
   language: Language;
@@ -95,7 +96,10 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
                 <a
                   href="./CV_Yerson_Rodriguez.pdf"
                   download="CV_Yerson_Rodriguez.pdf"
-                  onClick={() => playSound('click')}
+                  onClick={() => {
+                    playSound('click');
+                    trackCvDownload('hero');
+                  }}
                   title={language === 'es' ? 'Descargar CV directo en PDF' : 'Direct download of CV PDF'}
                   className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-full bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-900 dark:text-white font-medium text-xs sm:text-sm border border-slate-200 dark:border-white/[0.1] hover:border-[var(--accent-primary)]/50 transition-all flex items-center gap-2 group"
                 >
@@ -109,6 +113,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
                 <button
                   onClick={() => {
                     playSound('open');
+                    trackEvent('open_cv_modal', { source: 'hero' });
                     onOpenCv();
                   }}
                   className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-full bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white font-medium text-xs sm:text-sm border border-slate-200 dark:border-white/[0.1] hover:border-[var(--accent-secondary)]/50 transition-all flex items-center gap-2"
@@ -127,7 +132,10 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => playSound('click')}
+                  onClick={() => {
+                    playSound('click');
+                    trackContactInteraction('whatsapp');
+                  }}
                   className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-full bg-slate-100 dark:bg-white/[0.04] hover:bg-slate-200 dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.1] hover:border-[var(--accent-primary)]/50 text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white font-medium text-xs sm:text-sm transition-all flex items-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 text-[var(--accent-primary)]" />
@@ -142,6 +150,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
                     href={PERSONAL_INFO.github}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackContactInteraction('github')}
                     aria-label="GitHub Profile"
                     className="p-3 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/[0.2] text-slate-600 dark:text-neutral-400 hover:text-slate-900 dark:hover:text-white transition-all flex items-center justify-center"
                   >
@@ -153,6 +162,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
                     href={PERSONAL_INFO.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackContactInteraction('linkedin')}
                     aria-label="LinkedIn Profile"
                     className="p-3 rounded-full bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-secondary)]/40 text-slate-600 dark:text-neutral-400 hover:text-[var(--accent-secondary)] transition-all flex items-center justify-center"
                   >

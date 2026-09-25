@@ -5,6 +5,7 @@ import { Language } from '../types';
 import { getPublicEmail } from '../utils/security';
 import { X, Printer, Download, Mail, Phone, MapPin } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
+import { trackCvDownload } from '../utils/analytics';
 
 interface CvModalProps {
   isOpen: boolean;
@@ -187,6 +188,7 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
             <a
               href="./CV_Yerson_Rodriguez.pdf"
               download="CV_Yerson_Rodriguez.pdf"
+              onClick={() => trackCvDownload('cv_modal')}
               title={language === 'es' ? 'Descargar archivo PDF oficial de Yerson' : 'Download official PDF resume file'}
               className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg bg-[var(--accent-primary)] hover:brightness-110 text-black font-bold text-xs font-mono shadow-[0_0_15px_var(--accent-glow)] transition-all"
             >

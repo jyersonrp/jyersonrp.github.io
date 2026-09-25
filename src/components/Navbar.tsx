@@ -19,6 +19,7 @@ import { Language, ThemeMode, ColorPalette } from '../types';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { playSound } from '../utils/audioSystem';
 import { PALETTES } from '../utils/themeSystem';
+import { trackCvDownload } from '../utils/analytics';
 
 interface NavbarProps {
   language: Language;
@@ -343,7 +344,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a
             href="./CV_Yerson_Rodriguez.pdf"
             download="CV_Yerson_Rodriguez.pdf"
-            onClick={() => playSound('click')}
+            onClick={() => {
+              playSound('click');
+              trackCvDownload('navbar_desktop');
+            }}
             title={language === 'es' ? 'Descargar CV directo en PDF' : 'Direct download of CV PDF'}
             className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs hover:brightness-110 shadow-[0_0_20px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
           >
@@ -409,7 +413,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a
             href="./CV_Yerson_Rodriguez.pdf"
             download="CV_Yerson_Rodriguez.pdf"
-            onClick={() => playSound('click')}
+            onClick={() => {
+              playSound('click');
+              trackCvDownload('navbar_mobile_header');
+            }}
             className="p-2 rounded-lg bg-[var(--accent-primary)] text-black text-xs font-semibold flex items-center justify-center hover:brightness-110 transition-colors"
             title="Descargar CV (PDF)"
             aria-label="Descargar CV"
@@ -584,6 +591,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               download="CV_Yerson_Rodriguez.pdf"
               onClick={() => {
                 playSound('click');
+                trackCvDownload('navbar_mobile_drawer');
                 setMobileMenuOpen(false);
               }}
               className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[var(--accent-primary)] text-black font-bold text-xs shadow-lg"
