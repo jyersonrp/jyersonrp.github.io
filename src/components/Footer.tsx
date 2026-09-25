@@ -4,6 +4,7 @@ import { Language } from '../types';
 import { getPublicEmail } from '../utils/security';
 import { ArrowUp, MessageCircle, Mail, Terminal, Heart, Download } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
+import { trackCvDownload, trackContactInteraction } from '../utils/analytics';
 
 interface FooterProps {
   language: Language;
@@ -69,6 +70,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               href={PERSONAL_INFO.github}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactInteraction('github')}
               className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/30 text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white shadow-sm transition-colors group"
               aria-label="GitHub"
             >
@@ -78,6 +80,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactInteraction('linkedin')}
               className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-secondary)]/40 text-slate-800 dark:text-neutral-300 hover:text-[var(--accent-secondary)] shadow-sm transition-colors group"
               aria-label="LinkedIn"
             >
@@ -87,6 +90,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
               href={`https://wa.me/${PERSONAL_INFO.phoneClean}`}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactInteraction('whatsapp')}
               className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[#25D366]/40 text-slate-800 dark:text-neutral-300 hover:text-[#25D366] shadow-sm transition-colors group"
               aria-label="WhatsApp"
             >
@@ -94,6 +98,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             </a>
             <a
               href={`mailto:${getPublicEmail()}`}
+              onClick={() => trackContactInteraction('email_client')}
               className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/40 text-slate-800 dark:text-neutral-300 hover:text-[var(--accent-primary)] shadow-sm transition-colors group"
               aria-label="Email"
             >
@@ -103,6 +108,7 @@ export const Footer: React.FC<FooterProps> = ({ language }) => {
             <a
               href="./CV_Yerson_Rodriguez.pdf"
               download="CV_Yerson_Rodriguez.pdf"
+              onClick={() => trackCvDownload('footer')}
               className="p-2.5 rounded-full bg-white dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/50 text-slate-800 dark:text-neutral-300 hover:text-[var(--accent-primary)] shadow-sm transition-colors group"
               title={language === 'es' ? 'Descargar CV (PDF)' : 'Download CV (PDF)'}
               aria-label="Download CV"

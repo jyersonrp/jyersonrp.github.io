@@ -281,6 +281,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
               <a
                 href={`mailto:${publicEmail}`}
+                onClick={() => trackContactInteraction('email_client')}
                 className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-white/[0.1] hover:border-slate-400 dark:hover:border-white/[0.2] text-slate-900 dark:text-white text-xs font-mono transition-all flex items-center gap-2"
               >
                 <Mail className="w-4 h-4 text-cyanNeon" />

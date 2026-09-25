@@ -22,6 +22,7 @@ import { Language, ThemeMode, ColorPalette } from './types';
 import { setLenisInstance } from './utils/smoothScroll';
 import { initSoundPreference, setSoundEnabled as persistSoundEnabled, playSound } from './utils/audioSystem';
 import { getInitialThemeMode, getInitialColorPalette, applyTheme } from './utils/themeSystem';
+import { trackPreferences } from './utils/analytics';
 
 export function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -41,11 +42,13 @@ export function App() {
   const handleSetThemeMode = (mode: ThemeMode) => {
     setThemeMode(mode);
     playSound('switch');
+    trackPreferences('theme', mode);
   };
 
   const handleSetColorPalette = (palette: ColorPalette) => {
     setColorPalette(palette);
     playSound('switch');
+    trackPreferences('palette', palette);
   };
 
   // Initialize sound preferences
@@ -183,6 +186,7 @@ export function App() {
     const nextLang: Language = language === 'es' ? 'en' : 'es';
     setLanguage(nextLang);
     localStorage.setItem('portfolio_lang', nextLang);
+    trackPreferences('language', nextLang);
   };
 
   return (

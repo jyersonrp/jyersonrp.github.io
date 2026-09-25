@@ -18,6 +18,7 @@ import { GithubIcon } from './icons/BrandIcons';
 import { ProjectTiltCard } from './ProjectTiltCard';
 import { NvrMockupView, OdooMockupView, WhatsBotMockupView } from './ProjectMockups';
 import { playSound } from '../utils/audioSystem';
+import { trackCodeView, trackProjectTab } from '../utils/analytics';
 
 interface ProjectsProps {
   language: Language;
@@ -110,6 +111,7 @@ export const Projects: React.FC<ProjectsProps> = ({ language }) => {
         playSound('click');
         break;
     }
+    trackProjectTab(projectId, tab);
     setActiveTabs((prev) => ({ ...prev, [projectId]: tab }));
   };
 
@@ -542,7 +544,10 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
             href={project.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => playSound('click')}
+            onClick={() => {
+              playSound('click');
+              trackCodeView(project.id);
+            }}
             className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-200 dark:bg-white/[0.03] dark:hover:bg-white/[0.08] border border-slate-300 dark:border-white/[0.08] hover:border-slate-400 dark:hover:border-white/[0.18] text-xs font-mono text-slate-800 dark:text-neutral-300 hover:text-black dark:hover:text-white font-medium transition-all group w-full sm:w-auto"
           >
             <GithubIcon className="w-3.5 h-3.5 text-slate-700 dark:text-neutral-400 group-hover:text-black dark:group-hover:text-white" />

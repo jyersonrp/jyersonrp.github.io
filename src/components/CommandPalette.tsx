@@ -5,6 +5,7 @@ import { PERSONAL_INFO } from '../data/portfolioData';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { playSound } from '../utils/audioSystem';
 import { safeOpenUrl, sanitizeQuery, getPublicEmail } from '../utils/security';
+import { trackCvDownload, trackContactInteraction, trackEvent } from '../utils/analytics';
 import {
   Search,
   X,
@@ -144,6 +145,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 
   const downloadCvDirect = () => {
     playSound('click');
+    trackCvDownload('command_palette');
     const link = document.createElement('a');
     link.href = './CV_Yerson_Rodriguez.pdf';
     link.download = 'CV_Yerson_Rodriguez.pdf';
@@ -494,6 +496,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'MODAL',
       keywords: ['cv', 'curriculum', 'resume', 'ver', 'view', 'modal', 'pantalla', 'online'],
       action: () => {
+        trackEvent('open_cv_modal', { source: 'command_palette' });
         onClose();
         onOpenCv();
       }
@@ -506,7 +509,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       icon: <Copy className="w-4 h-4 text-neutral-300" />,
       badge: 'COPY',
       keywords: ['email', 'correo', 'copiar', 'copy'],
-      action: () => copyToClipboard(getPublicEmail(), language === 'es' ? 'Correo' : 'Email')
+      action: () => {
+        trackContactInteraction('email_copy');
+        copyToClipboard(getPublicEmail(), language === 'es' ? 'Correo' : 'Email');
+      }
     },
     {
       id: 'act-copy-phone',
@@ -516,7 +522,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       icon: <Phone className="w-4 h-4 text-neutral-300" />,
       badge: 'COPY',
       keywords: ['telefono', 'phone', 'whatsapp', 'celular', 'copiar'],
-      action: () => copyToClipboard(PERSONAL_INFO.phoneClean, language === 'es' ? 'Teléfono' : 'Phone')
+      action: () => {
+        trackContactInteraction('whatsapp');
+        copyToClipboard(PERSONAL_INFO.phoneClean, language === 'es' ? 'Teléfono' : 'Phone');
+      }
     },
     {
       id: 'act-toggle-lang',

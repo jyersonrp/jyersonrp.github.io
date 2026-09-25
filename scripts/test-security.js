@@ -12,6 +12,11 @@ import {
   getPublicEmail,
   isValidSafeUrl
 } from '../src/utils/security.ts';
+import {
+  sanitizeEventName,
+  sanitizeAnalyticsParams,
+  GA_MEASUREMENT_ID
+} from '../src/utils/analytics.ts';
 
 console.log('--- Starting Rigorous Portfolio Security & Hardening Test Suite ---');
 
@@ -204,6 +209,9 @@ assert.ok(csp.includes("object-src 'none'"), "CSP must include object-src 'none'
 assert.ok(csp.includes("base-uri 'self'"), "CSP must include base-uri 'self'");
 assert.ok(csp.includes("worker-src 'self' blob:"), "CSP must include worker-src 'self' blob:");
 assert.ok(csp.includes("form-action 'self' mailto:"), "CSP must include form-action restriction");
+assert.ok(csp.includes("https://www.googletagmanager.com"), "CSP script-src must permit googletagmanager");
+assert.ok(csp.includes("https://*.google-analytics.com"), "CSP connect-src must permit google-analytics");
+assert.ok(csp.includes("https://*.googletagmanager.com"), "CSP connect-src must permit googletagmanager subdomains");
 console.log('✓ Content Security Policy directives verified');
 
 // 15. Test Permissions Policy in index.html
@@ -217,5 +225,82 @@ assert.ok(perm.includes('geolocation=()'), 'Permissions-Policy must disable geol
 assert.ok(perm.includes('display-capture=()'), 'Permissions-Policy must disable display-capture');
 console.log('✓ Permissions-Policy directives verified');
 
-console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (15/15) ---');
+// 16. Test GA4 Telemetry Event Name and PII Parameter Sanitization
+console.log('[Test 16] Testing GA4 telemetry event name and PII parameter sanitization...');
+assert.strictEqual(sanitizeEventName('Download-CV!_2026'), 'download_cv__2026');
+assert.strictEqual(sanitizeEventName('123invalid_start'), 'invalid_start');
+assert.strictEqual(sanitizeEventName(''), 'generic_event');
+assert.strictEqual(sanitizeEventName('a'.repeat(60)).length, 40);
+
+const maliciousParams = {
+  __proto__: { injected: true },
+  constructor: { polluted: true },
+  email: 'victim@secret.com',
+  password: 'SuperSecretPassword!',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+  source: 'hero',
+  user_note: 'Contact me at candidate@example.org or recruiter@tech.co for details',
+  auth_header: 'Bearer secret_access_token_12345',
+  safe_count: 42,
+  is_valid: true,
+  oversized: 'Z'.repeat(250)
+};
+
+const sanitizedParams = sanitizeAnalyticsParams(maliciousParams);
+
+// Verify prototype pollution keys are stripped
+assert.strictEqual(Object.prototype.hasOwnProperty.call(sanitizedParams, '__proto__'), false);
+assert.strictEqual(Object.prototype.hasOwnProperty.call(sanitizedParams, 'constructor'), false);
+
+// Verify sensitive PII keys are completely stripped
+assert.strictEqual(sanitizedParams.email, undefined);
+assert.strictEqual(sanitizedParams.password, undefined);
+assert.strictEqual(sanitizedParams.token, undefined);
+
+// Verify embedded emails and bearer tokens are redacted from string values
+assert.ok(!sanitizedParams.user_note.includes('candidate@example.org'));
+assert.ok(!sanitizedParams.user_note.includes('recruiter@tech.co'));
+assert.ok(sanitizedParams.user_note.includes('[REDACTED_EMAIL]'));
+assert.ok(!sanitizedParams.auth_header.includes('secret_access_token'));
+assert.ok(sanitizedParams.auth_header.includes('[REDACTED_TOKEN]'));
+
+// Verify primitives and boundary truncation
+assert.strictEqual(sanitizedParams.safe_count, 42);
+assert.strictEqual(sanitizedParams.is_valid, true);
+assert.strictEqual(sanitizedParams.oversized.length, 100);
+console.log('✓ Telemetry event and PII parameter sanitization confirmed');
+
+// 17. Test GA4 Meta & Tag Privacy Configuration in index.html
+console.log('[Test 17] Verifying GA4 privacy & Consent Mode v2 configuration in index.html...');
+assert.strictEqual(GA_MEASUREMENT_ID, 'G-41JM9W8845');
+assert.ok(indexHtml.includes(`gtag/js?id=${GA_MEASUREMENT_ID}`), 'index.html must reference correct Measurement ID');
+assert.ok(indexHtml.includes('<script async src='), 'gtag.js script tag must be asynchronous');
+assert.ok(indexHtml.includes("ad_storage: 'denied'"), 'Consent Mode must deny ad storage by default');
+assert.ok(indexHtml.includes("ad_user_data: 'denied'"), 'Consent Mode must deny ad user data');
+assert.ok(indexHtml.includes("ad_personalization: 'denied'"), 'Consent Mode must deny ad personalization');
+assert.ok(indexHtml.includes("anonymize_ip: true"), 'GA4 config must enforce IP anonymization');
+assert.ok(indexHtml.includes("allow_google_signals: false"), 'GA4 config must disable Google Signals tracking');
+assert.ok(indexHtml.includes("cookie_flags: 'SameSite=None;Secure'"), 'GA4 config must enforce secure SameSite cookie flags');
+console.log('✓ GA4 privacy & Consent Mode v2 confirmed');
+
+// 18. Audit All CV Download Entrypoints
+console.log('[Test 18] Auditing CV download telemetry triggers across all UI entrypoints...');
+const filesWithCvDownloads = [
+  'src/components/Navbar.tsx',
+  'src/components/Hero.tsx',
+  'src/components/CvModal.tsx',
+  'src/components/CommandPalette.tsx',
+  'src/components/Footer.tsx'
+];
+
+for (const relPath of filesWithCvDownloads) {
+  const fileContent = fs.readFileSync(path.resolve(relPath), 'utf8');
+  assert.ok(
+    fileContent.includes('trackCvDownload'),
+    `${relPath} must include trackCvDownload telemetry invocation`
+  );
+}
+console.log(`✓ All ${filesWithCvDownloads.length} CV download entrypoints verified with telemetry`);
+
+console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (18/18) ---');
 
