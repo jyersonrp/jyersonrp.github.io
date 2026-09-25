@@ -5,7 +5,7 @@ import { Language } from '../types';
 import { getPublicEmail } from '../utils/security';
 import { X, Printer, Download, Mail, Phone, MapPin } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './icons/BrandIcons';
-import { trackCvDownload } from '../utils/analytics';
+import { trackCvDownload, trackContactInteraction, trackEvent } from '../utils/analytics';
 
 interface CvModalProps {
   isOpen: boolean;
@@ -78,6 +78,7 @@ export const CvModal: React.FC<CvModalProps> = ({ isOpen, onClose, language }) =
   if (!isOpen) return null;
 
   const handlePrint = () => {
+    trackEvent('print_cv', { source: 'cv_modal' });
     window.print();
   };
 
@@ -141,11 +142,14 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
 - ${isEs ? 'Inglés: Avanzado C1 (Fluidez Profesional Completa)' : 'English: Advanced C1 (Full Professional Fluency)'}
 `;
 
+    const fileName = `CV_${PERSONAL_INFO.fullName.replace(/\s+/g, '_')}_${language.toUpperCase()}.md`;
+    trackCvDownload('cv_modal_markdown', fileName);
+
     const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `CV_${PERSONAL_INFO.fullName.replace(/\s+/g, '_')}_${language.toUpperCase()}.md`;
+    link.download = fileName;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -248,25 +252,45 @@ ${cat.skills.map((s) => `- ${s.name} (${s.level})`).join('\n')}`
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-3.5 h-3.5 text-[var(--accent-secondary)] shrink-0" />
-                <a href={`mailto:${getPublicEmail()}`} className="hover:underline text-slate-900 dark:text-white break-all">
+                <a
+                  href={`mailto:${getPublicEmail()}`}
+                  onClick={() => trackContactInteraction('email_client')}
+                  className="hover:underline text-slate-900 dark:text-white break-all"
+                >
                   {getPublicEmail()}
                 </a>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
-                <a href={`tel:${PERSONAL_INFO.phoneClean}`} className="hover:underline text-slate-900 dark:text-white">
+                <a
+                  href={`tel:${PERSONAL_INFO.phoneClean}`}
+                  onClick={() => trackContactInteraction('whatsapp')}
+                  className="hover:underline text-slate-900 dark:text-white"
+                >
                   {PERSONAL_INFO.phone}
                 </a>
               </div>
               <div className="flex items-center gap-2 min-w-0">
                 <GithubIcon className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)] break-all">
+                <a
+                  href={PERSONAL_INFO.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackContactInteraction('github')}
+                  className="hover:underline text-[var(--accent-secondary)] break-all"
+                >
                   github.com/jyersonrp
                 </a>
               </div>
               <div className="flex items-center gap-2 min-w-0">
                 <LinkedinIcon className="w-3.5 h-3.5 text-neutral-400 shrink-0" />
-                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="hover:underline text-[var(--accent-secondary)] break-all">
+                <a
+                  href={PERSONAL_INFO.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackContactInteraction('linkedin')}
+                  className="hover:underline text-[var(--accent-secondary)] break-all"
+                >
                   linkedin.com/in/yerson-jose-rodriguez-perez
                 </a>
               </div>

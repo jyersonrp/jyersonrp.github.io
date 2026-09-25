@@ -681,6 +681,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'CHAT',
       keywords: ['whatsapp', 'mensaje', 'chat', 'directo', 'contacto'],
       action: () => {
+        trackContactInteraction('whatsapp');
         safeOpenUrl(`https://wa.me/${PERSONAL_INFO.phoneClean}`);
         onClose();
       }
@@ -694,7 +695,22 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       badge: 'RED',
       keywords: ['linkedin', 'red', 'trabajo', 'conectar', 'perfil'],
       action: () => {
+        trackContactInteraction('linkedin');
         safeOpenUrl(PERSONAL_INFO.linkedin);
+        onClose();
+      }
+    },
+    {
+      id: 'soc-github',
+      category: 'social',
+      title: { es: 'Visitar Perfil en GitHub', en: 'Visit GitHub Profile' },
+      subtitle: { es: 'github.com/jyersonrp', en: 'github.com/jyersonrp' },
+      icon: <GithubIcon className="w-4 h-4 text-neutral-300" />,
+      badge: 'CODE',
+      keywords: ['github', 'codigo', 'repos', 'perfil', 'git', 'proyectos'],
+      action: () => {
+        trackContactInteraction('github');
+        safeOpenUrl(PERSONAL_INFO.github);
         onClose();
       }
     }

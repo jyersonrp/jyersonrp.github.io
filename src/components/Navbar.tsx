@@ -19,7 +19,7 @@ import { Language, ThemeMode, ColorPalette } from '../types';
 import { smoothScrollTo } from '../utils/smoothScroll';
 import { playSound } from '../utils/audioSystem';
 import { PALETTES } from '../utils/themeSystem';
-import { trackCvDownload } from '../utils/analytics';
+import { trackCvDownload, trackEvent } from '../utils/analytics';
 
 interface NavbarProps {
   language: Language;
@@ -603,6 +603,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={() => {
                 playSound('open');
+                trackEvent('open_cv_modal', { source: 'navbar_mobile_drawer' });
                 setMobileMenuOpen(false);
                 onOpenCv();
               }}

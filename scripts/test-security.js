@@ -15,6 +15,7 @@ import {
 import {
   sanitizeEventName,
   sanitizeAnalyticsParams,
+  trackEvent,
   GA_MEASUREMENT_ID
 } from '../src/utils/analytics.ts';
 
@@ -208,9 +209,11 @@ assert.ok(csp.includes("default-src 'self'"), "CSP must include default-src 'sel
 assert.ok(csp.includes("object-src 'none'"), "CSP must include object-src 'none'");
 assert.ok(csp.includes("base-uri 'self'"), "CSP must include base-uri 'self'");
 assert.ok(csp.includes("worker-src 'self' blob:"), "CSP must include worker-src 'self' blob:");
+assert.ok(csp.includes("frame-src 'none'"), "CSP must include frame-src 'none'");
 assert.ok(csp.includes("form-action 'self' mailto:"), "CSP must include form-action restriction");
 assert.ok(csp.includes("https://www.googletagmanager.com"), "CSP script-src must permit googletagmanager");
 assert.ok(csp.includes("https://*.google-analytics.com"), "CSP connect-src must permit google-analytics");
+assert.ok(csp.includes("https://analytics.google.com"), "CSP connect-src must permit direct analytics.google.com endpoint");
 assert.ok(csp.includes("https://*.googletagmanager.com"), "CSP connect-src must permit googletagmanager subdomains");
 console.log('✓ Content Security Policy directives verified');
 
@@ -236,14 +239,27 @@ const maliciousParams = {
   __proto__: { injected: true },
   constructor: { polluted: true },
   email: 'victim@secret.com',
+  user_email: 'compound_victim@secret.com',
+  contact_phone: '+58 416-1828027',
+  auth_token: 'secret_token_val',
+  client_secret: 'top_secret_key',
   password: 'SuperSecretPassword!',
+  user_password: 'CompoundedPassword123!',
   token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
   source: 'hero',
-  user_note: 'Contact me at candidate@example.org or recruiter@tech.co for details',
+  user_note: 'Contact me at candidate@example.org or call +1 555-123-4567 for details',
   auth_header: 'Bearer secret_access_token_12345',
+  api_response_log: 'Bearer secret_access_token_12345',
+  raw_jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+  debug_payload: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+  local_path: 'C:\\Users\\jyers\\AppData\\Local\\secret_data.json',
   safe_count: 42,
   is_valid: true,
-  oversized: 'Z'.repeat(250)
+  nan_val: NaN,
+  infinity_val: Infinity,
+  oversized: 'Z'.repeat(250),
+  '123_invalid_key_start': 'should_be_cleaned',
+  '___dangling_underscores': 'should_be_cleaned'
 };
 
 const sanitizedParams = sanitizeAnalyticsParams(maliciousParams);
@@ -252,17 +268,37 @@ const sanitizedParams = sanitizeAnalyticsParams(maliciousParams);
 assert.strictEqual(Object.prototype.hasOwnProperty.call(sanitizedParams, '__proto__'), false);
 assert.strictEqual(Object.prototype.hasOwnProperty.call(sanitizedParams, 'constructor'), false);
 
-// Verify sensitive PII keys are completely stripped
+// Verify sensitive PII keys (both simple and compound) are completely stripped
 assert.strictEqual(sanitizedParams.email, undefined);
+assert.strictEqual(sanitizedParams.user_email, undefined);
+assert.strictEqual(sanitizedParams.contact_phone, undefined);
+assert.strictEqual(sanitizedParams.auth_token, undefined);
+assert.strictEqual(sanitizedParams.auth_header, undefined);
+assert.strictEqual(sanitizedParams.raw_jwt, undefined);
+assert.strictEqual(sanitizedParams.client_secret, undefined);
 assert.strictEqual(sanitizedParams.password, undefined);
+assert.strictEqual(sanitizedParams.user_password, undefined);
 assert.strictEqual(sanitizedParams.token, undefined);
 
-// Verify embedded emails and bearer tokens are redacted from string values
+// Verify embedded emails, phone numbers, bearer and raw JWT tokens, and paths are redacted
 assert.ok(!sanitizedParams.user_note.includes('candidate@example.org'));
-assert.ok(!sanitizedParams.user_note.includes('recruiter@tech.co'));
+assert.ok(!sanitizedParams.user_note.includes('555-123-4567'));
 assert.ok(sanitizedParams.user_note.includes('[REDACTED_EMAIL]'));
-assert.ok(!sanitizedParams.auth_header.includes('secret_access_token'));
-assert.ok(sanitizedParams.auth_header.includes('[REDACTED_TOKEN]'));
+assert.ok(sanitizedParams.user_note.includes('[REDACTED_PHONE]'));
+assert.ok(!sanitizedParams.api_response_log.includes('secret_access_token'));
+assert.ok(sanitizedParams.api_response_log.includes('[REDACTED_TOKEN]'));
+assert.ok(!sanitizedParams.debug_payload.includes('eyJhbGciOi'));
+assert.ok(sanitizedParams.debug_payload.includes('[REDACTED_TOKEN]'));
+assert.ok(!sanitizedParams.local_path.includes('jyers'));
+assert.ok(sanitizedParams.local_path.includes('[REDACTED_PATH]'));
+
+// Verify parameter key formatting (starts with letter)
+assert.strictEqual(sanitizedParams.invalid_key_start, 'should_be_cleaned');
+assert.strictEqual(sanitizedParams.dangling_underscores, 'should_be_cleaned');
+
+// Verify non-finite numbers are rejected
+assert.strictEqual(sanitizedParams.nan_val, undefined);
+assert.strictEqual(sanitizedParams.infinity_val, undefined);
 
 // Verify primitives and boundary truncation
 assert.strictEqual(sanitizedParams.safe_count, 42);
@@ -281,7 +317,15 @@ assert.ok(indexHtml.includes("ad_personalization: 'denied'"), 'Consent Mode must
 assert.ok(indexHtml.includes("anonymize_ip: true"), 'GA4 config must enforce IP anonymization');
 assert.ok(indexHtml.includes("allow_google_signals: false"), 'GA4 config must disable Google Signals tracking');
 assert.ok(indexHtml.includes("cookie_flags: 'SameSite=None;Secure'"), 'GA4 config must enforce secure SameSite cookie flags');
-console.log('✓ GA4 privacy & Consent Mode v2 confirmed');
+
+// Verify Consent Mode execution order: MUST precede gtag.js script loading
+const consentIdx = indexHtml.indexOf("gtag('consent', 'default'");
+const scriptSrcIdx = indexHtml.indexOf("gtag/js?id=");
+assert.ok(
+  consentIdx !== -1 && consentIdx < scriptSrcIdx,
+  'Consent Mode default command MUST be declared before gtag.js script loads to prevent race conditions'
+);
+console.log('✓ GA4 privacy & Consent Mode v2 execution order confirmed');
 
 // 18. Audit All CV Download Entrypoints
 console.log('[Test 18] Auditing CV download telemetry triggers across all UI entrypoints...');
@@ -302,5 +346,37 @@ for (const relPath of filesWithCvDownloads) {
 }
 console.log(`✓ All ${filesWithCvDownloads.length} CV download entrypoints verified with telemetry`);
 
-console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (18/18) ---');
+// 19. Audit public/_headers for Server/CDN Security & CSP Parity
+console.log('[Test 19] Auditing public/_headers for Server/CDN security & CSP parity...');
+const headersPath = path.resolve('public/_headers');
+assert.ok(fs.existsSync(headersPath), 'public/_headers must exist');
+const headersContent = fs.readFileSync(headersPath, 'utf8');
+assert.ok(headersContent.includes("https://www.googletagmanager.com"), "_headers CSP must permit googletagmanager");
+assert.ok(headersContent.includes("https://analytics.google.com"), "_headers CSP must permit analytics.google.com");
+assert.ok(headersContent.includes("https://*.google-analytics.com"), "_headers CSP must permit google-analytics");
+assert.ok(headersContent.includes("worker-src 'self' blob:"), "_headers CSP must permit worker-src");
+assert.ok(headersContent.includes("frame-src 'none'"), "_headers CSP must include frame-src 'none'");
+assert.ok(headersContent.includes("display-capture=()"), "_headers Permissions-Policy must include display-capture");
+assert.ok(headersContent.includes("Strict-Transport-Security:"), "_headers must enforce HSTS");
+assert.ok(headersContent.includes("X-Content-Type-Options: nosniff"), "_headers must enforce nosniff");
+assert.ok(headersContent.includes("X-Frame-Options: DENY"), "_headers must enforce X-Frame-Options DENY");
+console.log('✓ public/_headers server security and CSP parity confirmed');
+
+// 20. Test Telemetry Fallback and Buffering Resilience
+console.log('[Test 20] Verifying telemetry fallback buffering in window.dataLayer...');
+const originalWindow = globalThis.window;
+globalThis.window = {
+  dataLayer: []
+};
+trackEvent('test_offline_buffering', { test_key: 'buffered_value' });
+assert.strictEqual(globalThis.window.dataLayer.length, 1);
+assert.deepStrictEqual(globalThis.window.dataLayer[0], [
+  'event',
+  'test_offline_buffering',
+  { test_key: 'buffered_value' }
+]);
+globalThis.window = originalWindow;
+console.log('✓ Telemetry fallback buffering confirmed');
+
+console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (20/20) ---');
 

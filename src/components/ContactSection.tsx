@@ -177,6 +177,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
 
   const handleCopyFormattedMessage = () => {
     playSound('success');
+    trackContactInteraction('email_copy');
     const sName = sanitizeInput(formData.name, 80, false);
     const sEmail = sanitizeInput(formData.email, 100, false);
     const sMsg = sanitizeInput(formData.message, 2000, true);
@@ -405,6 +406,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                 <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                   <a
                     href={getMailtoLink()}
+                    onClick={() => trackContactInteraction('email_client')}
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emeraldNeon text-black font-semibold text-xs hover:bg-emeraldNeon-hover transition-all shadow-[0_0_20px_var(--accent-glow)]"
                   >
                     <Mail className="w-4 h-4" />
@@ -415,6 +417,7 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                     href={getWhatsAppLink()}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackContactInteraction('whatsapp')}
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.05] dark:hover:bg-white/[0.1] border border-slate-300 dark:border-white/[0.1] hover:border-slate-400 dark:hover:border-emeraldNeon/40 text-slate-900 dark:text-white text-xs font-medium transition-all"
                   >
                     <MessageCircle className="w-4 h-4 text-emeraldNeon" />
