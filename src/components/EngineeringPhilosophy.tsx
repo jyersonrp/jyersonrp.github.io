@@ -208,7 +208,7 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
         </div>
 
         {/* Active Pillar Deep-Dive Card */}
-        <div className="glass-panel-card rounded-3xl border border-slate-200 dark:border-white/[0.08] p-6 sm:p-10 shadow-2xl relative overflow-hidden space-y-8">
+        <div className="glass-panel-card rounded-3xl border border-slate-200 dark:border-white/[0.08] p-5 sm:p-10 shadow-2xl relative overflow-hidden space-y-8">
           {/* Top Banner: Thesis & Academic/Real Case Badge */}
           <div className="border-b border-slate-200 dark:border-white/[0.08] pb-8 space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
@@ -235,41 +235,56 @@ export const EngineeringPhilosophy: React.FC<EngineeringPhilosophyProps> = ({ la
           </div>
 
           {/* Subtabs: Principles vs Code */}
-          <div className="flex items-center justify-between flex-wrap gap-4">
-            <div className="flex items-center gap-2 bg-slate-100 dark:bg-[#12121c] p-1 rounded-xl border border-slate-200 dark:border-white/[0.08]">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-1.5 sm:gap-2 bg-slate-100 dark:bg-[#12121c] p-1 rounded-xl border border-slate-200 dark:border-white/[0.08] w-full sm:w-auto">
               <button
                 onClick={() => handleTabChange('principles')}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono transition-all ${
+                className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs font-mono transition-all text-center ${
                   activeTab === 'principles'
                     ? 'bg-emerald-600 dark:bg-emeraldNeon text-white dark:text-black shadow-md font-bold'
                     : 'text-slate-700 dark:text-neutral-400 font-semibold hover:text-black dark:hover:text-white'
                 }`}
               >
-                <Boxes className="w-3.5 h-3.5" />
-                <span>{language === 'es' ? 'Pilares & Reglas de Diseño' : 'Principles & Architecture Rules'}</span>
+                <Boxes className="w-3.5 h-3.5 shrink-0" />
+                <span className="whitespace-nowrap sm:whitespace-normal">
+                  {language === 'es' ? 'Reglas de Diseño' : 'Architecture Rules'}
+                </span>
+                <span className="hidden sm:inline">
+                  {language === 'es' ? ' & Pilares' : ''}
+                </span>
               </button>
 
               {selectedPillar.codeSnippet && (
                 <button
                   onClick={() => handleTabChange('code')}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-mono transition-all ${
+                  className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg text-xs font-mono transition-all text-center ${
                     activeTab === 'code'
                       ? 'bg-sky-600 dark:bg-cyanNeon text-white dark:text-black shadow-md font-bold'
                       : 'text-slate-700 dark:text-neutral-400 font-semibold hover:text-black dark:hover:text-white'
                   }`}
                 >
-                  <Code2 className="w-3.5 h-3.5" />
-                  <span>{language === 'es' ? 'Contrato de Código' : 'Code Contract'}</span>
+                  <Code2 className="w-3.5 h-3.5 shrink-0" />
+                  <span className="whitespace-nowrap">
+                    {language === 'es' ? 'Contrato de Código' : 'Code Contract'}
+                  </span>
                 </button>
               )}
             </div>
 
             {/* Quick Metrics */}
-            <div className="flex items-center gap-3 sm:gap-6 text-xs font-mono">
+            <div className="grid grid-cols-3 gap-2 w-full sm:w-auto sm:flex sm:items-center sm:gap-6 pt-1 sm:pt-0">
               {selectedPillar.metrics.map((metric, mIdx) => (
-                <div key={mIdx} className="flex items-baseline gap-1.5">
-                  <span className="text-slate-500 dark:text-neutral-400">{metric.label[language]}:</span>
-                  <span className="text-slate-900 dark:text-white font-bold text-sm">{metric.value}</span>
+                <div
+                  key={mIdx}
+                  className="p-2 sm:p-0 rounded-xl bg-slate-100/70 sm:bg-transparent dark:bg-white/[0.03] sm:dark:bg-transparent border border-slate-200/80 dark:border-white/[0.06] sm:border-0 flex flex-col sm:flex-row sm:items-baseline sm:gap-1.5 text-center sm:text-left min-w-0"
+                >
+                  <span className="text-slate-900 dark:text-white font-bold text-xs sm:text-sm font-mono order-1 sm:order-2">
+                    {metric.value}
+                  </span>
+                  <span className="text-[10px] sm:text-xs font-mono text-slate-600 dark:text-neutral-400 order-2 sm:order-1 leading-tight mt-0.5 sm:mt-0 font-medium line-clamp-2 sm:line-clamp-none">
+                    <span className="sm:hidden">{metric.label[language]}</span>
+                    <span className="hidden sm:inline">{metric.label[language]}:</span>
+                  </span>
                 </div>
               ))}
             </div>
