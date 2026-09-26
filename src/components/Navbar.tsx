@@ -137,20 +137,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="text-xs sm:text-sm font-semibold tracking-tight text-slate-900 dark:text-white group-hover:text-[var(--accent-primary)] transition-colors truncate max-w-[120px] xs:max-w-none">
               Yerson Rodríguez
             </span>
-            <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-400 hidden sm:block tracking-wider">
+            <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-400 hidden xl:block tracking-wider whitespace-nowrap">
               Python • Odoo • AI
             </span>
           </div>
         </a>
 
         {/* Desktop Links */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className="px-3 py-1.5 rounded-full text-xs font-medium text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all tracking-wide"
+              className="px-2.5 xl:px-3 py-1 xl:py-1.5 rounded-full text-[11px] xl:text-xs font-medium text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all tracking-wide whitespace-nowrap"
             >
               {link.label}
             </a>
@@ -158,7 +158,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Actions: Theme Customizer, Command Palette, Sound, Lang, Download CV */}
-        <div className="hidden lg:flex items-center gap-2">
+        <div className="hidden lg:flex items-center gap-1.5 xl:gap-2">
           {/* Customizer Popover Trigger */}
           <div className="relative" ref={popoverRef}>
             <button
@@ -171,7 +171,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   ? 'Personalizar tema y paleta cromática'
                   : 'Customize theme & color palette'
               }
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/50 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group"
+              className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/50 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group shrink-0"
             >
               <Palette className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
               <span className="text-[11px] font-medium hidden xl:inline">
@@ -293,7 +293,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onOpenCommandPalette();
             }}
             title={language === 'es' ? 'Paleta de Comandos (Ctrl+K)' : 'Command Palette (Ctrl+K)'}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/40 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group"
+            className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/40 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group shrink-0"
           >
             <Search className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
             <span className="hidden xl:inline text-slate-500 dark:text-neutral-400 group-hover:text-slate-800 dark:group-hover:text-neutral-200">
@@ -316,7 +316,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ? 'Activar efectos de sonido hápticos'
                 : 'Enable haptic sound effects'
             }
-            className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="p-1.5 xl:p-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors shrink-0"
           >
             {soundEnabled ? (
               <Volume2 className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
@@ -332,7 +332,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onToggleLanguage();
             }}
             title={language === 'es' ? 'Switch to English' : 'Cambiar a Español'}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-colors shrink-0"
           >
             <Globe className="w-3.5 h-3.5 text-[var(--accent-secondary)]" />
             <span className="font-semibold text-slate-900 dark:text-white">
@@ -349,10 +349,10 @@ export const Navbar: React.FC<NavbarProps> = ({
               trackCvDownload('navbar_desktop');
             }}
             title={language === 'es' ? 'Descargar CV directo en PDF' : 'Direct download of CV PDF'}
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent-primary)] text-black font-bold text-xs hover:brightness-110 shadow-[0_0_20px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            className="flex items-center gap-1.5 px-3 xl:px-4 py-1.5 rounded-full bg-[var(--accent-primary)] text-black font-bold text-[11px] xl:text-xs hover:brightness-110 shadow-[0_0_20px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap shrink-0 min-w-fit"
           >
-            <Download className="w-3.5 h-3.5" />
-            <span>{language === 'es' ? 'Descargar CV' : 'Download CV'}</span>
+            <Download className="w-3.5 h-3.5 shrink-0" />
+            <span className="whitespace-nowrap">{language === 'es' ? 'Descargar CV' : 'Download CV'}</span>
           </a>
         </div>
 

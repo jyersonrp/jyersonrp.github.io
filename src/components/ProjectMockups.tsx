@@ -128,8 +128,8 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
         {/* Detection Visualization: Mode dependent */}
         {isAlarmMode ? (
           <>
-            {/* Dynamic Bounding Box 1: Verified Target */}
-            <div className="absolute top-4 left-3 sm:top-8 sm:left-14 w-28 sm:w-40 h-28 sm:h-44 border-2 border-[var(--accent-primary)] bg-[var(--accent-primary)]/15 shadow-[0_0_20px_var(--accent-glow)] rounded-lg p-1.5 transition-all duration-300">
+            {/* Dynamic Bounding Box 1: Verified Target (positioned below Top HUD to prevent overlap) */}
+            <div className="absolute top-11 left-3 sm:top-11 sm:left-10 w-28 sm:w-36 h-24 sm:h-36 border-2 border-[var(--accent-primary)] bg-[var(--accent-primary)]/15 shadow-[0_0_20px_var(--accent-glow)] rounded-lg p-1.5 transition-all duration-300">
               <div className="inline-flex items-center gap-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-extrabold text-[8px] sm:text-[8.5px] px-1.5 sm:px-2 py-0.5 rounded tracking-wider shadow">
                 <span>{currentCam.objectType}</span>
               </div>
@@ -139,8 +139,8 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
               </div>
             </div>
 
-            {/* Dynamic Bounding Box 2: Perimeter Zone Warning (Repositioned to bottom-right on mobile to prevent overlapping) */}
-            <div className="absolute bottom-10 right-3 sm:top-14 sm:right-14 w-24 sm:w-32 h-20 sm:h-32 border-2 border-rose-500 bg-rose-500/10 rounded-lg p-1.5 shadow-[0_0_20px_rgba(244,63,94,0.25)] animate-pulse">
+            {/* Dynamic Bounding Box 2: Perimeter Zone Warning */}
+            <div className="absolute bottom-11 right-3 sm:bottom-11 sm:right-8 w-24 sm:w-32 h-20 sm:h-28 border-2 border-rose-500 bg-rose-500/10 rounded-lg p-1.5 shadow-[0_0_20px_rgba(244,63,94,0.25)] animate-pulse">
               <div className="inline-block bg-rose-500 text-white font-extrabold text-[7.5px] sm:text-[8px] px-1.5 py-0.5 rounded tracking-wider">
                 {currentCam.zoneAlert}
               </div>
@@ -188,10 +188,10 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
 
         {/* Bottom Viewport Telemetry HUD */}
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-1.5 sm:gap-2 text-[9px] sm:text-[10px]">
-          <div className="bg-black/80 backdrop-blur-md px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-white/[0.08] text-neutral-300 truncate max-w-[150px] xs:max-w-none">
+          <div className="bg-black/80 backdrop-blur-md px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-white/[0.08] text-neutral-300 truncate max-w-[200px] xs:max-w-none text-[8.5px] xs:text-[9.5px] sm:text-[10px]">
             {currentCam.location}
           </div>
-          <div className="bg-black/80 backdrop-blur-md px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-white/[0.08] text-[var(--accent-primary)] font-semibold">
+          <div className="bg-black/80 backdrop-blur-md px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-white/[0.08] text-[var(--accent-primary)] font-semibold text-[8.5px] xs:text-[9.5px] sm:text-[10px] shrink-0">
             {isAlarmMode
               ? (language === 'es' ? 'MOG2: MOVIMIENTO' : 'MOG2: MOTION')
               : (language === 'es' ? 'MOG2: STANDBY' : 'MOG2: STANDBY')}
@@ -227,14 +227,14 @@ export const NvrMockupView: React.FC<MockupProps> = ({ language }) => {
             playSound('simulation');
             setIsAlarmMode(!isAlarmMode);
           }}
-          className={`w-full sm:w-auto justify-center px-3 sm:px-3.5 py-1.5 rounded-lg text-[10px] sm:text-[10.5px] font-bold transition-all flex items-center gap-1.5 shadow-sm ${
+          className={`w-full sm:w-auto justify-center px-3 sm:px-3.5 py-1.5 rounded-lg text-[10px] sm:text-[10.5px] font-bold transition-all flex items-center gap-1.5 shadow-sm min-w-0 ${
             isAlarmMode
               ? 'bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white shadow-md hover:brightness-110'
               : 'bg-slate-900 dark:bg-white/[0.08] text-white dark:text-white hover:bg-slate-800 dark:hover:bg-white/[0.15] border border-slate-800 dark:border-white/[0.1]'
           }`}
         >
           <Zap className="w-3.5 h-3.5 shrink-0" />
-          <span>
+          <span className="truncate">
             {isAlarmMode
               ? (language === 'es' ? 'Simular Escena Estática (1 FPS)' : 'Simulate Static Scene (1 FPS)')
               : (language === 'es' ? 'Simular Detección (30 FPS)' : 'Simulate Detection (30 FPS)')}
@@ -306,7 +306,7 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
           </p>
 
           {/* Embedded PDF Invoice Card (Generated via in-RAM BytesIO) */}
-          <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-black/60 border border-slate-200 dark:border-white/[0.1] hover:border-[var(--accent-primary)]/40 transition-colors flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3">
+          <div className="p-2.5 sm:p-3 rounded-xl bg-white dark:bg-black/60 border border-slate-200 dark:border-white/[0.1] hover:border-[var(--accent-primary)]/40 transition-colors flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5 sm:gap-3">
             <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
               <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 flex items-center justify-center shrink-0">
                 <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-rose-500 dark:text-rose-400" />
@@ -315,10 +315,10 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
                 <div className="text-xs font-semibold text-slate-900 dark:text-white truncate">
                   {language === 'es' ? 'Presupuesto_SO-2025-084.pdf' : 'Quotation_SO-2025-084.pdf'}
                 </div>
-                <div className="text-[10px] sm:text-[10.5px] font-mono text-slate-600 dark:text-neutral-400 flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                  <span className="text-[var(--accent-primary)] font-bold">1,428 KB (RAM)</span>
-                  <span className="text-slate-400 dark:text-neutral-600">•</span>
-                  <span className="text-slate-700 dark:text-neutral-400 font-semibold">$1,450.00 USD</span>
+                <div className="text-[10px] sm:text-[10.5px] font-mono text-slate-600 dark:text-neutral-400 flex items-center gap-1.5 sm:gap-2 flex-nowrap overflow-hidden">
+                  <span className="text-[var(--accent-primary)] font-bold shrink-0">1,428 KB (RAM)</span>
+                  <span className="text-slate-400 dark:text-neutral-600 shrink-0">•</span>
+                  <span className="text-slate-700 dark:text-neutral-400 font-semibold shrink-0">$1,450.00 USD</span>
                 </div>
               </div>
             </div>
@@ -328,10 +328,10 @@ export const OdooMockupView: React.FC<MockupProps> = ({ language }) => {
                 playSound('open');
                 setShowPdfModal(true);
               }}
-              className="w-full sm:w-auto justify-center px-3 py-1.5 rounded-lg bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 hover:from-[var(--accent-primary)]/30 hover:to-[var(--accent-secondary)]/30 border border-[var(--accent-primary)]/40 text-xs font-mono text-slate-900 dark:text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm font-semibold"
+              className="w-full md:w-auto justify-center px-3 py-1.5 rounded-lg bg-gradient-to-r from-[var(--accent-primary)]/20 to-[var(--accent-secondary)]/20 hover:from-[var(--accent-primary)]/30 hover:to-[var(--accent-secondary)]/30 border border-[var(--accent-primary)]/40 text-xs font-mono text-slate-900 dark:text-white transition-all flex items-center gap-1.5 shrink-0 shadow-sm font-semibold whitespace-nowrap min-w-fit"
             >
-              <Eye className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-              <span className="text-[11px]">{language === 'es' ? 'Previsualizar PDF' : 'Preview PDF'}</span>
+              <Eye className="w-3.5 h-3.5 text-[var(--accent-primary)] shrink-0" />
+              <span className="text-[11px] whitespace-nowrap">{language === 'es' ? 'Previsualizar PDF' : 'Preview PDF'}</span>
             </button>
           </div>
         </div>

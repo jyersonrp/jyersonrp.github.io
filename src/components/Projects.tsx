@@ -604,9 +604,9 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 {/* Card Ambient Glow Accent */}
                 <div className="absolute top-0 right-1/4 w-96 h-96 bg-emeraldNeon/[0.03] rounded-full blur-3xl pointer-events-none -z-10" />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-start">
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 sm:gap-8 xl:gap-10 items-start">
                   {/* Left Column: Details */}
-                  <div className="lg:col-span-6 space-y-5 sm:space-y-6">
+                  <div className="xl:col-span-6 space-y-5 sm:space-y-6">
                     {/* Monospace Project Index */}
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-mono text-emerald-700 dark:text-emeraldNeon uppercase tracking-[0.25em] font-bold">
@@ -678,7 +678,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                   </div>
 
                   {/* Right Column: Unified Interactive Terminal with Live UI Mockup */}
-                  <div className="lg:col-span-6">
+                  <div className="xl:col-span-6">
                     {renderTerminalWindow(project)}
                   </div>
                 </div>
