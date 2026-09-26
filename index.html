@@ -33,6 +33,31 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41JM9W8845"></script>
     <script>
       gtag('js', new Date());
+      // Map short ?ref= query parameter if present
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var ref = params.get('ref');
+        if (ref) {
+          var refMap = {
+            x: { source: 'x', medium: 'social' },
+            twitter: { source: 'x', medium: 'social' },
+            ig: { source: 'instagram', medium: 'bio' },
+            instagram: { source: 'instagram', medium: 'bio' },
+            gh: { source: 'github', medium: 'profile' },
+            github: { source: 'github', medium: 'profile' },
+            in: { source: 'linkedin', medium: 'social' },
+            linkedin: { source: 'linkedin', medium: 'social' },
+            cv: { source: 'cv', medium: 'document' }
+          };
+          if (refMap[ref]) {
+            gtag('set', {
+              campaign_source: refMap[ref].source,
+              campaign_medium: refMap[ref].medium
+            });
+          }
+        }
+      } catch (e) {}
+
       gtag('config', 'G-41JM9W8845', {
         send_page_view: true,
         anonymize_ip: true,
@@ -41,6 +66,13 @@
         restricted_data_processing: true,
         cookie_flags: 'SameSite=None;Secure'
       });
+
+      // Clean browser address bar immediately so visitors never see ugly query strings
+      try {
+        if (window.location.search && (window.location.search.indexOf('utm_') !== -1 || window.location.search.indexOf('ref=') !== -1)) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      } catch (e) {}
     </script>
 
     <!-- Preconnect Google Fonts -->
