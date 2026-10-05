@@ -49,15 +49,23 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 items-center">
           {/* Left Column: Authorial Headlines & Value Proposition */}
           <div className="lg:col-span-7 space-y-5 sm:space-y-6 min-w-0">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-[3.5rem] 2xl:text-[4.25rem] font-sans font-extrabold tracking-[-0.03em] text-slate-900 dark:text-white leading-[1.16] sm:leading-[1.14] lg:leading-[1.12] text-balance break-words">
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-[3.5rem] 2xl:text-[4.25rem] font-sans font-extrabold tracking-[-0.03em] text-slate-900 dark:text-white leading-[1.16] sm:leading-[1.14] lg:leading-[1.12] break-words">
               {language === 'es' ? (
                 <>
-                  Arquitecturas <span className="editorial-accent-emerald">resilientes</span> y sistemas con{' '}
+                  <span className="inline-block">
+                    Arquitecturas <span className="editorial-accent-emerald">resilientes</span>
+                  </span>{' '}
+                  <span className="inline-block">y sistemas con</span>
+                  <br className="sm:hidden" />{' '}
                   <span className="editorial-accent-cyan">visión inteligente.</span>
                 </>
               ) : (
                 <>
-                  Crafting <span className="editorial-accent-emerald">resilient</span> architectures &amp;{' '}
+                  <span className="inline-block">
+                    Crafting <span className="editorial-accent-emerald">resilient</span>
+                  </span>{' '}
+                  <span className="inline-block">architectures &amp;</span>
+                  <br className="sm:hidden" />{' '}
                   <span className="editorial-accent-cyan">intelligent vision systems.</span>
                 </>
               )}
@@ -176,7 +184,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
           </div>
 
           {/* Right Column: Three.js 3D Neural Vision Core */}
-          <div className="lg:col-span-5 relative w-full flex justify-center mt-6 lg:mt-0">
+          <div className="lg:col-span-5 relative w-full flex justify-center mt-6 lg:mt-0 min-w-0">
             <div className="relative w-full max-w-[480px] rounded-3xl bg-white/90 dark:bg-[#09090f]/75 border border-slate-200/90 dark:border-white/[0.08] backdrop-blur-2xl shadow-xl dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] overflow-hidden group hover:border-[var(--accent-primary)]/40 transition-all duration-500">
               {/* Three.js Canvas Container */}
               <Hero3DCore language={language} themeMode={themeMode} palette={palette} />

@@ -133,8 +133,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               }}
             />
           </div>
-          <div className="flex flex-col">
-            <span className="text-xs sm:text-sm font-semibold tracking-tight text-slate-900 dark:text-white group-hover:text-[var(--accent-primary)] transition-colors truncate max-w-[120px] xs:max-w-none">
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs sm:text-sm font-semibold tracking-tight text-slate-900 dark:text-white group-hover:text-[var(--accent-primary)] transition-colors truncate max-w-[110px] xs:max-w-none">
               Yerson Rodríguez
             </span>
             <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-400 hidden 2xl:block tracking-wider whitespace-nowrap">
@@ -150,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               key={link.href}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className="px-2 xl:px-3 py-1 xl:py-1.5 rounded-full text-[11px] xl:text-xs font-medium text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all tracking-wide whitespace-nowrap"
+              className="px-2 xl:px-2.5 2xl:px-3 py-1 xl:py-1.5 rounded-full text-[11px] xl:text-xs font-medium text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all tracking-wide whitespace-nowrap"
             >
               {link.label}
             </a>
@@ -358,14 +358,14 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Mobile menu and quick controls */}
-        <div className="flex items-center gap-1.5 lg:hidden">
-          {/* Quick Palette Popover / Drawer button */}
+        <div className="flex items-center gap-1 sm:gap-1.5 lg:hidden shrink-0">
+          {/* Quick Palette Popover / Drawer button (only on sm: to keep tight mobile bar uncluttered) */}
           <button
             onClick={() => {
               playSound('open');
               setMobileMenuOpen(true);
             }}
-            className="p-2 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="hidden sm:flex p-2 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
             title="Tema y Paleta"
             aria-label="Personalizar colores"
           >
@@ -378,7 +378,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('open');
               onOpenCommandPalette();
             }}
-            className="p-2 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
             title="Comandos (Ctrl+K)"
             aria-label="Abrir paleta de comandos"
           >
@@ -405,7 +405,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('switch');
               onToggleLanguage();
             }}
-            className="px-2.5 py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-800 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
+            className="px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-lg bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-xs font-mono text-slate-800 dark:text-neutral-200 hover:text-slate-900 dark:hover:text-white transition-colors"
           >
             {language.toUpperCase()}
           </button>
@@ -418,7 +418,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('click');
               trackCvDownload('navbar_mobile_header');
             }}
-            className="p-2 rounded-lg bg-[var(--accent-primary)] text-black text-xs font-semibold flex items-center justify-center hover:brightness-110 transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-[var(--accent-primary)] text-black text-xs font-semibold flex items-center justify-center hover:brightness-110 transition-colors"
             title="Descargar CV (PDF)"
             aria-label="Descargar CV"
           >
@@ -431,7 +431,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               playSound('click');
               setMobileMenuOpen(!mobileMenuOpen);
             }}
-            className="p-2 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 transition-colors"
+            className="p-1.5 sm:p-2 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white border border-slate-200 dark:border-white/10 transition-colors"
             aria-label="Toggle Navigation Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
