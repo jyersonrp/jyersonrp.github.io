@@ -210,7 +210,9 @@
 /* Editorial Serif Accent Utilities - Anti-clipping & Optical Kerning */
 .editorial-accent-emerald,
 .editorial-accent-primary {
-  display: inline-block;
+  display: inline;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   vertical-align: baseline;
   font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
   font-style: italic;
@@ -233,7 +235,9 @@
 
 .editorial-accent-cyan,
 .editorial-accent-secondary {
-  display: inline-block;
+  display: inline;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
   vertical-align: baseline;
   font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
   font-style: italic;
@@ -252,6 +256,13 @@
   margin-right: 0.04em;
   filter: drop-shadow(0 0 18px var(--accent-glow-secondary));
   overflow: visible;
+}
+
+.editorial-accent-emerald.inline-block,
+.editorial-accent-primary.inline-block,
+.editorial-accent-cyan.inline-block,
+.editorial-accent-secondary.inline-block {
+  display: inline-block;
 }
 
 /* Subtle ambient dots background overlay */

@@ -105,9 +105,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-8 py-3 sm:py-5 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 xl:px-8 py-3 sm:py-5 transition-all duration-300">
       <div
-        className={`max-w-6xl mx-auto rounded-2xl sm:rounded-full px-4 sm:px-5 py-2.5 sm:py-3 transition-all duration-300 flex items-center justify-between ${
+        className={`max-w-7xl mx-auto rounded-2xl sm:rounded-full px-3.5 sm:px-5 py-2.5 sm:py-3 transition-all duration-300 flex items-center justify-between gap-2 lg:gap-3 xl:gap-6 ${
           isScrolled
             ? 'bg-white/92 dark:bg-[#09090d]/92 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.8)] border border-slate-200/90 dark:border-white/[0.12]'
             : 'bg-white/75 dark:bg-[#0b0b10]/75 backdrop-blur-xl border border-slate-200/70 dark:border-white/[0.08]'
@@ -121,7 +121,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             playSound('click');
             smoothScrollTo(0);
           }}
-          className="flex items-center gap-2.5 sm:gap-3 group"
+          className="flex items-center gap-2.5 sm:gap-3 group shrink-0"
         >
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-100 to-slate-200 dark:from-[#1c1c24] dark:to-[#0c0c10] border border-slate-300 dark:border-white/15 flex items-center justify-center font-mono font-bold text-xs tracking-wider group-hover:border-[var(--accent-primary)]/60 transition-colors relative shrink-0">
             <span className="text-slate-900 dark:text-white">YR</span>
@@ -137,20 +137,20 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="text-xs sm:text-sm font-semibold tracking-tight text-slate-900 dark:text-white group-hover:text-[var(--accent-primary)] transition-colors truncate max-w-[120px] xs:max-w-none">
               Yerson Rodríguez
             </span>
-            <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-400 hidden xl:block tracking-wider whitespace-nowrap">
+            <span className="text-[10px] font-mono text-slate-500 dark:text-neutral-400 hidden 2xl:block tracking-wider whitespace-nowrap">
               Python • Odoo • AI
             </span>
           </div>
         </a>
 
         {/* Desktop Links */}
-        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
+        <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink-0">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleLinkClick(e, link.href)}
-              className="px-2.5 xl:px-3 py-1 xl:py-1.5 rounded-full text-[11px] xl:text-xs font-medium text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all tracking-wide whitespace-nowrap"
+              className="px-2 xl:px-3 py-1 xl:py-1.5 rounded-full text-[11px] xl:text-xs font-medium text-slate-600 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.06] transition-all tracking-wide whitespace-nowrap"
             >
               {link.label}
             </a>
@@ -158,7 +158,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </nav>
 
         {/* Right Actions: Theme Customizer, Command Palette, Sound, Lang, Download CV */}
-        <div className="hidden lg:flex items-center gap-1.5 xl:gap-2">
+        <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 shrink-0">
           {/* Customizer Popover Trigger */}
           <div className="relative" ref={popoverRef}>
             <button
@@ -174,8 +174,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/50 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group shrink-0"
             >
               <Palette className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-              <span className="text-[11px] font-medium hidden xl:inline">
-                {language === 'es' ? 'Personalizar' : 'Theme'}
+              <span className="text-[11px] font-medium hidden 2xl:inline">
+                {language === 'es' ? 'Tema' : 'Theme'}
               </span>
               <span
                 className="w-2 h-2 rounded-full shrink-0"
@@ -296,7 +296,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/[0.04] dark:hover:bg-white/[0.08] border border-slate-200 dark:border-white/[0.08] hover:border-[var(--accent-primary)]/40 text-xs font-mono text-slate-700 dark:text-neutral-300 hover:text-slate-900 dark:hover:text-white transition-all group shrink-0"
           >
             <Search className="w-3.5 h-3.5 text-[var(--accent-primary)]" />
-            <span className="hidden xl:inline text-slate-500 dark:text-neutral-400 group-hover:text-slate-800 dark:group-hover:text-neutral-200">
+            <span className="hidden 2xl:inline text-slate-500 dark:text-neutral-400 group-hover:text-slate-800 dark:group-hover:text-neutral-200">
               {language === 'es' ? 'Buscar' : 'Search'}
             </span>
             <kbd className="px-1.5 py-0.5 rounded bg-black/5 dark:bg-white/10 text-[10px] font-mono text-slate-600 dark:text-neutral-300">
@@ -352,7 +352,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="flex items-center gap-1.5 px-3 xl:px-4 py-1.5 rounded-full bg-[var(--accent-primary)] text-black font-bold text-[11px] xl:text-xs hover:brightness-110 shadow-[0_0_20px_var(--accent-glow)] transition-all transform hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap shrink-0 min-w-fit"
           >
             <Download className="w-3.5 h-3.5 shrink-0" />
-            <span className="whitespace-nowrap">{language === 'es' ? 'Descargar CV' : 'Download CV'}</span>
+            <span className="hidden xl:inline whitespace-nowrap">{language === 'es' ? 'Descargar CV' : 'Download CV'}</span>
+            <span className="inline xl:hidden whitespace-nowrap">CV</span>
           </a>
         </div>
 

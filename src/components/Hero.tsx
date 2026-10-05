@@ -46,17 +46,19 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
         </div>
 
         {/* Hero Two-Column Grid: Editorial Typography + 3D Interactive Neural Vision Core */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-10 items-center">
           {/* Left Column: Authorial Headlines & Value Proposition */}
-          <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[4.25rem] xl:text-[4.75rem] font-sans font-extrabold tracking-[-0.03em] text-slate-900 dark:text-white leading-[1.18] sm:leading-[1.14] lg:leading-[1.12] text-balance">
+          <div className="lg:col-span-7 space-y-5 sm:space-y-6 min-w-0">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[2.75rem] xl:text-[3.5rem] 2xl:text-[4.25rem] font-sans font-extrabold tracking-[-0.03em] text-slate-900 dark:text-white leading-[1.16] sm:leading-[1.14] lg:leading-[1.12] text-balance break-words">
               {language === 'es' ? (
                 <>
-                  Arquitecturas <span className="editorial-accent-emerald">resilientes</span> y sistemas con <span className="editorial-accent-cyan inline-block">visión&nbsp;inteligente.</span>
+                  Arquitecturas <span className="editorial-accent-emerald">resilientes</span> y sistemas con{' '}
+                  <span className="editorial-accent-cyan">visión inteligente.</span>
                 </>
               ) : (
                 <>
-                  Crafting <span className="editorial-accent-emerald">resilient</span> architectures &amp; <span className="editorial-accent-cyan inline-block">intelligent&nbsp;vision&nbsp;systems.</span>
+                  Crafting <span className="editorial-accent-emerald">resilient</span> architectures &amp;{' '}
+                  <span className="editorial-accent-cyan">intelligent vision systems.</span>
                 </>
               )}
             </h1>
