@@ -215,7 +215,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
             </span>
             <span className="text-slate-800 dark:text-neutral-200 font-medium">PYTHON 3.11</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
-            <span className="text-slate-700 dark:text-neutral-300">FASTAPI</span>
+            <span className="text-slate-800 dark:text-neutral-200 font-medium">FASTAPI</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
             <span className="text-slate-800 dark:text-neutral-200 font-medium">ODOO ERP</span>
           </div>
@@ -227,7 +227,7 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
             </span>
             <span className="text-slate-800 dark:text-neutral-200 font-medium">OPENCV MOG2</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
-            <span className="text-slate-700 dark:text-neutral-300">YOLOV8 ONNX</span>
+            <span className="text-slate-800 dark:text-neutral-200 font-medium">YOLOV8 ONNX</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
             <span className="text-slate-800 dark:text-neutral-200 font-medium">POSTGRESQL</span>
           </div>
