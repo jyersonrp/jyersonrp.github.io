@@ -77,7 +77,7 @@ const CodeSnippetView: React.FC<{ code: string; filename: string }> = ({ code, f
         <div className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
           <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/60" />
+          <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-primary)]/70" />
         </div>
       </div>
 

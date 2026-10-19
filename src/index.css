@@ -10,8 +10,11 @@
 
     /* Dynamic Accent Palettes (Default: Cyber Emerald) */
     --accent-primary: #2EE6A0;
+    --accent-primary-rgb: 46 230 160;
     --accent-secondary: #00F0FF;
+    --accent-secondary-rgb: 0 240 255;
     --accent-hover: #26c589;
+    --accent-hover-rgb: 38 197 137;
     --accent-glow: rgba(46, 230, 160, 0.35);
     --glow-color: rgba(46, 230, 160, 0.35);
     --accent-glow-secondary: rgba(0, 240, 255, 0.35);
@@ -35,8 +38,11 @@
   /* Ultraviolet Pulse Palette (Dark Mode) */
   [data-palette="ultraviolet"] {
     --accent-primary: #A855F7;
+    --accent-primary-rgb: 168 85 247;
     --accent-secondary: #38BDF8;
+    --accent-secondary-rgb: 56 189 248;
     --accent-hover: #9333ea;
+    --accent-hover-rgb: 147 51 234;
     --accent-glow: rgba(168, 85, 247, 0.35);
     --glow-color: rgba(168, 85, 247, 0.35);
     --accent-glow-secondary: rgba(56, 189, 248, 0.35);
@@ -48,8 +54,11 @@
   /* Solar Amber Palette (Dark Mode) */
   [data-palette="amber"] {
     --accent-primary: #F59E0B;
+    --accent-primary-rgb: 245 158 11;
     --accent-secondary: #F97316;
+    --accent-secondary-rgb: 249 115 22;
     --accent-hover: #d97706;
+    --accent-hover-rgb: 217 119 6;
     --accent-glow: rgba(245, 158, 11, 0.35);
     --glow-color: rgba(245, 158, 11, 0.35);
     --accent-glow-secondary: rgba(249, 115, 22, 0.35);
@@ -62,8 +71,11 @@
   html.light[data-palette="emerald"],
   html:not(.dark)[data-palette="emerald"] {
     --accent-primary: #059669;
+    --accent-primary-rgb: 5 150 105;
     --accent-secondary: #0284C7;
+    --accent-secondary-rgb: 2 132 199;
     --accent-hover: #047857;
+    --accent-hover-rgb: 4 120 87;
     --accent-glow: rgba(5, 150, 105, 0.22);
     --glow-color: rgba(5, 150, 105, 0.22);
     --accent-glow-secondary: rgba(2, 132, 199, 0.22);
@@ -75,8 +87,11 @@
   html.light[data-palette="ultraviolet"],
   html:not(.dark)[data-palette="ultraviolet"] {
     --accent-primary: #7E22CE;
+    --accent-primary-rgb: 126 34 206;
     --accent-secondary: #0284C7;
+    --accent-secondary-rgb: 2 132 199;
     --accent-hover: #6b21a8;
+    --accent-hover-rgb: 107 33 168;
     --accent-glow: rgba(126, 34, 206, 0.22);
     --glow-color: rgba(126, 34, 206, 0.22);
     --accent-glow-secondary: rgba(2, 132, 199, 0.22);
@@ -88,8 +103,11 @@
   html.light[data-palette="amber"],
   html:not(.dark)[data-palette="amber"] {
     --accent-primary: #D97706;
+    --accent-primary-rgb: 217 119 6;
     --accent-secondary: #EA580C;
+    --accent-secondary-rgb: 234 88 12;
     --accent-hover: #b45309;
+    --accent-hover-rgb: 180 83 9;
     --accent-glow: rgba(217, 119, 6, 0.22);
     --glow-color: rgba(217, 119, 6, 0.22);
     --accent-glow-secondary: rgba(234, 88, 12, 0.22);

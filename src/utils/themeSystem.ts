@@ -101,6 +101,18 @@ export const applyTheme = (theme: ThemeMode, palette: ColorPalette) => {
     ? '#7E22CE'
     : '#D97706';
 
+  const primaryRgb = isDark
+    ? palette === 'emerald'
+      ? '46 230 160'
+      : palette === 'ultraviolet'
+      ? '168 85 247'
+      : '245 158 11'
+    : palette === 'emerald'
+    ? '5 150 105'
+    : palette === 'ultraviolet'
+    ? '126 34 206'
+    : '217 119 6';
+
   const secondaryColor = isDark
     ? pal.secondary
     : palette === 'emerald'
@@ -108,6 +120,38 @@ export const applyTheme = (theme: ThemeMode, palette: ColorPalette) => {
     : palette === 'ultraviolet'
     ? '#0284C7'
     : '#EA580C';
+
+  const secondaryRgb = isDark
+    ? palette === 'emerald'
+      ? '0 240 255'
+      : palette === 'ultraviolet'
+      ? '56 189 248'
+      : '249 115 22'
+    : palette === 'emerald'
+    ? '2 132 199'
+    : palette === 'ultraviolet'
+    ? '2 132 199'
+    : '234 88 12';
+
+  const hoverColor = isDark
+    ? pal.primaryHover
+    : palette === 'emerald'
+    ? '#047857'
+    : palette === 'ultraviolet'
+    ? '#6b21a8'
+    : '#b45309';
+
+  const hoverRgb = isDark
+    ? palette === 'emerald'
+      ? '38 197 137'
+      : palette === 'ultraviolet'
+      ? '147 51 234'
+      : '217 119 6'
+    : palette === 'emerald'
+    ? '4 120 87'
+    : palette === 'ultraviolet'
+    ? '107 33 168'
+    : '180 83 9';
 
   const glowColor = isDark ? pal.glow : pal.glow.replace('0.35', '0.22');
   const glowSecondary = isDark
@@ -123,8 +167,11 @@ export const applyTheme = (theme: ThemeMode, palette: ColorPalette) => {
     : 'rgba(234, 88, 12, 0.22)';
 
   root.style.setProperty('--accent-primary', primaryColor);
+  root.style.setProperty('--accent-primary-rgb', primaryRgb);
   root.style.setProperty('--accent-secondary', secondaryColor);
-  root.style.setProperty('--accent-hover', pal.primaryHover);
+  root.style.setProperty('--accent-secondary-rgb', secondaryRgb);
+  root.style.setProperty('--accent-hover', hoverColor);
+  root.style.setProperty('--accent-hover-rgb', hoverRgb);
   root.style.setProperty('--accent-glow', glowColor);
   root.style.setProperty('--glow-color', glowColor);
   root.style.setProperty('--accent-glow-secondary', glowSecondary);
@@ -155,6 +202,8 @@ export const applyTheme = (theme: ThemeMode, palette: ColorPalette) => {
     root.style.setProperty('--bg-card', 'rgba(9, 9, 15, 0.75)');
     root.style.setProperty('--bg-card-hover', 'rgba(13, 13, 20, 0.85)');
     root.style.setProperty('--border-subtle', 'rgba(255, 255, 255, 0.08)');
+    root.style.setProperty('--icon-box-bg', 'rgba(255, 255, 255, 0.03)');
+    root.style.setProperty('--icon-box-border', 'rgba(255, 255, 255, 0.08)');
     root.style.setProperty('--text-main', '#FFFFFF');
     root.style.setProperty('--text-body', '#E2E8F0');
     root.style.setProperty('--text-muted', '#94A3B8');
@@ -164,6 +213,8 @@ export const applyTheme = (theme: ThemeMode, palette: ColorPalette) => {
     root.style.setProperty('--bg-card', 'rgba(255, 255, 255, 0.88)');
     root.style.setProperty('--bg-card-hover', 'rgba(255, 255, 255, 0.98)');
     root.style.setProperty('--border-subtle', 'rgba(15, 23, 42, 0.08)');
+    root.style.setProperty('--icon-box-bg', 'rgba(241, 245, 249, 0.95)');
+    root.style.setProperty('--icon-box-border', 'rgba(15, 23, 42, 0.12)');
     root.style.setProperty('--text-main', '#0F172A');
     root.style.setProperty('--text-body', '#334155');
     root.style.setProperty('--text-muted', '#64748B');

@@ -107,6 +107,15 @@ export const Preloader: React.FC<PreloaderProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Deterministic fallback if AnimatePresence onExitComplete is delayed (e.g., backgrounded tab)
+  useEffect(() => {
+    if (!isFinished) return;
+    const exitFallback = setTimeout(() => {
+      onCompleteRef.current();
+    }, 950);
+    return () => clearTimeout(exitFallback);
+  }, [isFinished]);
+
   useEffect(() => {
     // Respect prefers-reduced-motion or existing session boot flag
     const prefersReducedMotion =

@@ -300,11 +300,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       id: 'proj-docaudit-ai',
       category: 'projects',
       title: { es: 'Proyecto: DocAudit AI — Auditoría Documental RAG', en: 'Project: DocAudit AI — RAG Document Intelligence' },
-      subtitle: { es: 'Motor híbrido pgvector HNSW + BM25, citación determinista (0% alucinación) y SSE', en: 'Hybrid pgvector HNSW + BM25 engine, deterministic citations (0% hallucination) & SSE' },
+      subtitle: { es: 'RAG híbrido (pgvector + BM25), contratos Pydantic v2, Multi-Provider LLM y ReportLab PDF', en: 'Hybrid RAG (pgvector + BM25), Pydantic v2 contracts, Multi-Provider LLM & ReportLab PDF' },
       icon: <Database className="w-4 h-4 text-[var(--accent-primary)]" />,
       badge: 'RAG / AI',
       badgeColor: 'var(--accent-primary)',
-      keywords: ['docaudit', 'rag', 'pgvector', 'llm', 'fastapi', 'pdf', 'auditoria', 'contratos', 'ia', 'embeddings'],
+      keywords: ['docaudit', 'rag', 'pgvector', 'pydantic', 'reportlab', 'llm', 'fastapi', 'pdf', 'auditoria', 'contratos', 'riesgos', 'risk', 'ia', 'embeddings'],
       action: () => {
         onClose();
         smoothScrollTo('#docaudit-ai-rag');
@@ -360,7 +360,7 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       subtitle: { es: 'github.com/jyersonrp/docaudit-ai', en: 'github.com/jyersonrp/docaudit-ai' },
       icon: <GithubIcon className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'GITHUB',
-      keywords: ['repo', 'github', 'docaudit', 'rag', 'pgvector', 'fastapi', 'ia', 'codigo'],
+      keywords: ['repo', 'github', 'docaudit', 'rag', 'pgvector', 'pydantic', 'reportlab', 'fastapi', 'ia', 'codigo'],
       action: () => {
         safeOpenUrl('https://github.com/jyersonrp/docaudit-ai');
         onClose();
