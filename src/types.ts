@@ -31,7 +31,7 @@ export interface Project {
   demoUrl?: string;
   tags: string[];
   featured: boolean;
-  type: 'nvr' | 'odoo' | 'bot' | 'ml' | 'web';
+  type: 'nvr' | 'odoo' | 'bot' | 'docaudit' | 'ml' | 'web';
 }
 
 export interface GithubRepo {

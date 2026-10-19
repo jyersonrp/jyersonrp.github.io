@@ -260,7 +260,7 @@ export const ExperienceEducation: React.FC<ExperienceEducationProps> = ({ langua
                   </div>
 
                   {/* Holographic Récord Académico: 10/10 en POO */}
-                  <div className="relative z-10 my-4 p-4 rounded-2xl bg-gradient-to-r from-cyan-500/[0.08] dark:from-cyanNeon/[0.12] via-emerald-500/[0.06] dark:via-emeraldNeon/[0.1] to-slate-100 dark:to-white/[0.02] border border-cyan-500/30 dark:border-cyanNeon/35 shadow-[0_0_25px_var(--accent-glow-secondary)]">
+                  <div className="relative z-10 my-4 p-4 rounded-2xl bg-gradient-to-r from-[var(--accent-secondary)]/[0.08] dark:from-[var(--accent-secondary)]/[0.12] via-[var(--accent-primary)]/[0.06] dark:via-[var(--accent-primary)]/[0.1] to-slate-100 dark:to-white/[0.02] border border-[var(--accent-secondary)]/30 dark:border-[var(--accent-secondary)]/35 shadow-[0_0_25px_var(--accent-glow-secondary)]">
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3.5">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyanNeon/25 to-emeraldNeon/20 border border-cyanNeon/40 flex items-center justify-center text-cyanNeon shadow-[0_0_14px_var(--accent-glow-secondary)] shrink-0">

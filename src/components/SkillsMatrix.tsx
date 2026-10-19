@@ -69,12 +69,12 @@ const SkillCard: React.FC<SkillCardProps> = ({ skill, language }) => {
                 ? (meta.brandColor.startsWith('var(')
                     ? `color-mix(in srgb, ${meta.brandColor} 12%, transparent)`
                     : `${meta.brandColor}18`)
-                : 'rgba(255, 255, 255, 0.03)',
+                : 'var(--icon-box-bg)',
               borderColor: isHovered
                 ? (meta.brandColor.startsWith('var(')
                     ? `color-mix(in srgb, ${meta.brandColor} 40%, transparent)`
                     : `${meta.brandColor}65`)
-                : 'rgba(255, 255, 255, 0.08)',
+                : 'var(--icon-box-border)',
               boxShadow: isHovered ? `0 0 16px ${meta.glowColor}` : 'none',
               transform: isHovered ? 'scale(1.08)' : 'scale(1)',
             }}

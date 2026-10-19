@@ -25,6 +25,8 @@
     --bg-card: rgba(9, 9, 15, 0.75);
     --bg-card-hover: rgba(13, 13, 20, 0.85);
     --border-subtle: rgba(255, 255, 255, 0.08);
+    --icon-box-bg: rgba(255, 255, 255, 0.03);
+    --icon-box-border: rgba(255, 255, 255, 0.08);
     --text-main: #FFFFFF;
     --text-body: #E2E8F0;
     --text-muted: #94A3B8;
@@ -104,6 +106,8 @@
     --bg-card: rgba(255, 255, 255, 0.88);
     --bg-card-hover: rgba(255, 255, 255, 0.98);
     --border-subtle: rgba(15, 23, 42, 0.08);
+    --icon-box-bg: rgba(241, 245, 249, 0.95);
+    --icon-box-border: rgba(15, 23, 42, 0.12);
     --text-main: #0F172A;
     --text-body: #334155;
     --text-muted: #64748B;
@@ -214,7 +218,7 @@
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   vertical-align: baseline;
-  font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
+  font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
   background-image: var(--accent-gradient-primary);
@@ -239,7 +243,7 @@
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
   vertical-align: baseline;
-  font-family: "Instrument Serif", "Playfair Display", Georgia, serif;
+  font-family: "Instrument Serif", Georgia, serif;
   font-style: italic;
   font-weight: 400;
   background-image: var(--accent-gradient-secondary);
@@ -397,6 +401,14 @@ html.light button[class*="bg-[#2EE6A0]"] .text-white,
 html:not(.dark) button[class*="bg-[#2EE6A0]"] .text-white,
 html.light a[class*="bg-[#2EE6A0]"] .text-white,
 html:not(.dark) a[class*="bg-[#2EE6A0]"] .text-white,
+html.light [class*="bg-emeraldNeon"].text-white,
+html:not(.dark) [class*="bg-emeraldNeon"].text-white,
+html.light [class*="bg-cyanNeon"].text-white,
+html:not(.dark) [class*="bg-cyanNeon"].text-white,
+html.light [class*="bg-[var(--accent"].text-white,
+html:not(.dark) [class*="bg-[var(--accent"].text-white,
+html.light [class*="bg-[var(--accent"] .text-white,
+html:not(.dark) [class*="bg-[var(--accent"] .text-white,
 html.light [class*="emeraldNeon"].text-white,
 html:not(.dark) [class*="emeraldNeon"].text-white,
 html.light [class*="cyanNeon"].text-white,

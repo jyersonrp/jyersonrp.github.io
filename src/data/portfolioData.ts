@@ -163,6 +163,42 @@ export const FEATURED_PROJECTS: Project[] = [
     ],
     githubUrl: "https://github.com/jyersonrp/WhatsBot-GlamNails",
     tags: ["TypeScript", "Node.js", "FSM", "PostgreSQL", "Automation", "CRM"]
+  },
+  {
+    id: "docaudit-ai-rag",
+    featured: true,
+    type: "docaudit",
+    title: {
+      es: "DocAudit AI — Motor RAG de Auditoría y Riesgos",
+      en: "DocAudit AI — Enterprise RAG & Risk Audit Engine"
+    },
+    tagline: {
+      es: "Auditoría documental asíncrona con recuperación híbrida RAG, contratos tipados Pydantic v2, factoría Multi-Provider LLM y generación de reportes ejecutivos PDF.",
+      en: "Asynchronous document intelligence with hybrid RAG retrieval, strict Pydantic v2 schemas, Multi-Provider LLM factory, and executive ReportLab PDF reports."
+    },
+    problem: {
+      es: "La revisión manual de contratos legales y estados financieros consume horas por documento, es propensa a omitir cláusulas de riesgo crítico y sufre de alucinaciones o salidas no estructuradas al usar LLMs directos sin control.",
+      en: "Manual auditing of legal contracts and financial statements takes hours per document, risks missing critical liability clauses, and suffers from hallucinations or unstructured outputs when using raw LLMs."
+    },
+    solution: {
+      es: "Desarrollé un motor RAG asíncrono en FastAPI que fragmenta documentos con preservación semántica, ejecuta búsqueda híbrida y fuerza salidas deterministas validadas con Pydantic v2 mediante una factoría agnóstica de LLMs, exportando dictámenes PDF con ReportLab.",
+      en: "Engineered an async FastAPI RAG engine that chunks documents with semantic context, runs hybrid retrieval, and enforces deterministic Pydantic v2 output schemas via a multi-provider LLM factory, exporting audit reports via ReportLab PDF."
+    },
+    architecture: [
+      "FastAPI Asíncrono",
+      "Hybrid RAG Pipeline",
+      "Pydantic v2 Schemas",
+      "Multi-Provider LLM Factory",
+      "ReportLab PDF Engine",
+      "React + TypeScript UI"
+    ],
+    metrics: [
+      { label: { es: "Precisión Estructurada", en: "Schema Compliance" }, value: "100%" },
+      { label: { es: "Tiempo de Auditoría", en: "Audit Turnaround" }, value: "< 4.2s" },
+      { label: { es: "Ahorro Revisión Manual", en: "Manual Review Saved" }, value: "85%" }
+    ],
+    githubUrl: "https://github.com/jyersonrp/docaudit-ai",
+    tags: ["Python", "FastAPI", "RAG", "Pydantic v2", "LLM", "ReportLab", "Clean Architecture"]
   }
 ];
 
@@ -173,7 +209,7 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
       en: "Backend & ERP"
     },
     description: {
-      es: "Sistemas robustos, APIs asíncronas de alto rendimiento y lógica empresarial empresarial.",
+      es: "Sistemas robustos, APIs asíncronas de alto rendimiento y lógica empresarial.",
       en: "Robust distributed systems, high-performance async APIs, and enterprise business logic."
     },
     skills: [

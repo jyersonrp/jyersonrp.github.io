@@ -217,7 +217,7 @@ export const OopSolidIcon: React.FC<TechIconProps> = ({ className = "w-5 h-5" })
     <line x1="12" y1="2" x2="12" y2="22" stroke="var(--accent-primary)" />
     <line x1="3" y1="7" x2="21" y2="17" stroke="var(--accent-secondary)" />
     <line x1="21" y1="7" x2="3" y2="17" stroke="var(--accent-secondary)" />
-    <circle cx="12" cy="12" r="3.5" fill="#09090f" stroke="var(--accent-primary)" strokeWidth="2" />
+    <circle cx="12" cy="12" r="3.5" fill="var(--bg-card)" stroke="var(--accent-primary)" strokeWidth="2" />
   </svg>
 );
 

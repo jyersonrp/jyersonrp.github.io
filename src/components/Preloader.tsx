@@ -79,15 +79,23 @@ export const Preloader: React.FC<PreloaderProps> = ({
   const soundEnabledRef = useRef(soundEnabled);
   soundEnabledRef.current = soundEnabled;
 
+  const markBooted = () => {
+    try {
+      sessionStorage.setItem('portfolio_booted', '1');
+    } catch {
+      // ignore storage errors
+    }
+  };
+
   const handleSkip = () => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     if (timerRef.current) clearTimeout(timerRef.current);
+    markBooted();
+    setProgress(100);
     setIsFinished(true);
-    // Instant skip without waiting for curtain animation
-    onCompleteRef.current();
   };
 
-  // Keyboard shortcut listener: ESC or Space to skip immediately
+  // Keyboard shortcut listener: ESC or Space to skip with smooth curtain exit
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || e.code === 'Space') {
@@ -100,6 +108,19 @@ export const Preloader: React.FC<PreloaderProps> = ({
   }, []);
 
   useEffect(() => {
+    // Respect prefers-reduced-motion or existing session boot flag
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      markBooted();
+      setProgress(100);
+      setIsFinished(true);
+      onCompleteRef.current();
+      return;
+    }
+
     // Cinematic calibrated duration: ~3.0 seconds progression + 240ms dramatic lock
     const DURATION_MS = 2950;
     const startTime = Date.now();
@@ -154,6 +175,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
       // Reaching 100% milestone
       if (calculatedPercent >= 100) {
         if (intervalRef.current) clearInterval(intervalRef.current);
+        markBooted();
 
         if (soundEnabledRef.current && !soundPlayedRef.current) {
           soundPlayedRef.current = true;
@@ -180,6 +202,7 @@ export const Preloader: React.FC<PreloaderProps> = ({
   return (
     <AnimatePresence
       onExitComplete={() => {
+        markBooted();
         // Guarantee onComplete is called strictly AFTER the curtain exit animation finishes 100%
         onCompleteRef.current();
       }}

@@ -176,10 +176,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       id: 'nav-projects',
       category: 'navigation',
       title: { es: 'Casos de Estudio & Proyectos', en: 'Case Studies & Projects' },
-      subtitle: { es: 'Smart NVR, Odoo WhatsApp Chatter, WhatsBot CRM', en: 'Smart NVR, Odoo WhatsApp Chatter, WhatsBot CRM' },
+      subtitle: { es: 'Smart NVR, Odoo WhatsApp Chatter, WhatsBot CRM, DocAudit AI', en: 'Smart NVR, Odoo WhatsApp Chatter, WhatsBot CRM, DocAudit AI' },
       icon: <Cpu className="w-4 h-4 text-[var(--accent-secondary)]" />,
       badge: 'SECCIÓN',
-      keywords: ['proyectos', 'projects', 'casos', 'estudios', 'nvr', 'odoo', 'whatsbot'],
+      keywords: ['proyectos', 'projects', 'casos', 'estudios', 'nvr', 'odoo', 'whatsbot', 'docaudit', 'rag'],
       action: () => {
         onClose();
         smoothScrollTo('#projects');
@@ -296,6 +296,20 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         smoothScrollTo('#whatsbot-glam-nails');
       }
     },
+    {
+      id: 'proj-docaudit-ai',
+      category: 'projects',
+      title: { es: 'Proyecto: DocAudit AI — Auditoría Documental RAG', en: 'Project: DocAudit AI — RAG Document Intelligence' },
+      subtitle: { es: 'Motor híbrido pgvector HNSW + BM25, citación determinista (0% alucinación) y SSE', en: 'Hybrid pgvector HNSW + BM25 engine, deterministic citations (0% hallucination) & SSE' },
+      icon: <Database className="w-4 h-4 text-[var(--accent-primary)]" />,
+      badge: 'RAG / AI',
+      badgeColor: 'var(--accent-primary)',
+      keywords: ['docaudit', 'rag', 'pgvector', 'llm', 'fastapi', 'pdf', 'auditoria', 'contratos', 'ia', 'embeddings'],
+      action: () => {
+        onClose();
+        smoothScrollTo('#docaudit-ai-rag');
+      }
+    },
 
     // -------------------------------------------------------------
     // 3. GitHub Repositories (Direct open)
@@ -336,6 +350,19 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
       keywords: ['repo', 'github', 'whatsbot', 'bot', 'fsm', 'typescript', 'codigo'],
       action: () => {
         safeOpenUrl('https://github.com/jyersonrp/WhatsBot-GlamNails');
+        onClose();
+      }
+    },
+    {
+      id: 'repo-docaudit',
+      category: 'repos',
+      title: { es: 'Repo: docaudit-ai', en: 'Repo: docaudit-ai' },
+      subtitle: { es: 'github.com/jyersonrp/docaudit-ai', en: 'github.com/jyersonrp/docaudit-ai' },
+      icon: <GithubIcon className="w-4 h-4 text-[var(--accent-secondary)]" />,
+      badge: 'GITHUB',
+      keywords: ['repo', 'github', 'docaudit', 'rag', 'pgvector', 'fastapi', 'ia', 'codigo'],
+      action: () => {
+        safeOpenUrl('https://github.com/jyersonrp/docaudit-ai');
         onClose();
       }
     },

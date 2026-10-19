@@ -506,19 +506,19 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
                     {getRepoDescription(repo)}
                   </p>
 
-                  {/* Topics Tags with glowing cyan micro-dot */}
+                  {/* Topics Tags with glowing accent micro-dot */}
                   {repo.topics && repo.topics.length > 0 && (
                     <div className="relative z-10 flex flex-wrap gap-1.5 mb-5 min-h-[28px]">
                       {repo.topics.slice(0, 5).map((topic) => (
                         <span
                           key={topic}
-                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-mono bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.07] group-hover:border-slate-300 dark:group-hover:border-white/[0.12] hover:border-[#00F0FF]/50 hover:text-[#00F0FF] hover:bg-[#00F0FF]/[0.04] transition-all"
+                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] sm:text-[11px] font-mono bg-slate-100 dark:bg-white/[0.03] text-slate-700 dark:text-neutral-300 border border-slate-200 dark:border-white/[0.07] group-hover:border-slate-300 dark:group-hover:border-white/[0.12] hover:border-[var(--accent-secondary)]/50 hover:text-[var(--accent-secondary)] hover:bg-[var(--accent-secondary)]/[0.04] transition-all"
                         >
                           <span
                             className="w-1.5 h-1.5 rounded-full shrink-0"
                             style={{
-                              backgroundColor: '#00F0FF',
-                              boxShadow: '0 0 6px rgba(0, 240, 255, 0.7)'
+                              backgroundColor: 'var(--accent-secondary)',
+                              boxShadow: '0 0 6px var(--accent-glow-secondary)'
                             }}
                           />
                           <span>{formatTopicTag(topic)}</span>

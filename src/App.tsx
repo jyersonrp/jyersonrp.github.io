@@ -25,7 +25,22 @@ import { getInitialThemeMode, getInitialColorPalette, applyTheme } from './utils
 import { trackPreferences } from './utils/analytics';
 
 export function App() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState<boolean>(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        if (sessionStorage.getItem('portfolio_booted') === '1') {
+          return true;
+        }
+        if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+          sessionStorage.setItem('portfolio_booted', '1');
+          return true;
+        }
+      }
+    } catch {
+      // ignore storage errors
+    }
+    return false;
+  });
   const [isCvOpen, setIsCvOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [language, setLanguage] = useState<Language>('es');

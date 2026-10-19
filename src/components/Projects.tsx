@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { GithubIcon } from './icons/BrandIcons';
 import { ProjectTiltCard } from './ProjectTiltCard';
-import { NvrMockupView, OdooMockupView, WhatsBotMockupView } from './ProjectMockups';
+import { NvrMockupView, OdooMockupView, WhatsBotMockupView, DocAuditMockupView } from './ProjectMockups';
 import { playSound } from '../utils/audioSystem';
 import { trackCodeView, trackProjectTab } from '../utils/analytics';
 
@@ -36,7 +36,7 @@ const CodeHighlighter: React.FC<{ code: string }> = ({ code }) => {
       return <span className="text-neutral-500 italic">{line}</span>;
     }
 
-    const tokenRegex = /(#[^\n]*|\/\/[^\n]*|`[^`]*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b(?:class|def|return|if|else|elif|for|while|import|from|export|async|function|await|const|let|var|throw|new|try|catch|true|false|True|False|None|null)\b|\b(?:models|ir|BytesIO|models\.Model|PrismaClient|DetectionResult|InferenceSession|HybridDetector|WhatsAppConnector|SlotAlreadyReservedError|Date|Promise|cv2|np|ort|tx|db)\b|\b(?:self|this)\b|\b\d+(?:\.\d+)?(?:ms|fps|px|%)?\b)/g;
+    const tokenRegex = /(#[^\n]*|\/\/[^\n]*|`[^`]*`|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b(?:class|def|return|if|else|elif|for|while|import|from|export|async|function|await|const|let|var|throw|new|try|catch|true|false|True|False|None|null)\b|\b(?:models|ir|BytesIO|models\.Model|PrismaClient|DetectionResult|InferenceSession|HybridDetector|WhatsAppConnector|SlotAlreadyReservedError|BaseModel|Field|Literal|List|RiskFinding|AuditEngine|LLMProviderFactory|HybridRAG|ReportLabBuilder|ainvoke|Date|Promise|cv2|np|ort|tx|db)\b|\b(?:self|this)\b|\b\d+(?:\.\d+)?(?:ms|fps|px|%)?\b)/g;
 
     const elements = [];
     let lastIdx = 0;
@@ -53,7 +53,7 @@ const CodeHighlighter: React.FC<{ code: string }> = ({ code }) => {
         elements.push(<span key={match.index} className="text-[#38bdf8]">{tok}</span>);
       } else if (/^(?:class|def|return|if|else|elif|for|while|import|from|export|async|function|await|const|let|var|throw|new|try|catch|true|false|True|False|None|null)$/.test(tok)) {
         elements.push(<span key={match.index} className="text-[var(--accent-primary)] font-semibold">{tok}</span>);
-      } else if (/^(?:models|ir|BytesIO|models\.Model|PrismaClient|DetectionResult|InferenceSession|HybridDetector|WhatsAppConnector|SlotAlreadyReservedError|Date|Promise|cv2|np|ort|tx|db)$/.test(tok)) {
+      } else if (/^(?:models|ir|BytesIO|models\.Model|PrismaClient|DetectionResult|InferenceSession|HybridDetector|WhatsAppConnector|SlotAlreadyReservedError|BaseModel|Field|Literal|List|RiskFinding|AuditEngine|LLMProviderFactory|HybridRAG|ReportLabBuilder|ainvoke|Date|Promise|cv2|np|ort|tx|db)$/.test(tok)) {
         elements.push(<span key={match.index} className="text-[#c084fc] font-medium">{tok}</span>);
       } else if (/^(?:self|this)$/.test(tok)) {
         elements.push(<span key={match.index} className="text-rose-400 italic">{tok}</span>);
@@ -93,7 +93,8 @@ export const Projects: React.FC<ProjectsProps> = ({ language }) => {
   const [activeTabs, setActiveTabs] = useState<{ [key: string]: TabType }>({
     'smart-nvr-vision-ai': 'mockup',
     'odoo-whatsapp-chatter': 'mockup',
-    'whatsbot-glam-nails': 'mockup'
+    'whatsbot-glam-nails': 'mockup',
+    'docaudit-ai-rag': 'mockup'
   });
 
   const setProjectTab = (projectId: string, tab: TabType) => {
@@ -169,6 +170,32 @@ class WhatsAppConnector(models.Model):
       };
     }
 
+    if (project.type === 'docaudit') {
+      return {
+        file: 'app/services/audit_engine.py',
+        lang: 'python',
+        code: `# Hybrid RAG & Deterministic Pydantic v2 Risk Extraction
+from pydantic import BaseModel, Field
+from typing import Literal, List
+
+class RiskFinding(BaseModel):
+    clause_ref: str = Field(description="Contract section reference")
+    severity: Literal["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+    exposure_usd: float = Field(ge=0)
+    remediation: str
+
+class AuditEngine:
+    def __init__(self, llm_factory: LLMProviderFactory, retriever: HybridRAG):
+        self.llm = llm_factory.get_structured_client(schema=List[RiskFinding])
+        self.retriever = retriever
+
+    async def audit_document(self, doc_id: str) -> bytes:
+        chunks = await self.retriever.search_high_risk_clauses(doc_id, top_k=8)
+        findings = await self.llm.ainvoke(context=chunks)
+        return ReportLabBuilder.render_executive_pdf(doc_id, findings)`
+      };
+    }
+
     return {
       file: 'src/fsm/appointmentMachine.ts',
       lang: 'typescript',
@@ -213,6 +240,15 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
       ];
     }
 
+    if (project.type === 'docaudit') {
+      return [
+        { step: '01', title: 'Document Ingest', desc: language === 'es' ? 'Chunking semántico de PDF/DOCX asíncrono' : 'Async semantic PDF/DOCX chunking' },
+        { step: '02', title: 'Hybrid RAG Search', desc: language === 'es' ? 'Recuperación vectorial + léxica de cláusulas' : 'Vector + lexical clause retrieval' },
+        { step: '03', title: 'Pydantic v2 + LLM', desc: language === 'es' ? 'Extracción tipada sin alucinaciones (Multi-LLM)' : 'Zero-hallucination typed extraction (Multi-LLM)' },
+        { step: '04', title: 'ReportLab Engine', desc: language === 'es' ? 'Generación de dictamen ejecutivo en PDF' : 'Executive audit PDF report generation' }
+      ];
+    }
+
     return [
       { step: '01', title: 'WhatsApp Inbound', desc: language === 'es' ? 'Mensaje entrante del cliente' : 'Customer inbound message' },
       { step: '02', title: 'FSM Engine', desc: language === 'es' ? 'Evaluación de estado determinista' : 'Deterministic state evaluation' },
@@ -238,7 +274,13 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               <span className="w-2.5 h-2.5 rounded-full bg-emeraldNeon/70" />
             </div>
             <span className="text-slate-600 dark:text-neutral-400 font-mono text-[11px] font-medium hidden sm:inline">
-              {project.type === 'nvr' ? 'nvr-vision://console' : project.type === 'odoo' ? 'odoo-meta://chatter' : 'fsm-bot://simulator'}
+              {project.type === 'nvr'
+                ? 'nvr-vision://console'
+                : project.type === 'odoo'
+                ? 'odoo-meta://chatter'
+                : project.type === 'docaudit'
+                ? 'docaudit-rag://inspector'
+                : 'fsm-bot://simulator'}
             </span>
           </div>
 
@@ -271,7 +313,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               onClick={() => setProjectTab(project.id, 'overview')}
               className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 currentTab === 'overview'
-                  ? 'bg-emerald-600 dark:bg-emeraldNeon text-white dark:text-black font-bold shadow-sm'
+                  ? 'bg-[var(--accent-primary)] text-white dark:text-black font-bold shadow-sm'
                   : 'text-slate-800 dark:text-neutral-300 font-semibold hover:text-black dark:hover:text-white hover:bg-slate-300/80 dark:hover:bg-white/[0.08]'
               }`}
             >
@@ -284,7 +326,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               onClick={() => setProjectTab(project.id, 'flow')}
               className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all flex items-center gap-1.5 shrink-0 whitespace-nowrap ${
                 currentTab === 'flow'
-                  ? 'bg-sky-600 dark:bg-cyanNeon text-white dark:text-black font-bold shadow-sm'
+                  ? 'bg-[var(--accent-secondary)] text-white dark:text-black font-bold shadow-sm'
                   : 'text-slate-800 dark:text-neutral-300 font-semibold hover:text-black dark:hover:text-white hover:bg-slate-300/80 dark:hover:bg-white/[0.08]'
               }`}
             >
@@ -315,6 +357,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               {project.type === 'nvr' && <NvrMockupView language={language} />}
               {project.type === 'odoo' && <OdooMockupView language={language} />}
               {project.type === 'bot' && <WhatsBotMockupView language={language} />}
+              {project.type === 'docaudit' && <DocAuditMockupView language={language} />}
             </div>
           )}
 
@@ -443,7 +486,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                 <div className="text-[10.5px] text-neutral-300 space-y-1">
                   <div className="flex items-center gap-2">
                     <span className="text-[var(--accent-primary)]">✓</span>
-                    <span className="text-neutral-400">{language === 'es' ? 'Orden #SO-2025-084 sincronizada en Odoo ORM (12ms)' : 'Order #SO-2025-084 live synced into Odoo ORM (12ms)'}</span>
+                    <span className="text-neutral-400">{language === 'es' ? 'Orden #SO-2026-084 sincronizada en Odoo ORM (12ms)' : 'Order #SO-2026-084 live synced into Odoo ORM (12ms)'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-[var(--accent-secondary)]">✓</span>
@@ -517,6 +560,55 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
               </div>
             </div>
           )}
+
+          {currentTab === 'overview' && project.type === 'docaudit' && (
+            <div className="font-mono text-xs space-y-3">
+              <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-white/[0.06] text-slate-600 dark:text-neutral-400">
+                <span className="text-slate-900 dark:text-white text-xs font-medium">DocAudit AI — Hybrid RAG Pipeline</span>
+                <div className="flex items-center gap-2 text-[var(--accent-primary)] text-[10px] tracking-wider">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] animate-pulse shadow-[0_0_6px_var(--accent-glow)]" />
+                  <span>PYDANTIC V2 STRICT</span>
+                </div>
+              </div>
+
+              <div className="bg-[#0c0c12] p-4 rounded-xl border border-white/[0.05] space-y-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] pb-2 border-b border-white/[0.05]">
+                  <div className="flex items-center gap-2">
+                    <span className="px-1.5 py-0.5 rounded bg-[var(--accent-secondary)]/15 text-[var(--accent-secondary)] font-bold">ASYNC</span>
+                    <span className="text-neutral-300">/api/v1/audit/analyze</span>
+                  </div>
+                  <span className="text-[var(--accent-primary)] font-semibold bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 px-2 py-0.5 rounded-full">
+                    0 HALLUCINATIONS
+                  </span>
+                </div>
+
+                <div className="bg-black/40 p-2.5 rounded-lg border border-white/[0.04] space-y-1.5">
+                  <div className="flex justify-between items-center text-[10.5px]">
+                    <span className="text-neutral-400">{language === 'es' ? 'Recuperación Semántica + Léxica:' : 'Semantic + Lexical Retrieval:'}</span>
+                    <span className="text-[var(--accent-secondary)] font-semibold">24 Chunks (3.8s)</span>
+                  </div>
+                  <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full w-[88%]" />
+                  </div>
+                  <div className="flex justify-between items-center text-[9.5px] text-neutral-400">
+                    <span>{language === 'es' ? 'Validación Pydantic v2: 100%' : 'Pydantic v2 Validation: 100%'}</span>
+                    <span className="text-[var(--accent-primary)] font-medium">ReportLab PDF Ready</span>
+                  </div>
+                </div>
+
+                <div className="text-[10.5px] text-neutral-300 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[var(--accent-primary)]">✓</span>
+                    <span className="text-neutral-400">{language === 'es' ? 'Factoría Multi-LLM (Gemini / GPT-4o / Claude) con fallback' : 'Multi-LLM Factory (Gemini / GPT-4o / Claude) with auto-fallback'}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[var(--accent-secondary)]">✓</span>
+                    <span className="text-neutral-400">{language === 'es' ? 'Dictamen ejecutivo PDF renderizado en memoria (180 KB)' : 'Executive PDF audit report rendered in-memory (180 KB)'}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Integrated Terminal Footer with Architecture Chips & Discreet GitHub Link */}
@@ -568,7 +660,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
         {/* Editorial Section Header */}
         <div className="mb-14 sm:mb-20">
           <div className="flex items-center gap-3 mb-4">
-            <span className="text-[11px] font-mono tracking-[0.25em] text-emerald-700 dark:text-emeraldNeon uppercase font-bold">
+            <span className="text-[11px] font-mono tracking-[0.25em] text-[var(--accent-primary)] uppercase font-bold">
               01 / {language === 'es' ? 'PROYECTOS SELECCIONADOS' : 'SELECTED CASE STUDIES'}
             </span>
             <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-emeraldNeon/40 to-transparent" />
@@ -609,7 +701,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                   <div className="xl:col-span-6 space-y-5 sm:space-y-6">
                     {/* Monospace Project Index */}
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono text-emerald-700 dark:text-emeraldNeon uppercase tracking-[0.25em] font-bold">
+                      <span className="text-xs font-mono text-[var(--accent-primary)] uppercase tracking-[0.25em] font-bold">
                         {language === 'es' ? `0${idx + 1} // CASO DE ESTUDIO` : `0${idx + 1} // CASE STUDY`}
                       </span>
                       <span className="text-[11px] font-mono text-slate-800 dark:text-neutral-300 bg-slate-100 dark:bg-white/[0.03] border border-slate-300 dark:border-white/[0.06] px-2.5 py-0.5 rounded-full font-medium">
@@ -639,8 +731,8 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                         </p>
                       </div>
 
-                      <div className="border-l-2 border-emerald-600 dark:border-emeraldNeon/70 pl-3.5 sm:pl-4 py-1">
-                        <div className="flex items-center gap-1.5 text-emerald-700 dark:text-emeraldNeon font-mono text-[10.5px] sm:text-[11px] uppercase tracking-wider mb-1.5 font-bold">
+                      <div className="border-l-2 border-[var(--accent-primary)] pl-3.5 sm:pl-4 py-1">
+                        <div className="flex items-center gap-1.5 text-[var(--accent-primary)] font-mono text-[10.5px] sm:text-[11px] uppercase tracking-wider mb-1.5 font-bold">
                           <Lightbulb className="w-3.5 h-3.5 shrink-0" />
                           <span>{language === 'es' ? 'La Solución' : 'The Solution'}</span>
                         </div>
@@ -654,7 +746,7 @@ export async function bookSlot(clientId: string, slotTime: Date, db: PrismaClien
                     <div className="grid grid-cols-3 gap-1.5 xs:gap-2.5 sm:gap-4 py-3 sm:py-4 border-y border-slate-200 dark:border-white/[0.06]">
                       {project.metrics.map((m, mIdx) => (
                         <div key={mIdx} className="text-left min-w-0">
-                          <div className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-emerald-700 dark:text-emeraldNeon font-sans tracking-tight leading-none mb-1 truncate">
+                          <div className="text-lg xs:text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--accent-primary)] font-sans tracking-tight leading-none mb-1 truncate">
                             {m.value}
                           </div>
                           <div className="text-[9px] xs:text-[10px] sm:text-[11px] text-slate-700 dark:text-neutral-400 font-mono tracking-tight leading-tight line-clamp-2 font-medium">

@@ -156,23 +156,6 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
     } catch (err) {
       // ignore
     }
-
-    const subjectMap: Record<string, string> = {
-      opportunity: language === 'es' ? 'Oferta de Empleo' : 'Job Opportunity',
-      freelance: language === 'es' ? 'Proyecto Freelance' : 'Freelance Project',
-      odoo: language === 'es' ? 'Implementación Odoo ERP' : 'Odoo ERP Implementation',
-      other: language === 'es' ? 'Consulta General' : 'General Inquiry'
-    };
-
-    const subjectText = `[Portfolio] ${subjectMap[sanitizedSubject] || sanitizedSubject}: ${sanitizedName}`;
-    const bodyText = `Hola Yerson,\n\nNombre / Empresa: ${sanitizedName}\nEmail: ${sanitizedEmail}\n\nMensaje:\n${sanitizedMessage}`;
-    const mailtoUrl = `mailto:${publicEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
-
-    try {
-      window.location.href = mailtoUrl;
-    } catch (err) {
-      console.warn('Mailto link error:', err);
-    }
   };
 
   const handleCopyFormattedMessage = () => {
@@ -203,8 +186,15 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
     const sName = sanitizeInput(formData.name, 80, false) || 'Contacto Web';
     const sEmail = sanitizeInput(formData.email, 100, false);
     const sMsg = sanitizeInput(formData.message, 2000, true);
-    const subjectText = `[Portfolio] Consulta: ${sName}`;
-    const bodyText = `Nombre / Empresa: ${sName}\nEmail: ${sEmail}\n\nMensaje:\n${sMsg}`;
+    const subjectMap: Record<string, string> = {
+      opportunity: language === 'es' ? 'Oferta de Empleo' : 'Job Opportunity',
+      freelance: language === 'es' ? 'Proyecto Freelance' : 'Freelance Project',
+      odoo: language === 'es' ? 'Implementación Odoo ERP' : 'Odoo ERP Implementation',
+      other: language === 'es' ? 'Consulta General' : 'General Inquiry'
+    };
+    const subjectLabel = subjectMap[formData.subject] || (language === 'es' ? 'Consulta' : 'Inquiry');
+    const subjectText = `[Portfolio] ${subjectLabel}: ${sName}`;
+    const bodyText = `Hola Yerson,\n\nNombre / Empresa: ${sName}\nEmail: ${sEmail}\n\nMensaje:\n${sMsg}`;
     return `mailto:${publicEmail}?subject=${encodeURIComponent(subjectText)}&body=${encodeURIComponent(bodyText)}`;
   };
 
@@ -325,16 +315,16 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
               onClick={() => trackContactInteraction('linkedin')}
               className="glass-panel-card p-4 rounded-2xl border border-slate-200 dark:border-white/[0.08] hover:border-cyanNeon/40 transition-all flex items-center justify-between group shadow-[0_4px_15px_-3px_rgba(0,0,0,0.04)] dark:shadow-none"
             >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-cyanNeon">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="p-2 rounded-xl bg-slate-100 dark:bg-white/[0.03] border border-slate-200 dark:border-white/[0.08] text-cyanNeon shrink-0">
                   <LinkedinIcon className="w-4 h-4" />
                 </div>
-                <div>
+                <div className="min-w-0">
                   <div className="text-xs font-bold text-slate-900 dark:text-white">LinkedIn</div>
-                  <div className="text-[11px] font-mono text-slate-500 dark:text-neutral-400">/in/yerson-rodriguez</div>
+                  <div className="text-[11px] font-mono text-slate-500 dark:text-neutral-400 truncate">/in/yerson-jose-rodriguez-perez</div>
                 </div>
               </div>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-neutral-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors" />
+              <ExternalLink className="w-3.5 h-3.5 text-slate-400 dark:text-neutral-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors shrink-0 ml-1" />
             </a>
 
             {/* GitHub */}
@@ -397,8 +387,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ language }) => {
                   </h4>
                   <p className="text-xs text-slate-700 dark:text-neutral-300 max-w-md mx-auto mt-2 leading-relaxed font-normal dark:font-light">
                     {language === 'es'
-                      ? 'Se ha intentado abrir tu cliente de correo predeterminado. También puedes despacharlo de inmediato vía WhatsApp o copiar el texto:'
-                      : 'We attempted to open your mail client. You can also send directly via WhatsApp or copy the prepared message:'}
+                      ? 'Tu mensaje ha sido validado y estructurado. Elige tu canal preferido para despacharlo en 1 clic o copia el texto formateado:'
+                      : 'Your message has been validated and structured. Choose your preferred channel below to dispatch it in 1 click or copy the text:'}
                   </p>
                 </div>
 
