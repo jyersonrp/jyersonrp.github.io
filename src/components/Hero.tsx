@@ -205,17 +205,19 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
         </div>
 
         {/* Editorial Architecture Stack Band */}
-        <div className="mt-14 sm:mt-18 pt-8 border-t border-slate-200 dark:border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-slate-500 dark:text-neutral-400">
+        <div className="relative mt-14 sm:mt-18 pt-8 border-t border-slate-300/90 dark:border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs font-mono text-slate-600 dark:text-neutral-400">
+          <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-slate-400/50 dark:via-white/15 to-transparent pointer-events-none" />
+
           <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
             <span className="w-2 h-2 rounded-full bg-[var(--accent-primary)] shadow-[0_0_8px_var(--accent-glow)] shrink-0" />
             <span className="text-slate-900 dark:text-white font-semibold tracking-wider">
               {language === 'es' ? 'BACKEND & ERP:' : 'BACKEND & ERP:'}
             </span>
-            <span className="text-slate-700 dark:text-neutral-200 font-medium">PYTHON 3.11</span>
+            <span className="text-slate-800 dark:text-neutral-200 font-medium">PYTHON 3.11</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
             <span className="text-slate-700 dark:text-neutral-300">FASTAPI</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
-            <span className="text-slate-700 dark:text-neutral-200 font-medium">ODOO ERP</span>
+            <span className="text-slate-800 dark:text-neutral-200 font-medium">ODOO ERP</span>
           </div>
 
           <div className="flex items-center gap-2.5 sm:gap-3 flex-wrap">
@@ -223,11 +225,11 @@ export const Hero: React.FC<HeroProps> = ({ language, onOpenCv, themeMode, palet
             <span className="text-slate-900 dark:text-white font-semibold tracking-wider">
               {language === 'es' ? 'VISIÓN & IA:' : 'VISION & AI:'}
             </span>
-            <span className="text-slate-700 dark:text-neutral-200 font-medium">OPENCV MOG2</span>
+            <span className="text-slate-800 dark:text-neutral-200 font-medium">OPENCV MOG2</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
             <span className="text-slate-700 dark:text-neutral-300">YOLOV8 ONNX</span>
             <span className="text-slate-400 dark:text-neutral-600">/</span>
-            <span className="text-slate-700 dark:text-neutral-200 font-medium">POSTGRESQL</span>
+            <span className="text-slate-800 dark:text-neutral-200 font-medium">POSTGRESQL</span>
           </div>
         </div>
       </div>
