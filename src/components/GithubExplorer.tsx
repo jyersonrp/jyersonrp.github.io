@@ -15,10 +15,21 @@ import {
 import { GithubIcon } from './icons/BrandIcons';
 import { getTechSkillMeta } from './icons/TechIcons';
 import { trackCodeView } from '../utils/analytics';
+import { isValidSafeUrl, sanitizeInput, sanitizeQuery } from '../utils/security';
 
 interface GithubExplorerProps {
   language: Language;
 }
+
+const getSafeRepoUrl = (url?: string, name?: string): string => {
+  if (url && isValidSafeUrl(url) && url.startsWith('https://github.com/')) {
+    return url;
+  }
+  if (name && /^[a-zA-Z0-9._-]+$/.test(name)) {
+    return `https://github.com/jyersonrp/${name}`;
+  }
+  return PERSONAL_INFO.github;
+};
 
 const isAllowedRepo = (repoName: string) => {
   const lower = repoName.toLowerCase();
@@ -146,8 +157,15 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
   const fetchRepos = async () => {
     setLoading(true);
     setError(null);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch('https://api.github.com/users/jyersonrp/repos?sort=updated&per_page=30');
+      const response = await fetch('https://api.github.com/users/jyersonrp/repos?sort=updated&per_page=30', {
+        signal: controller.signal,
+        headers: {
+          Accept: 'application/vnd.github+json'
+        }
+      });
       if (!response.ok) {
         throw new Error(`GitHub API responded with status ${response.status}`);
       }
@@ -155,7 +173,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
       if (Array.isArray(data) && data.length > 0) {
         // Filter out non-code profile config and uncurated repos
         const softwareRepos = data.filter(
-          (repo) => isAllowedRepo(repo.name)
+          (repo) => repo && typeof repo.name === 'string' && isAllowedRepo(repo.name)
         );
 
         // Enrich live repos with curated tags & metadata if missing from GitHub API
@@ -163,16 +181,18 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
           const fallbackMatch = (FALLBACK_REPOS as GithubRepo[]).find(
             (fb) => fb.name.toLowerCase() === repo.name.toLowerCase()
           );
+          const rawDesc = repo.description || fallbackMatch?.description || '';
           return {
             ...repo,
+            html_url: getSafeRepoUrl(repo.html_url, repo.name),
             language: formatLanguage(repo.language || fallbackMatch?.language || 'Python'),
-            description: repo.description || fallbackMatch?.description || '',
+            description: sanitizeInput(rawDesc, 350, false),
             topics:
-              repo.topics && repo.topics.length > 0
-                ? repo.topics
+              Array.isArray(repo.topics) && repo.topics.length > 0
+                ? repo.topics.filter((t) => typeof t === 'string').map((t) => sanitizeQuery(t, 40))
                 : fallbackMatch?.topics || [],
-            stargazers_count: repo.stargazers_count || fallbackMatch?.stargazers_count || 0,
-            forks_count: repo.forks_count || fallbackMatch?.forks_count || 0
+            stargazers_count: Number.isFinite(repo.stargazers_count) ? repo.stargazers_count : fallbackMatch?.stargazers_count || 0,
+            forks_count: Number.isFinite(repo.forks_count) ? repo.forks_count : fallbackMatch?.forks_count || 0
           };
         });
 
@@ -197,6 +217,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
       );
       setIsLiveApi(false);
     } finally {
+      clearTimeout(timeoutId);
       setLoading(false);
     }
   };
@@ -353,13 +374,14 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
             <Search className="w-4 h-4 text-slate-400 dark:text-neutral-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
+              maxLength={100}
               placeholder={
                 language === 'es'
                   ? 'Buscar por nombre, tecnología o descripción...'
                   : 'Search by repo name, tech, or description...'
               }
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(sanitizeQuery(e.target.value, 100))}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-black/40 border border-slate-300 dark:border-white/[0.08] rounded-xl text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-neutral-500 focus:outline-none focus:border-cyanNeon transition-colors"
             />
           </div>
@@ -490,7 +512,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
 
                     {/* External Link Icon */}
                     <a
-                      href={repo.html_url}
+                      href={getSafeRepoUrl(repo.html_url, repo.name)}
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackCodeView(repo.name)}
@@ -560,7 +582,7 @@ export const GithubExplorer: React.FC<GithubExplorerProps> = ({ language }) => {
 
                   {/* Interactive Button */}
                   <a
-                    href={repo.html_url}
+                    href={getSafeRepoUrl(repo.html_url, repo.name)}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => trackCodeView(repo.name)}

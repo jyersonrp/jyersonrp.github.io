@@ -51,10 +51,16 @@ export const smoothScrollTo = (target: string | HTMLElement | number) => {
   if (typeof target === 'number') {
     window.scrollTo({ top: target, behavior: 'smooth' });
   } else if (typeof target === 'string') {
-    const el = document.querySelector(target);
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.pageYOffset - 120;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    // Only allow safe hash anchor selectors to prevent DOMException / selector injection
+    if (!/^#[a-zA-Z0-9_-]+$/.test(target.trim())) return;
+    try {
+      const el = document.querySelector(target.trim());
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.pageYOffset - 120;
+        window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      }
+    } catch {
+      // Ignore malformed selectors safely
     }
   } else if (target instanceof HTMLElement) {
     const y = target.getBoundingClientRect().top + window.pageYOffset - 120;

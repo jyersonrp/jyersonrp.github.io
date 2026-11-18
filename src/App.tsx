@@ -191,16 +191,24 @@ export function App() {
 
   // Load language preference if stored
   useEffect(() => {
-    const savedLang = localStorage.getItem('portfolio_lang') as Language;
-    if (savedLang === 'es' || savedLang === 'en') {
-      setLanguage(savedLang);
+    try {
+      const savedLang = localStorage.getItem('portfolio_lang') as Language;
+      if (savedLang === 'es' || savedLang === 'en') {
+        setLanguage(savedLang);
+      }
+    } catch {
+      // Ignore storage restrictions in strict privacy contexts
     }
   }, []);
 
   const toggleLanguage = () => {
     const nextLang: Language = language === 'es' ? 'en' : 'es';
     setLanguage(nextLang);
-    localStorage.setItem('portfolio_lang', nextLang);
+    try {
+      localStorage.setItem('portfolio_lang', nextLang);
+    } catch {
+      // Ignore storage restrictions in strict privacy contexts
+    }
     trackPreferences('language', nextLang);
   };
 

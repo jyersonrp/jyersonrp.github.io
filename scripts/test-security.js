@@ -360,6 +360,9 @@ assert.ok(headersContent.includes("display-capture=()"), "_headers Permissions-P
 assert.ok(headersContent.includes("Strict-Transport-Security:"), "_headers must enforce HSTS");
 assert.ok(headersContent.includes("X-Content-Type-Options: nosniff"), "_headers must enforce nosniff");
 assert.ok(headersContent.includes("X-Frame-Options: DENY"), "_headers must enforce X-Frame-Options DENY");
+assert.ok(headersContent.includes("frame-ancestors 'none'"), "_headers CSP must enforce frame-ancestors 'none'");
+assert.ok(headersContent.includes("upgrade-insecure-requests"), "_headers CSP must enforce upgrade-insecure-requests");
+assert.ok(headersContent.includes("Cross-Origin-Opener-Policy: same-origin"), "_headers must enforce COOP same-origin");
 console.log('✓ public/_headers server security and CSP parity confirmed');
 
 // 20. Test Telemetry Fallback and Buffering Resilience
@@ -378,5 +381,47 @@ assert.deepStrictEqual(globalThis.window.dataLayer[0], [
 globalThis.window = originalWindow;
 console.log('✓ Telemetry fallback buffering confirmed');
 
-console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (20/20) ---');
+// 21. Audit GitHub Explorer External API Hardening (URL Validation, Timeout & Input Sanitization)
+console.log('[Test 21] Auditing GithubExplorer.tsx for external API data validation & fetch timeout...');
+const githubExplorerSource = fs.readFileSync(path.resolve('src/components/GithubExplorer.tsx'), 'utf8');
+assert.ok(githubExplorerSource.includes('AbortController'), 'GithubExplorer must enforce AbortController fetch timeout');
+assert.ok(githubExplorerSource.includes('isValidSafeUrl'), 'GithubExplorer must validate repo URLs with isValidSafeUrl');
+assert.ok(githubExplorerSource.includes('sanitizeInput'), 'GithubExplorer must sanitize external repo descriptions');
+assert.ok(githubExplorerSource.includes('sanitizeQuery'), 'GithubExplorer must sanitize search term input');
+console.log('✓ GithubExplorer API validation & timeout hardening confirmed');
+
+// 22. Audit CommandPalette & SmoothScroll Selector Hardening
+console.log('[Test 22] Auditing CommandPalette & smoothScrollTo selector validation...');
+const commandPaletteSource = fs.readFileSync(path.resolve('src/components/CommandPalette.tsx'), 'utf8');
+assert.ok(commandPaletteSource.includes('sanitizeQuery(e.target.value'), 'CommandPalette must sanitize search input');
+assert.ok(commandPaletteSource.includes('maxLength={100}'), 'CommandPalette input must enforce maxLength');
+const smoothScrollSource = fs.readFileSync(path.resolve('src/utils/smoothScroll.ts'), 'utf8');
+assert.ok(smoothScrollSource.includes('/^#[a-zA-Z0-9_-]+$/'), 'smoothScrollTo must validate anchor selector format');
+console.log('✓ CommandPalette & smoothScrollTo selector validation confirmed');
+
+// 23. Audit Storage Resilience (try/catch around localStorage for strict privacy browsers)
+console.log('[Test 23] Auditing localStorage resilience across App.tsx and audioSystem.ts...');
+const appSource = fs.readFileSync(path.resolve('src/App.tsx'), 'utf8');
+const audioSource = fs.readFileSync(path.resolve('src/utils/audioSystem.ts'), 'utf8');
+assert.ok(
+  !audioSource.match(/^\s*const saved = localStorage\.getItem/m) || audioSource.includes('try {\n    const saved = localStorage.getItem'),
+  'audioSystem.ts must wrap localStorage access in try/catch'
+);
+assert.ok(
+  appSource.includes("try {\n      localStorage.setItem('portfolio_lang'"),
+  'App.tsx must wrap localStorage.setItem in try/catch'
+);
+console.log('✓ Storage resilience confirmed for strict privacy contexts');
+
+// 24. Audit CI/CD Least-Privilege Permissions in deploy.yml
+console.log('[Test 24] Auditing CI/CD workflow permissions in .github/workflows/deploy.yml...');
+const deployYml = fs.readFileSync(path.resolve('.github/workflows/deploy.yml'), 'utf8');
+const buildJobSection = deployYml.split('deploy:')[0];
+assert.ok(
+  !buildJobSection.includes('pages: write') && !buildJobSection.includes('id-token: write'),
+  'build job must not have pages:write or id-token:write permissions (least privilege)'
+);
+console.log('✓ CI/CD least-privilege permissions confirmed');
+
+console.log('--- ALL RIGOROUS SECURITY TESTS PASSED SUCCESSFULLY (24/24) ---');
 

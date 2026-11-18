@@ -814,9 +814,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           <input
             ref={inputRef}
             type="text"
+            maxLength={100}
             value={query}
             onChange={(e) => {
-              setQuery(sanitizeQuery(e.target.value));
+              setQuery(sanitizeQuery(e.target.value, 100));
               setSelectedIndex(0);
             }}
             onKeyDown={handleKeyDown}

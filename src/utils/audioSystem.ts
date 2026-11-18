@@ -6,16 +6,24 @@ let isSoundEnabled = false;
 // Initialize sound state from localStorage safely (defaults to enabled for immediate interactive feedback)
 export const initSoundPreference = (): boolean => {
   if (typeof window === 'undefined') return true;
-  const saved = localStorage.getItem('portfolio_sound_enabled');
-  // If not explicitly turned off by user, enable it so simulations and preview sounds are immediately audible
-  isSoundEnabled = saved !== 'false';
+  try {
+    const saved = localStorage.getItem('portfolio_sound_enabled');
+    // If not explicitly turned off by user, enable it so simulations and preview sounds are immediately audible
+    isSoundEnabled = saved !== 'false';
+  } catch {
+    isSoundEnabled = true;
+  }
   return isSoundEnabled;
 };
 
 export const setSoundEnabled = (enabled: boolean): void => {
   isSoundEnabled = enabled;
   if (typeof window !== 'undefined') {
-    localStorage.setItem('portfolio_sound_enabled', enabled ? 'true' : 'false');
+    try {
+      localStorage.setItem('portfolio_sound_enabled', enabled ? 'true' : 'false');
+    } catch {
+      // Ignore storage quota or strict privacy mode restrictions
+    }
     if (enabled) {
       unlockAudio();
     }
